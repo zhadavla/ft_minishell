@@ -18,8 +18,7 @@ Goal: *Get a populated linked list with one node per cmd/pipe. Each node will co
 	-  \>> append to output
 	-  << heredoc
 	-  2> error output
-9. Handle **heredoc**:
-	- the position of \>> sign in the string (before, in the middle of the pipes, or in the end).
+9. Handle **heredoc**.
 11. Fill in each node in ```C struct s_cmd_node ``` in the linked list.
 
 Important Add-on: ***Handle errors, memory leaks and error outputs on each step we make.***
@@ -39,3 +38,4 @@ typedef struct s_cmd
 - Single quotes do not expand environmental variables (e.g. echo '$USER' will print $USER).
 - Single and double quotes do not expand wave sign ~ to the user's home directory. (e.g. echo "~/src" will print ~/src).
 - Spaces and tabs WITHOUT QUOTES will be printed as ONE space between elements.
+- the position of >> sign in the string (before, in the middle of the pipes, or in the end).
