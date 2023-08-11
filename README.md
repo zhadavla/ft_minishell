@@ -39,3 +39,4 @@ typedef struct s_cmd
 - Single and double quotes do not expand wave sign ~ to the user's home directory. (e.g. echo "~/src" will print ~/src).
 - Spaces and tabs WITHOUT QUOTES will be printed as ONE space between elements.
 - the position of >> sign in the string (before, in the middle of the pipes, or in the end).
+- readline promt: if the line returned contains only spaces and tabs → all you need to do is to display a new prompt, if there is something in the line then you’ll add it to your history.
