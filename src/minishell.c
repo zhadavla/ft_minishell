@@ -31,12 +31,12 @@ void test_parser_tokeniser()
 		"<",
 		"echo testing multi >>; echo \"test 1 ; < | and 2\" ; cat \'tests/lorem.txt\' | grep Lorem"
 	};
-	for (int i = 0; i < sizeof(tests)/ sizeof(char *); i++)
+	for (long unsigned int i = 0; i < sizeof(tests)/ sizeof(char *); i++)
 	{
 		t_token *head = apply_lexer(tests[i]);
 		printf("++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
 		print_tokens(head);
-		// free_tokens(head);
+		free_tokens(head);
 	}	
 }
 

@@ -6,7 +6,7 @@ BONUS_DIR = bonus
 SOURCES = $(wildcard $(SRC_DIR)/*.c)
 BONUS = $(wildcard $(BONUS_DIR)/*.c)
 
-# CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 LIBFLAGS = -L./libft -lft -ldl -lglfw -pthread -lm
 MY_HEADER = ./includes/
 
