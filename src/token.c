@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-t_token	*new_token(char *text, size_t len, e_token_type type, e_quote quote)
+t_token	*new_token(char *text, size_t len, enum e_token_type type, enum e_quote quote)
 {
 	t_token	*new;
 
@@ -40,7 +40,7 @@ int	is_special_character(char c)
 }
 
 // change quote status if quote is opened or closed
-e_quote	update_quote_status(char c, e_quote quote, int *i)
+enum e_quote	update_quote_status(char c, enum e_quote quote, int *i)
 {
 	if ((c == '\'' && quote == QUOTE1) || (c == '\"' && quote == QUOTE2))
 	{
@@ -60,57 +60,110 @@ e_quote	update_quote_status(char c, e_quote quote, int *i)
 	return (QUOTE0);
 }
 
-e_token_type update_token_type(char c, char d)
+enum e_token_type update_token_type(char c, char d, int *len)
 {
+	*len = 1;
 	if (c == '|')
 		return (PIPE);
-	else if (c == '<' && d != '<')
+	if (c == '<' && d != '<')
 		return (REDIR_IN);
-	else if (c == '>' && d != '>')
+	if (c == '>' && d != '>')
+	{
+		*len = 2;	
 		return (REDIR_OUT);
-	else if (c == '>' && d == '>')
+	}
+	if (c == '>' && d == '>')
+	{
+		*len = 2;
 		return (REDIR_APPEND);
-	else if (c == '<' && d == '<')
+	}
+	if (c == '<' && d == '<')
 		return (HEREDOC);
-	else if (c == '\'')
+	if (c == '\'')
 		return (SINGLE_QUOTE);
-	else if (c == '\"')
+	if (c == '\"')
 		return (DOUBLE_QUOTE);
-	else if (c == '$')
+	if (c == '$')
 		return (ENV_VARIBLE);
-	else if (c == ' ')
+	if (c == ' ')
 		return (WHITE_SPACE);
-	else
-		return (WORD);
+	return (WORD);
 }
+
+// t_token	*apply_lexer(char *str)
+// {
+// 	printf("str = {%s}\n", str);
+// 	t_token *head;
+// 	int len = 0;
+// 	int i = 0;
+
+// 	enum e_quote quote_status = QUOTE0;
+// 	enum e_token_type type = WORD;
+// 	head = new_token(NULL, 0, WORD, QUOTE0);
+// 	int j = 0;
+
+// 	while (str[i])
+// 	{
+// 		if (is_special_character(str[i]))
+// 		{
+// 			// printf("str[%d] = {%c}\n", i, str[i]);
+// 			// quote_status = update_quote_status(str[i], quote_status, &i);
+// 			// type = update_token_type(str[i], str[i + 1], &len);
+// 			// head->next = new_token(ft_substr(str, i, len + 1), len, WORD, quote_status);
+// 			printf("%s\n", ft_substr(str, i - len, len));
+// 			printf("len = %d, i = %d, j = %d\n", len, i, j);
+// 			len = 0;
+	
+// 		}
+// 		else
+// 		{
+// 			len++;
+// 		}
+// 		i++;
+// 	}
+
+// 	return (head);
+// }
 
 t_token	*apply_lexer(char *str)
 {
+	printf("str = {%s}\n", str);
 	t_token *head;
-	size_t len = 0;
+	int len = 0;
 	int i = 0;
-	bool is_dquote_open = false;
-	bool is_squote_open = false;
-	e_quote quote_status = QUOTE0;
-	e_token_type type = WORD;
 
 	while (str[i])
 	{
-		if (is_special_character(str[i]))
+		// if character is a special character, write whole word 
+		// (text before the special character) to the token
+		// simoultaneously, write special char to another token
+		if (is_special_character(str[i ]))
 		{
-			quote_status = update_quote_status(str[i], quote_status, &i);
-			type = update_token_type(str[i], str[i + 1]);
-
-
-			head = new_token(ft_substr(str, i, i + len), len, WORD, quote_status);
-
-
-			len = 0;
-		} 
-
-		
+			if (len > 0)
+			{
+				printf("word = {%s}\n", ft_substr(str, i - len, len));
+				len = 0;
+			}
+			printf("special char {%c}\n", str[i]);
+		}
+		else
+			len++;
 		i++;
 	}
 
 	return (head);
+}
+
+
+void print_tokens(t_token *head)
+{
+	while (head)
+	{
+		printf("text = %s\n", head->text);
+		printf("len = %zu\n", head->len);
+		printf("type = %d\n", head->type);
+		printf("quote = %d\n", head->quote);
+		printf("\n");
+		head = head->next;
+	}
 }

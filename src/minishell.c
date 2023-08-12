@@ -21,10 +21,11 @@
 
 int	main(void)
 {	
-	// char **arr = ft_split("grep \"hello, world\" \"world1\"", '\"');
-	char **arr = ft_split("grep \'hello, \"world\" \'world1\'", '\'');
-	for (int i = 0; arr[i]; i++)
-		printf("arr[%d] = %s\n", i, arr[i]);
-	// test_num_of_elems_split();
+	char *test = "grep   \"fsd hello\" \"world\"";
+
+	// printf("%s\n", ft_substr(test, 0, 4));
+
+	t_token *head = apply_lexer(test);
+	// print_tokens(head);
 	return (0);
 }
