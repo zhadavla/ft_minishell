@@ -35,8 +35,15 @@ typedef struct s_cmd
 }		t_cmd;
 ```
 ## Tricky parts:
-- Single quotes do not expand environmental variables (e.g. echo '$USER' will print $USER).
-- Single and double quotes do not expand wave sign ~ to the user's home directory. (e.g. echo "~/src" will print ~/src).
+- **Step 3:** Single quotes do not expand environmental variables (e.g. echo '$USER' will print $USER).
+- **Step 3:** Single and double quotes do not expand wave sign ~ to the user's home directory. (e.g. echo "~/src" will print ~/src).
 - Spaces and tabs WITHOUT QUOTES will be printed as ONE space between elements.
 - the position of >> sign in the string (before, in the middle of the pipes, or in the end).
 - readline promt: if the line returned contains only spaces and tabs → all you need to do is to display a new prompt, if there is something in the line then you’ll add it to your history.
+
+## Step 2 breakdown:
+1. Tokenize every element by categories (word, double_quote, singe_quote, pipe, redirection flag, whitespace, special characters etc.)
+2. Create a linked list, one node will have the content, len, token_type and quote_status.
+3. Delete nodes with the whitespace OUTSIDE of the quotes;
+4. Concatenate by groups (commands, redirections, $VAR); 
+  
