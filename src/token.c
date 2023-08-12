@@ -40,23 +40,18 @@ int	is_special_character(char c)
 }
 
 // change quote status if quote is opened or closed
-enum e_quote	update_quote_status(char c, enum e_quote quote, int *i)
+enum e_quote	update_quote_status(char c, enum e_quote quote)
 {
-	if ((c == '\'' && quote == QUOTE1) || (c == '\"' && quote == QUOTE2))
-	{
-		// *i += 1;
+	if ((c == '\'' && quote == IN_QUOTE1) || (c == '\"' && quote == IN_QUOTE2))
 		return (QUOTE0);
-	}
 	else if (c == '\'' && quote == QUOTE0)
-	{
-		// *i += 1;
-		return (QUOTE1);
-	}
+		return (IN_QUOTE1);
 	else if (c == '\"' && quote == QUOTE0)
-	{
-		// *i += 1;
-		return (QUOTE2);
-	}
+		return (IN_QUOTE2);
+	else if (c == '\'' && quote == IN_QUOTE2)
+		return (IN_QUOTE2);
+	else if (c == '\"' && quote == IN_QUOTE1)
+		return (IN_QUOTE1);
 	return (QUOTE0);
 }
 
@@ -94,10 +89,10 @@ void print_qoute_status(enum e_quote quote_status)
 {
 	if (quote_status == QUOTE0)
 		printf("QUOTE0\n");
-	else if (quote_status == QUOTE1)
-		printf("QUOTE1\n");
-	else if (quote_status == QUOTE2)
-		printf("QUOTE2\n");
+	else if (quote_status == IN_QUOTE1)
+		printf("IN_QUOTE1\n");
+	else if (quote_status == IN_QUOTE2)
+		printf("IN_QUOTE2\n");
 }
 
 t_token *token_add_front(t_token *head, t_token *new)
@@ -165,25 +160,38 @@ t_token	*apply_lexer(char *str)
 		{
 			if (len > 0 )
 			{
-				token_type = 	WORD;
+				token_type = WORD;
 				// printf("str[i] = {%c}\n", str[i]);
 				t_token *tmp = new_token(ft_substr(str, i - len, len), len, token_type, quote_status);
 				head = token_add_back(head, tmp);
 				// printf("word = {%s}\n", ft_substr(str, i - len, len));
-			
 			}
+			token_type = update_token_type(str[i], str[i + 1]);
 			if (str[i] == '\'' || str[i] == '\"')
 			{
-				quote_status = update_quote_status(str[i], quote_status, &i);
 				// print_qoute_status(quote_status);
+				quote_status = update_quote_status(str[i], quote_status);
 			}
-			head = token_add_back(head, new_token(ft_substr(str, i, 1), 1, update_token_type(str[i], str[i + 1]), quote_status));
+			if ((quote_status == IN_QUOTE2 && token_type == DOUBLE_QUOTE)
+				|| (quote_status == IN_QUOTE1 && token_type == SINGLE_QUOTE))
+				head = token_add_back(head, new_token(ft_substr(str, i, 1), 1, token_type, QUOTE0));
+			else
+				head = token_add_back(head, new_token(ft_substr(str, i, 1), 1, token_type, quote_status));
 				len = 0;
 			// printf("special char {%c}\n", str[i]);
 		}
 		else
 			len++;
 		i++;
+	}
+	if (len > 0 )
+	{
+		token_type = 	WORD;
+		// printf("str[i] = {%c}\n", str[i]);
+		t_token *tmp = new_token(ft_substr(str, i - len, len), len, token_type, quote_status);
+		head = token_add_back(head, tmp);
+		// printf("word = {%s}\n", ft_substr(str, i - len, len));
+	
 	}
 
 	return (head);
@@ -193,10 +201,10 @@ char *e_quote_to_str(enum e_quote quote)
 {
 	if (quote == QUOTE0)
 		return ("QUOTE0");
-	if (quote == QUOTE1)
-		return ("QUOTE1");
-	if (quote == QUOTE2)
-		return ("QUOTE2");
+	if (quote == IN_QUOTE1)
+		return ("IN_QUOTE1");
+	if (quote == IN_QUOTE2)
+		return ("IN_QUOTE2");
 	return ("ERROR");
 }
 

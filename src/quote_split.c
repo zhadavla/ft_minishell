@@ -1,7 +1,7 @@
 // #include "libft.h"
 
-// #define QUOTE1 '\''
-// #define QUOTE2 '\"'
+// #define IN_QUOTE1 '\''
+// #define IN_QUOTE2 '\"'
 
 // int is_quote(char c)
 // {

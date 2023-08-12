@@ -22,8 +22,9 @@ enum e_token_type
 
 enum e_quote
 {
-    QUOTE1 = '\'',
-    QUOTE2 = '\"',
+	IN_QUOTES = 0,
+    IN_QUOTE1 = '\'',
+    IN_QUOTE2 = '\"',
     QUOTE0 = 0,
 };
 
