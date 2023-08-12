@@ -21,11 +21,12 @@
 
 int	main(void)
 {	
-	char *test = "grep   \"fsd hello\" \"world\"";
+	char *test = "grep   \"fsd hesdagsadgasdgasdllo\" \"world\"";
 
 	// printf("%s\n", ft_substr(test, 0, 4));
 
 	t_token *head = apply_lexer(test);
+	print_tokens(head);
 	// print_tokens(head);
 	return (0);
 }

@@ -4,7 +4,7 @@ t_token	*new_token(char *text, size_t len, enum e_token_type type, enum e_quote 
 {
 	t_token	*new;
 
-	new = malloc(sizeof(t_token));
+	new = (t_token *)malloc(sizeof(t_token));
 	if (!new)
 		return (NULL);
 	new->text = text;
@@ -44,37 +44,37 @@ enum e_quote	update_quote_status(char c, enum e_quote quote, int *i)
 {
 	if ((c == '\'' && quote == QUOTE1) || (c == '\"' && quote == QUOTE2))
 	{
-		*i += 1;
+		// *i += 1;
 		return (QUOTE0);
 	}
 	else if (c == '\'' && quote == QUOTE0)
 	{
-		*i += 1;
+		// *i += 1;
 		return (QUOTE1);
 	}
 	else if (c == '\"' && quote == QUOTE0)
 	{
-		*i += 1;
+		// *i += 1;
 		return (QUOTE2);
 	}
 	return (QUOTE0);
 }
 
-enum e_token_type update_token_type(char c, char d, int *len)
+enum e_token_type update_token_type(char c, char d)
 {
-	*len = 1;
+	
 	if (c == '|')
 		return (PIPE);
 	if (c == '<' && d != '<')
 		return (REDIR_IN);
 	if (c == '>' && d != '>')
 	{
-		*len = 2;	
+	
 		return (REDIR_OUT);
 	}
 	if (c == '>' && d == '>')
 	{
-		*len = 2;
+	
 		return (REDIR_APPEND);
 	}
 	if (c == '<' && d == '<')
@@ -90,61 +90,96 @@ enum e_token_type update_token_type(char c, char d, int *len)
 	return (WORD);
 }
 
-// t_token	*apply_lexer(char *str)
-// {
-// 	printf("str = {%s}\n", str);
-// 	t_token *head;
-// 	int len = 0;
-// 	int i = 0;
+void print_qoute_status(enum e_quote quote_status)
+{
+	if (quote_status == QUOTE0)
+		printf("QUOTE0\n");
+	else if (quote_status == QUOTE1)
+		printf("QUOTE1\n");
+	else if (quote_status == QUOTE2)
+		printf("QUOTE2\n");
+}
 
-// 	enum e_quote quote_status = QUOTE0;
-// 	enum e_token_type type = WORD;
-// 	head = new_token(NULL, 0, WORD, QUOTE0);
-// 	int j = 0;
+t_token *token_add_front(t_token *head, t_token *new)
+{
+	new->next = head;
+	return (new);
+}
 
-// 	while (str[i])
-// 	{
-// 		if (is_special_character(str[i]))
-// 		{
-// 			// printf("str[%d] = {%c}\n", i, str[i]);
-// 			// quote_status = update_quote_status(str[i], quote_status, &i);
-// 			// type = update_token_type(str[i], str[i + 1], &len);
-// 			// head->next = new_token(ft_substr(str, i, len + 1), len, WORD, quote_status);
-// 			printf("%s\n", ft_substr(str, i - len, len));
-// 			printf("len = %d, i = %d, j = %d\n", len, i, j);
-// 			len = 0;
-	
-// 		}
-// 		else
-// 		{
-// 			len++;
-// 		}
-// 		i++;
-// 	}
+t_token *token_add_back(t_token *head, t_token *new)
+{
+	t_token *tmp;
 
-// 	return (head);
-// }
+	if (!head)
+		return (new);
+	tmp = head;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
+	return (head);
+}
+
+char *e_token_type_to_str(enum e_token_type type)
+{
+	if (type == WORD)
+		return ("WORD");
+	if (type == PIPE)
+		return ("PIPE");
+	if (type == REDIR_IN)
+		return ("REDIR_IN");
+	if (type == REDIR_OUT)
+		return ("REDIR_OUT");
+	if (type == REDIR_APPEND)
+		return ("REDIR_APPEND");
+	if (type == ENV_VARIBLE)
+		return ("ENV_VARIBLE");
+	if (type == WHITE_SPACE)
+		return ("WHITE_SPACE");
+	if (type == HEREDOC)
+		return ("HEREDOC");
+	if (type == SINGLE_QUOTE)
+		return ("SINGLE_QUOTE");
+	if (type == DOUBLE_QUOTE)
+		return ("DOUBLE_QUOTE");
+	return ("ERROR");
+}
+
+
 
 t_token	*apply_lexer(char *str)
 {
 	printf("str = {%s}\n", str);
-	t_token *head;
+	t_token *head  = NULL;
+
 	int len = 0;
 	int i = 0;
+	enum e_token_type token_type;
+	enum e_quote quote_status = QUOTE0;
 
 	while (str[i])
 	{
 		// if character is a special character, write whole word 
 		// (text before the special character) to the token
 		// simoultaneously, write special char to another token
-		if (is_special_character(str[i ]))
+		if (is_special_character(str[i]))
 		{
-			if (len > 0)
+			if (len > 0 )
 			{
-				printf("word = {%s}\n", ft_substr(str, i - len, len));
-				len = 0;
+				token_type = 	WORD;
+				// printf("str[i] = {%c}\n", str[i]);
+				t_token *tmp = new_token(ft_substr(str, i - len, len), len, token_type, quote_status);
+				head = token_add_back(head, tmp);
+				// printf("word = {%s}\n", ft_substr(str, i - len, len));
+			
 			}
-			printf("special char {%c}\n", str[i]);
+			if (str[i] == '\'' || str[i] == '\"')
+			{
+				quote_status = update_quote_status(str[i], quote_status, &i);
+				// print_qoute_status(quote_status);
+			}
+			head = token_add_back(head, new_token(ft_substr(str, i, 1), 1, update_token_type(str[i], str[i + 1]), quote_status));
+				len = 0;
+			// printf("special char {%c}\n", str[i]);
 		}
 		else
 			len++;
@@ -154,16 +189,32 @@ t_token	*apply_lexer(char *str)
 	return (head);
 }
 
+char *e_quote_to_str(enum e_quote quote)
+{
+	if (quote == QUOTE0)
+		return ("QUOTE0");
+	if (quote == QUOTE1)
+		return ("QUOTE1");
+	if (quote == QUOTE2)
+		return ("QUOTE2");
+	return ("ERROR");
+}
+
+#include <string.h>
 
 void print_tokens(t_token *head)
 {
-	while (head)
-	{
-		printf("text = %s\n", head->text);
-		printf("len = %zu\n", head->len);
-		printf("type = %d\n", head->type);
-		printf("quote = %d\n", head->quote);
-		printf("\n");
-		head = head->next;
-	}
+    printf("----------------------------------------------------------------------------\n");
+    printf("|            content           |    len   |      type      |     quote      |\n");
+    printf("----------------------------------------------------------------------------\n");
+
+    while (head)
+    {
+		// if (head->len > 1)
+        printf("|{%s}%*s|  %6zu  |  %12s  |  %12s  |\n",
+               head->text, (int)(30 - (head->len + 2)), "", head->len, e_token_type_to_str(head->type), e_quote_to_str(head->quote));
+		printf("----------------------------------------------------------------------------\n");
+        head = head->next;
+    }
 }
+
