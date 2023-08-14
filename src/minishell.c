@@ -3,10 +3,14 @@
 
 #include "../includes/minishell.h"
 
-void test_parser_tokeniser()
+void test_parser_tokeniser(char **env)
 {
 	char *tests[] = {
-		"grep $hello file"
+		"grep $PWD file",
+		"grep $PW D file",
+		"grep $ PWD file",
+		"grep $PWDG file",
+		"grep $ file",
 		// "grep   \"fsd hesdagsadgasdgasdllo\" \"world\"",
 		// "cat tests/lorem.txt | grep arcu | cat -e",
 		// "ls|ls|ls|ls|ls|ls|ls|ls|",
@@ -23,6 +27,7 @@ void test_parser_tokeniser()
 		printf("%s\n", tests[i]);
 		t_token *head = apply_lexer(tests[i]);
 		merge_envs(&head);
+		expand_env(&head, env);
 		printf("++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
 		print_tokens(head);
 		free_tokens(head);
@@ -30,32 +35,14 @@ void test_parser_tokeniser()
 }
 
 
-/**
- * Replace $ENV with value from env
- * if there is no such env variable, replace with empty string
-*/
-t_token *expand_env(t_token *token, char **env)
-{
-	int i;
-	
-	if (token->type != ENV_VARIBLE)
-		return token;
-	i = 0;
-	while (env[++i])
-	{
-
-	}
-
-}
-
 int	main(int argc, char **argv, char **env)
 {	
 	(void)argc;
 	(void)argv;
 	// for (int i = 0; env[i] != NULL; i++)
 	// 	printf("%s\n", env[i]);
-		
-	test_parser_tokeniser();
+		// printf("%s\n", get_env_value("$PWD", env));
+	test_parser_tokeniser(env);
 	// char *test = "grep   \"fsd hesdagsadgasdgasdllo\" \"world\"";
 
 	// // printf("%s\n", ft_substr(test, 0, 4));

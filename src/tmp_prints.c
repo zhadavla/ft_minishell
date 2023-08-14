@@ -48,16 +48,16 @@ void print_qoute_status(enum e_quote q_s)
 
 void print_tokens(t_token *head)
 {
-    printf("----------------------------------------------------------------------------\n");
-    printf("|            content           |    len   |      type      |     quote      |\n");
-    printf("----------------------------------------------------------------------------\n");
+    printf("--------------------------------------------------------------------------------------------\n");
+    printf("|            content                          |    len   |      type      |     quote      |\n");
+    printf("--------------------------------------------------------------------------------------------\n");
 
     while (head)
     {
 		// if (head->len > 1)
         printf("|{%s}%*s|  %6zu  |  %12s  |  %12s  |\n",
-               head->text, (int)(30 - (head->len + 2)), "", head->len, e_token_type_to_str(head->type), e_quote_to_str(head->quote));
-		printf("----------------------------------------------------------------------------\n");
+               head->text, (int)(45 - (head->len + 2)), "", head->len, e_token_type_to_str(head->type), e_quote_to_str(head->quote));
+		printf("--------------------------------------------------------------------------------------------\n");
         head = head->next;
     }
 }
