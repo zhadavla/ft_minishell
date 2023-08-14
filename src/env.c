@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:43:02 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/14 15:06:47 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/14 20:48:20 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,29 @@
 /**
  * Merge env variables with words
  * also update len of token
-*/
+ */
 void	merge_envs(t_token **token)
 {
 	t_token	*head;
+	t_token	*tmp;
 
 	head = *token;
 	while (head)
 	{
 		if (head->type == ENV_VARIBLE)
 		{
-			if (ft_strncmp(head->text, "~", 1) == 0)
+			if (ft_strncmp(head->text, "~", 2) == 0)
+			{
+				free(head->text);
 				head->text = ft_strdup("$HOME");
-			if (head->next->type == WORD)
+			}
+			else if (head->next->type == WORD)
 			{
 				head->text = ft_strjoin(head->text, head->next->text);
 				head->len = ft_strlen(head->text);
+				tmp = head->next;
 				head->next = head->next->next;
+				free_token(tmp);
 			}
 		}
 		head = head->next;
@@ -62,10 +68,12 @@ char	*get_env_value(char *text, char **env)
 
 	i = 0;
 	while (env[++i])
-		if ((env_found = ft_strnstr(env[i], text + 1, ft_strlen(text)))
-			&& is_length_match(env_found, text + 1))
+	{
+		env_found = ft_strnstr(env[i], text + 1, ft_strlen(text));
+		if (env_found && is_length_match(env_found, text + 1))
 			return (env_found + ft_strlen(text) + 1);
-	return (ft_strdup(""));
+	}
+	return (NULL);
 }
 
 /**
@@ -82,12 +90,12 @@ void	expand_env(t_token **token, char **env)
 		if (head->type == ENV_VARIBLE)
 		{
 			env_value = get_env_value(head->text, env);
-			printf("env_value: %s\n", env_value);
+			free(head->text);
 			if (env_value)
-			{
 				head->text = ft_strdup(env_value);
-				head->len = ft_strlen(head->text);
-			}
+			else
+				head->text = ft_strdup("");
+			head->len = ft_strlen(head->text);
 		}
 		head = head->next;
 	}
