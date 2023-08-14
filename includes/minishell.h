@@ -56,5 +56,6 @@ enum e_token_type		update_token_type(char c, char d);
 void merge_envs(t_token **token);
 char *get_env_value(char *text, char **env);
 void expand_env(t_token **token, char **env);
+void concate_quotes(t_token **token);
 
 #endif // MINISHELL_H
