@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:43:02 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/14 14:49:38 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/14 14:58:06 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*get_env_value(char *text, char **env)
 	while (env[++i])
 		if ((env_found = ft_strnstr(env[i], text + 1, ft_strlen(text)))
 			&& is_length_match(env_found, text + 1))
-			return (ft_strnstr(env[i], text + 1, ft_strlen(text) + 1));
+			return (env_found + ft_strlen(text) + 1);
 	return (ft_strdup(""));
 }
 
