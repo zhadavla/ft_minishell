@@ -1,8 +1,8 @@
 #include "../includes/minishell.h"
 
-void free_between_tokens(t_token *head, t_token *tail)
+void	free_between_tokens(t_token *head, t_token *tail)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	while (head != tail)
 	{
@@ -19,39 +19,42 @@ void free_between_tokens(t_token *head, t_token *tail)
  * also update len of token
  * it should also free the old token
  *
-*/
-void concate_quotes(t_token **token)
+ */
+void	concate_quotes(t_token **token)
 {
-	t_token *head;
-	t_token *tmp;
-	t_token *prev;
-	char *text;
-	size_t len;
+	t_token	*head;
+	t_token	*tmp;
+	t_token	*prev;
+	char	*text;
+	size_t	len;
 
 	head = *token;
 	while (head)
 	{
-		if (head->quote == IN_QUOTE1 || head->quote == IN_QUOTE2)
+		if ((head->quote == IN_QUOTE1 && head->next->quote == IN_QUOTE1)
+			|| (head->quote == IN_QUOTE2 && head->next->quote == IN_QUOTE2))
 		{
 			tmp = head;
-			text = head->text;
 			len = head->len;
+			if (tmp->next != NULL && head)
+				printf("????\n");
 			while (tmp->next && tmp->next->quote == head->quote)
-			{	
-				text = ft_strjoin(text, tmp->next->text);
-				len += tmp->next->len;
-				t_token *prev = tmp;
+			{
+			printf("head->text = {%s}\n", tmp->text);
+				head->text = ft_strjoin(head->text, tmp->next->text);
+				head->len += tmp->next->len;
+				prev = tmp;
 				tmp = tmp->next;
 				if (prev != head)
-				free_token(prev);
+					free_token(prev);
 			}
-			head->text = text;
 			head->len = len;
 			head->next = tmp->next;
+		
+
 			free_token(tmp);
 			head->type = WORD;
 		}
 		head = head->next;
 	}
 }
-
