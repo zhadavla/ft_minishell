@@ -3,37 +3,26 @@
 
 #include "../includes/minishell.h"
 
-// void test_num_of_elems_split(void)
-// {
-// 	// printf("%d\n", get_num_of_elems("Hello, world!"));
-	
-// 	// assert(get_num_of_elems("Hello, world!") == 2);
-// 	// assert(get_num_of_elems("!") == 1);
-// 	// assert(get_num_of_elems("grep \'hello") == -1);
-// 	// assert(get_num_of_elems("grep \"hello") == -1);
-// 	// assert(get_num_of_elems("grep \'hello\'") == 2);
-// 	assert(get_num_of_elems("grep \"hello\"") == 2);
-// 	// assert(get_num_of_elems("grep \'hello\' \'world\'") == 3);
-// 	// assert(get_num_of_elems("grep \"hello\" \"world\"") == 3);	
-// }
-
 void test_parser_tokeniser()
 {
 	char *tests[] = {
-		"grep   \"fsd hesdagsadgasdgasdllo\" \"world\"",
-		"cat tests/lorem.txt | grep arcu | cat -e",
-		"ls|ls|ls|ls|ls|ls|ls|ls|",
-		"echo \"$TEST\"",
-		"\"'\"",
-		"export TE+S=T=\"\" ;\' $ENV_SHOW\'",
-		"cho test > ls >> ls >> ls ; echo test >> ls; cat ls", 
-		"<<",
-		"<",
-		"echo testing multi >>; echo \"test 1 ; < | and 2\" ; cat \'tests/lorem.txt\' | grep Lorem"
+		"grep $hello file"
+		// "grep   \"fsd hesdagsadgasdgasdllo\" \"world\"",
+		// "cat tests/lorem.txt | grep arcu | cat -e",
+		// "ls|ls|ls|ls|ls|ls|ls|ls|",
+		// "echo \"$TEST\"",
+		// "\"'\"",
+		// "export TE+S=T=\"\" ;\' $ENV_SHOW\'",
+		// "cho test > ls >> ls >> ls ; echo test >> ls; cat ls", 
+		// "<<",
+		// "<",
+		// "echo testing multi >>; echo \"test 1 ; < | and 2\" ; cat \'tests/lorem.txt\' | grep Lorem"
 	};
 	for (long unsigned int i = 0; i < sizeof(tests)/ sizeof(char *); i++)
 	{
+		printf("%s\n", tests[i]);
 		t_token *head = apply_lexer(tests[i]);
+		merge_envs(&head);
 		printf("++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
 		print_tokens(head);
 		free_tokens(head);
@@ -41,8 +30,31 @@ void test_parser_tokeniser()
 }
 
 
-int	main(void)
+/**
+ * Replace $ENV with value from env
+ * if there is no such env variable, replace with empty string
+*/
+t_token *expand_env(t_token *token, char **env)
+{
+	int i;
+	
+	if (token->type != ENV_VARIBLE)
+		return token;
+	i = 0;
+	while (env[++i])
+	{
+
+	}
+
+}
+
+int	main(int argc, char **argv, char **env)
 {	
+	(void)argc;
+	(void)argv;
+	// for (int i = 0; env[i] != NULL; i++)
+	// 	printf("%s\n", env[i]);
+		
 	test_parser_tokeniser();
 	// char *test = "grep   \"fsd hesdagsadgasdgasdllo\" \"world\"";
 
