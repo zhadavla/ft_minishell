@@ -15,7 +15,7 @@ void test_parser_tokeniser(char **env)
 	};
 	char * tests[] = {
 		"grep \"hello       $HOME              world\" file",
-		"grep \" \""
+		"grep \"~\""
 	};
 	for (long unsigned int i = 0; i < sizeof(tests) / sizeof(char *); i++)
 	{

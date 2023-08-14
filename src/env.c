@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:43:02 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/14 14:58:06 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/14 15:06:47 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	merge_envs(t_token **token)
 	{
 		if (head->type == ENV_VARIBLE)
 		{
+			if (ft_strncmp(head->text, "~", 1) == 0)
+				head->text = ft_strdup("$HOME");
 			if (head->next->type == WORD)
 			{
 				head->text = ft_strjoin(head->text, head->next->text);
