@@ -57,5 +57,6 @@ void merge_envs(t_token **token);
 char *get_env_value(char *text, char **env);
 void expand_env(t_token **token, char **env);
 void concate_quotes(t_token **token);
+void concate_redirections_heredoc(t_token **token);
 
 #endif // MINISHELL_H

@@ -1,5 +1,33 @@
 #include "../includes/minishell.h"
 
+
+
+
+/**
+ * Merge heredoc and redirection_append into one token
+*/
+void concate_redirections_heredoc(t_token **token)
+{
+	t_token *head;
+	t_token *tmp;
+	t_token *prev;
+
+	head = *token;
+	while (head)
+	{
+		if ((head->type == REDIR_APPEND && head->next->type == REDIR_OUT)
+		|| (head->type == HEREDOC && head->next->type == REDIR_IN))
+		{
+			head->text = ft_strjoin(head->text, head->next->text);
+			head->len += head->next->len;
+			prev = head->next;
+			head->next = head->next->next;
+			free_token(prev);
+		}
+		head = head->next;
+	}
+}
+
 int	is_in_quotes(t_token *head)
 {
 	return ((head->quote == IN_QUOTE1 && head->next->quote == IN_QUOTE1)
