@@ -43,7 +43,7 @@ typedef struct s_cmd
 
 ## Step 2 breakdown:
 1. Tokenize every element by categories (word, double_quote, singe_quote, pipe, redirection flag, whitespace, special characters etc.)
-2. Create a linked list, one node will have the content, len, token_type and quote_status.
+2. Create a linked list, one node will have the content, len, token_type and q_s.
 3. Delete nodes with the whitespace OUTSIDE of the quotes;
 4. Concatenate by groups (commands, redirections, $VAR); 
   
