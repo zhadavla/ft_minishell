@@ -12,15 +12,17 @@ Goal: *Get a populated linked list with one node per cmd/pipe. Each node will co
 5. Handle **pipes**:
    	- define amount of cmds;
    	- remove pipe sign **|** from the string array.
-7. Handle **redirections**:
+6. Handle **redirections**:
    	-  < input
 	- \> output
 	-  \>> append to output
 	-  << heredoc
 	-  2> error output (not mentioned in the subject)
-9. Handle **heredoc**.
-10. Tokenize commands (change WORD token type to COMMAND token type) --> commands in QUOTES are considered as a string, meaning they won't be treated as a command. 
-11. Fill in each node in ```C struct s_cmd_node ``` in the linked list.
+7. Handle **heredoc**.
+8. Tokenize commands (change WORD token type to COMMAND token type)
+    	- commands in QUOTES are considered as a string, meaning they won't be treated as a command.
+	- after command tokenize the flags (They start with - sign)
+9. Fill in each node in ```C struct s_cmd_node ``` in the linked list.
 
 Important Add-on: ***Handle errors, memory leaks and error outputs on each step we make.***
 
