@@ -55,18 +55,19 @@ void test_parser_tokeniser(char **env)
 		// "export TE+S=T=",
 		// " ;' $ENV_SHO",
 		// "export TEST=LOL ; echo $TEST ;\' $ENV_SHO\'",
-		// "export TEST=LOL ; echo $TEST$TEST$TEST=lol$TEST",
+		// "export TEST=LlOL ; echo $TEST$TEST$TEST=lol$TEST",
 		// "export TEST=LOL; export TEST+=LOL ; echo $TEST ;' $ENV_SHO",
 		// "ENV_SHO",
 		// "EXPORT_SHO",
 		// "export TEST=\"ls       -l     - a\" ; echo $TEST ; $LS ; \' $ENV_SHO"
-		// "echo test > ls ; cat ls",
-		// "echo test > ls >> ls >> ls ; echo test >> ls; cat ls",
-		// "> lol echo test lol; cat lol",
-		// ">lol echo > test>lol>test>>lol>test mdr >lol test >test; cat test",
-		// "\'cat\' < \"ls\"",
-		// "cat << ls > ls",
+		"echo test > ls ; cat ls",
+		"echo test > ls >> ls >> ls ; echo test >> ls; cat ls",
+		"> lol echo test lol; cat lol",
+		">lol echo > test>lol>test>>lol>test mdr >lol test >test; cat test",
+		"\'cat\' < \"ls\"",
+		"cat << ls > ls",
 		"cat \"<< ls\" \'>> ls",
+		"ls  -l 				-a 	> sfd"
 	};
 	 for (long unsigned int i = 0; i < sizeof(tests) / sizeof(char *); i++)
 	{
@@ -81,8 +82,15 @@ void test_parser_tokeniser(char **env)
 		merge_envs(&head);
 		expand_env(&head, env);
 		concate_quotes(&head);
+		remove_whitespaces(&head);
 		concate_redirections_heredoc(&head);
 		validate_commands(&head, env);
+		char **test = create_full_command(head);
+		while (*test)
+		{
+			printf("command %s\n", *test);
+			test++;
+		}
 		printf("++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
 		print_tokens(head);
 		free_tokens(head);

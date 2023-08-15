@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 20:14:50 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/14 15:05:20 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/15 21:32:44 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ enum e_token_type	update_token_type(char c, char d)
 		return (DOUBLE_QUOTE);
 	if (c == '$' || c == '~')
 		return (ENV_VARIBLE);
-	if (c == ' ')
+	if (c == ' ' || c == '\t' || c == '\v' || c == '\f' || c == '\r')
 		return (WHITE_SPACE);
 	return (WORD);
 }

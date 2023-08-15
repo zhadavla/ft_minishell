@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   validate_cmds.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/15 20:50:18 by vzhadan           #+#    #+#             */
+/*   Updated: 2023/08/15 21:13:18 by vzhadan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 void	free_split(char **strs)
@@ -55,7 +67,7 @@ int	ft_execute(char *cmd, char **env)
 		pathname = ft_join(path[i], "/");
 		pathname = ft_strjoin(pathname, cmd);
 		if (access(pathname, X_OK) == 0)
-		{	
+		{
 			free_split(path);
 			free(pathname);
 			return (TRUE);
@@ -67,21 +79,16 @@ int	ft_execute(char *cmd, char **env)
 	return (FALSE);
 }
 
-
-void validate_commands(t_token **token, char **g_env)
+void	validate_commands(t_token **token, char **g_env)
 {
-	t_token *head;
+	t_token	*head;
 
 	head = *token;
-
 	while (head)
 	{
 		if (head->type == WORD && head->quote == QUOTE0
 			&& ft_execute(head->text, g_env) == TRUE)
-			{
-				head->type = COMMAND;
-				// printf("hello we're here\n");
-			}
+			head->type = COMMAND;
 		head = head->next;
 	}
 }
