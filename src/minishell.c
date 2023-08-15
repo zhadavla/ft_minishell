@@ -54,7 +54,7 @@ void test_parser_tokeniser(char **env)
 		" ;' $ENV_SHO",
 		"export TE+S=T=",
 		" ;' $ENV_SHO",
-		"export TEST=LOL ; echo $TEST ;' $ENV_SHO",
+		"export TEST=LOL ; echo $TEST ;\' $ENV_SHO\'",
 		"export TEST=LOL ; echo $TEST$TEST$TEST=lol$TEST",
 		"export TEST=LOL; export TEST+=LOL ; echo $TEST ;' $ENV_SHO",
 		"ENV_SHO",
