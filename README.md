@@ -47,4 +47,4 @@ typedef struct s_cmd
 2. Create a linked list, one node will have the content, len, token_type and q_s.
 3. Delete nodes with the whitespace OUTSIDE of the quotes;
 4. Concatenate by groups (commands, redirections, $VAR); 
-  
+   
