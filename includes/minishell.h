@@ -6,6 +6,10 @@
 # include "libft.h"
 # include <stdbool.h>
 
+
+# define TRUE 1
+# define FALSE 0
+
 enum					e_token_type
 {
 	WORD,
@@ -18,6 +22,7 @@ enum					e_token_type
 	HEREDOC,
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE,
+	COMMAND,
 };
 
 enum					e_quote
@@ -58,5 +63,7 @@ char *get_env_value(char *text, char **env);
 void expand_env(t_token **token, char **env);
 void concate_quotes(t_token **token);
 void concate_redirections_heredoc(t_token **token);
+void validate_commands(t_token **token, char **g_env);
+
 
 #endif // MINISHELL_H

@@ -33,6 +33,8 @@ char *e_token_type_to_str(enum e_token_type type)
 		return ("SINGLE_QUOTE");
 	if (type == DOUBLE_QUOTE)
 		return ("DOUBLE_QUOTE");
+	if (type == COMMAND)
+		return ("COMMAND");
 	return ("ERROR");
 }
 

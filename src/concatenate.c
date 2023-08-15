@@ -1,8 +1,5 @@
 #include "../includes/minishell.h"
 
-
-
-
 /**
  * Merge heredoc and redirection_append into one token
 */
@@ -22,7 +19,7 @@ void concate_redirections_heredoc(t_token **token)
 			head->len += head->next->len;
 			prev = head->next;
 			head->next = head->next->next;
-			free_token(prev);
+			free_token(prev); 
 		}
 		head = head->next;
 	}

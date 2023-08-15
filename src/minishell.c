@@ -60,11 +60,11 @@ void test_parser_tokeniser(char **env)
 		// "ENV_SHO",
 		// "EXPORT_SHO",
 		// "export TEST=\"ls       -l     - a\" ; echo $TEST ; $LS ; \' $ENV_SHO"
-		"echo test > ls ; cat ls",
-		"echo test > ls >> ls >> ls ; echo test >> ls; cat ls",
-		"> lol echo test lol; cat lol",
-		">lol echo > test>lol>test>>lol>test mdr >lol test >test; cat test",
-		"cat < ls",
+		// "echo test > ls ; cat ls",
+		// "echo test > ls >> ls >> ls ; echo test >> ls; cat ls",
+		// "> lol echo test lol; cat lol",
+		// ">lol echo > test>lol>test>>lol>test mdr >lol test >test; cat test",
+		"\'cat\' < \"ls\"",
 		"cat << ls > ls",
 		"cat \"<< ls\" \'>>\' ls",
 	};
@@ -76,6 +76,7 @@ void test_parser_tokeniser(char **env)
 		expand_env(&head, env);
 		concate_quotes(&head);
 		concate_redirections_heredoc(&head);
+		validate_commands(&head, env);
 		printf("++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
 		print_tokens(head);
 		free_tokens(head);
