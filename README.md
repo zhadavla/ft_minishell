@@ -5,7 +5,7 @@
 Goal: *Get a populated linked list with one node per cmd/pipe. Each node will contain all the necessary information to be able to execute the commands in Part II.*
 
 ## Steps: 
-1. Read a string in a prompt using **readline**.
+- [ ] 1. Read a string in a prompt using **readline**.
 2. **Split** the string by space, single and double quotes resulting in char **.
 3. Expand environmental variable with a dollar sigh **$VAR**.
 4. Expand a wave sign **~** to the user's home directory.
