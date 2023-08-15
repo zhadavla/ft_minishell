@@ -80,7 +80,7 @@ void validate_commands(t_token **token, char **g_env)
 			&& ft_execute(head->text, g_env) == TRUE)
 			{
 				head->type = COMMAND;
-				printf("hello we're here\n");
+				// printf("hello we're here\n");
 			}
 		head = head->next;
 	}

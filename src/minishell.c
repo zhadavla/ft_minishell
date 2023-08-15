@@ -64,14 +64,20 @@ void test_parser_tokeniser(char **env)
 		// "echo test > ls >> ls >> ls ; echo test >> ls; cat ls",
 		// "> lol echo test lol; cat lol",
 		// ">lol echo > test>lol>test>>lol>test mdr >lol test >test; cat test",
-		"\'cat\' < \"ls\"",
-		"cat << ls > ls",
-		"cat \"<< ls\" \'>>\' ls",
+		// "\'cat\' < \"ls\"",
+		// "cat << ls > ls",
+		"cat \"<< ls\" \'>> ls",
 	};
 	 for (long unsigned int i = 0; i < sizeof(tests) / sizeof(char *); i++)
 	{
 		printf("%s\n", tests[i]);
 		t_token *head = apply_lexer(tests[i]);
+		if (is_unclosed_quotes(&head))
+		{
+			write(2, "Unclosed quotes\n", 16);
+			free_tokens(head);
+			exit(EXIT_SUCCESS);
+		}
 		merge_envs(&head);
 		expand_env(&head, env);
 		concate_quotes(&head);
