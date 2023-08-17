@@ -43,6 +43,8 @@ void test_parser_tokeniser(char **env)
 		"echo \"$1TEST\"",
 		"echo \"$T1TEST\"",
 		"echo $TEST$TEST$=TEST",
+		"echo ++ll",
+		"echo ++lldsf+_sd?$fkl--sdfl"
 		// "env | sort | grep -v SHLVL | grep -v _=",
 		// "export | sort | grep -v SHLVL | grep -v _= | grep -v OLDPWD",
 		// "grep -v -l",
@@ -95,7 +97,7 @@ void test_parser_tokeniser(char **env)
 		concate_redirections_heredoc(&head);
 		validate_commands(&head, env);
 		validate_filename(&head);
-		// count_parameters(head);
+		count_parameters(head);
 		// char **test = create_full_command(&head);
 		// int j = 0;
 		// while (test[j])

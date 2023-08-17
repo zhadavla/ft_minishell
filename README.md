@@ -9,6 +9,7 @@ Goal: *Get a populated linked list with one node per cmd/pipe. Each node will co
 - [x] 2. **Split** the string by space, single and double quotes resulting in char **.
 - [x] 3. Expand environmental variable with a dollar sigh **$VAR**.
 	- [ ] handle $?
+	- [ ] concatinate $ sign with the words after till we meet whitespace (it happens after expansion);
 - [x] 4. Expand a wave sign **~** to the user's home directory.
 - [ ] 5. Handle **pipes**:
    	- [ ]  define amount of cmds
@@ -21,7 +22,7 @@ Goal: *Get a populated linked list with one node per cmd/pipe. Each node will co
 	 - [ ]   2> error output (not mentioned in the subject)
 - [ ] 7. Handle **heredoc**.
 - [ ] 8. Tokenize commands (change WORD token type to COMMAND token type)
-	- [ ] command in QUOTES will be executed as a command only if there is nothing else in the quotes; if there is something else, it will be treated as a string; 
+	- [ ] command in QUOTES will be executed as a command only if there is nothing else in the quotes; if there is something else, it will be treated as a string;
 - [ ] 9. Fill in each node in ```C struct s_cmd_node ``` in the linked list.
 
 Important Add-on: ***Handle errors, memory leaks and error outputs on each step we make.***

@@ -89,3 +89,33 @@ void	concate_quotes(t_token **token)
 		head = head->next;
 	}
 }
+
+// void	concate_dollar(t_token **token)
+// {
+// 	t_token	*head;
+// 	t_token	*tmp;
+// 	t_token	*prev;
+	
+// 	concatenate_minus(token);
+// 	head = *token;
+// 	while (head)
+// 	{
+// 		if (is_in_quotes(head))
+// 		{
+// 			tmp = head;
+// 			while (tmp->next && tmp->next->quote == head->quote)
+// 			{
+// 				head->text = ft_strjoin(head->text, tmp->next->text);
+// 				head->len += tmp->next->len;
+// 				prev = tmp;
+// 				tmp = tmp->next;
+// 				if (prev != head)
+// 					free_token(prev);
+// 			}
+// 			head->next = tmp->next;
+// 			free_token(tmp);
+// 			head->type = WORD;
+// 		}
+// 		head = head->next;
+// 	}
+// }
