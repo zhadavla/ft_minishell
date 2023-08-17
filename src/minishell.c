@@ -66,8 +66,9 @@ void test_parser_tokeniser(char **env)
 		">lol echo > test>lol>test>>lol>test mdr >lol test >test; cat test",
 		"\'cat\' < \"ls\"",
 		"cat << ls > ls",
-		"cat \"<< ls\" \'>> ls",
-		"ls  -l 				-a 	> sfd"
+		// "cat \"<< ls\" \'>> ls",
+		">> ls ls -l",
+		"< ls cat"
 	};
 	 for (long unsigned int i = 0; i < sizeof(tests) / sizeof(char *); i++)
 	{
@@ -85,13 +86,14 @@ void test_parser_tokeniser(char **env)
 		remove_whitespaces(&head);
 		concate_redirections_heredoc(&head);
 		validate_commands(&head, env);
-		char **test = create_full_command(head);
-		while (*test)
-		{
-			printf("command %s\n", *test);
-			test++;
-		}
-		printf("++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
+		validate_filename(&head);
+		// char **test = create_full_command(head);
+		// while (*test)
+		// {
+		// 	printf("command %s\n", *test);
+		// 	test++;
+		// }
+		// printf("++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
 		print_tokens(head);
 		free_tokens(head);
 	}

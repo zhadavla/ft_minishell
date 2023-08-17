@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_cmds.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 20:50:18 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/15 21:13:18 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/17 16:47:35 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,3 +92,27 @@ void	validate_commands(t_token **token, char **g_env)
 		head = head->next;
 	}
 }
+
+void validate_filename(t_token **token)
+{
+	t_token *head;
+
+	head = *token;
+	while (head)
+	{
+		if (head->next && (head->next->type == WORD 
+		|| head->next->type == COMMAND))
+		{
+			if (head->type == REDIR_APPEND)
+				head->next->type = OUTFILE_AP;
+			else if (head->type == REDIR_OUT)
+				head->next->type = OUTFILE;
+			else if (head->type == REDIR_IN)
+				head->next->type = INFILE;
+		}
+		head = head->next;
+	}
+}
+
+
+

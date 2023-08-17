@@ -35,6 +35,12 @@ char *e_token_type_to_str(enum e_token_type type)
 		return ("DOUBLE_QUOTE");
 	if (type == COMMAND)	
 		return ("COMMAND");
+	if (type == OUTFILE)
+		return ("OUTFILE");
+	if (type == OUTFILE_AP)
+		return ("OUTFILE_AP");
+	if (type == INFILE)
+		return ("INFILE");
 	return ("ERROR");
 }
 
