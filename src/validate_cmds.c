@@ -6,7 +6,7 @@
 /*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 20:50:18 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/17 16:47:35 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/08/17 18:56:13 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,7 @@ void	validate_commands(t_token **token, char **g_env)
 	head = *token;
 	while (head)
 	{
-		if (head->type == WORD && head->quote == QUOTE0
-			&& ft_execute(head->text, g_env) == TRUE)
+		if (head->type == WORD && ft_execute(head->text, g_env) == TRUE)
 			head->type = COMMAND;
 		head = head->next;
 	}
