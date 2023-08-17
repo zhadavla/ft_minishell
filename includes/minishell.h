@@ -36,9 +36,14 @@ enum					e_quote
 
 typedef struct s_cmd
 {
+	char				*infile_name;
+	char				*outfile_name;
+	int					infile_fd;
+	int					outfile_fd;
 	char				**cmd_full;
-	char				*cmd_path;
 	char				**env;
+	char				*cmd_path;
+	struct s_cmd 				*next;
 }						t_cmd;
 
 typedef struct token
@@ -50,6 +55,8 @@ typedef struct token
 	struct token		*next;
 }						t_token;
 
+int is_pipe(char c);
+void					t_cmd_add(t_cmd **head, t_cmd *new);
 int						is_unclosed_quotes(t_token **token);
 void					print_tokens(t_token *head);
 t_token					*apply_lexer(char *str);
