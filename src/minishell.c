@@ -60,15 +60,17 @@ void test_parser_tokeniser(char **env)
 		// "ENV_SHO",
 		// "EXPORT_SHO",
 		// "export TEST=\"ls       -l     - a\" ; echo $TEST ; $LS ; \' $ENV_SHO"
-		"echo test > ls ; cat ls",
-		"echo test > ls >> ls >> ls ; echo test >> ls; cat ls",
-		"> lol echo test lol; cat lol",
-		">lol echo > test>lol>test>>lol>test mdr >lol test >test; cat test",
-		"\'cat\' < \"ls\"",
-		"cat << ls > ls",
+		// "echo test > ls ; cat ls",
+		// "echo test > ls >> ls >> ls ; echo test >> ls; cat ls",
+		// "> lol echo test lol; cat lol",
+		// ">lol echo > test>lol>test>>lol>test mdr >lol test >test; cat test",
+		// "\'cat\' < \"ls\"",
+		// "cat << ls > ls",
 		// "cat \"<< ls\" \'>> ls",
-		">> ls ls -l",
-		"< ls cat"
+		// ">> ls ls -l",
+		// "< ls cat",
+		"< infile \"cat \" > outfile",
+		"< infile2 grep \"ls -la hello world\" > outfile2"
 	};
 	 for (long unsigned int i = 0; i < sizeof(tests) / sizeof(char *); i++)
 	{
