@@ -22,6 +22,9 @@ enum					e_token_type
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE,
 	COMMAND,
+	OUTFILE,
+	OUTFILE_AP,
+	INFILE
 };
 
 enum					e_quote
@@ -65,5 +68,6 @@ void					concate_quotes(t_token **token);
 void					concate_redirections_heredoc(t_token **token);
 void					validate_commands(t_token **token, char **g_env);
 void					remove_whitespaces(t_token **token);
+void					validate_filename(t_token **token);
 
 #endif // MINISHELL_H
