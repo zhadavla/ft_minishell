@@ -31,6 +31,29 @@ int	is_in_quotes(t_token *head)
 		|| (head->quote == IN_QUOTE2 && head->next->quote == IN_QUOTE2));
 }
 
+void concatenate_minus(t_token **token)
+{
+	t_token *head;
+	t_token *tmp;
+	t_token *prev;
+
+	head = *token;
+	while (head)
+	{
+		if (head->next
+			&& head->text[0] == '-')
+		{
+			
+			head->text = ft_strjoin(head->text, head->next->text);
+			head->len += head->next->len;
+			prev = head->next;
+			head->next = head->next->next;
+			free_token(prev);
+		}
+		head = head->next;
+	}
+}
+
 /**
  * Merge env variables with words in quotes
  * also update len of token
@@ -42,7 +65,8 @@ void	concate_quotes(t_token **token)
 	t_token	*head;
 	t_token	*tmp;
 	t_token	*prev;
-
+	
+	concatenate_minus(token);
 	head = *token;
 	while (head)
 	{

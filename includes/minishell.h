@@ -68,7 +68,7 @@ t_token					*new_token(char *text, size_t len,
 enum e_quote			update_q_s(char c, enum e_quote quote);
 enum e_token_type		update_token_type(char c, char d);
 void					merge_envs(t_token **token);
-char					**create_full_command(t_token *token);
+char **create_full_command(t_token **token);
 char					*get_env_value(char *text, char **env);
 void					expand_env(t_token **token, char **env);
 void					concate_quotes(t_token **token);
@@ -76,5 +76,7 @@ void					concate_redirections_heredoc(t_token **token);
 void					validate_commands(t_token **token, char **g_env);
 void					remove_whitespaces(t_token **token);
 void					validate_filename(t_token **token);
+int count_parameters(t_token *token);
+int	is_special_character(char c);
 
 #endif // MINISHELL_H

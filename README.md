@@ -8,6 +8,7 @@ Goal: *Get a populated linked list with one node per cmd/pipe. Each node will co
 - [ ] 1. Read a string in a prompt using **readline**.
 - [x] 2. **Split** the string by space, single and double quotes resulting in char **.
 - [x] 3. Expand environmental variable with a dollar sigh **$VAR**.
+	- [ ] handle $?
 - [x] 4. Expand a wave sign **~** to the user's home directory.
 - [ ] 5. Handle **pipes**:
    	- [ ]  define amount of cmds

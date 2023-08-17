@@ -21,31 +21,33 @@ void test_parser_tokeniser(char **env)
 	char *tests[] = {
 
 		// "echo \"test",
-		// "echo $TEST",
-		// "echo \"df s\"",
-		// "echo \"$TEST\"",
-		// "echo '$TEST'",
-		// "echo \"$TEST$TEST$TEST\"",
-		// "echo \"$TEST$TEST=lol$TEST\"",
-		// "echo \"   $TEST lol $TEST\"",
-		// "echo $TEST$TEST$TEST",
-		// "echo $TEST$TEST=lol$TEST",
-		// "lol",
-		// "echo    $TEST lol $TEST",
-		// "echo test ",
-		// " test ",
-		// " test",
-		// "echo \"\\$TEST\"",
-		// "echo \"$=TEST\"",
-		// "echo \"$\"",
-		// "echo \"$?TEST\"",
-		// "echo \\$TEST\\ $TEST",
-		// "echo \"$1TEST\"",
-		// "echo \"$T1TEST\"",
+		"echo $TEST",
+		"echo \"df s\"",
+		"echo $USER",
+		"echo '$TEST'",
+		"echo \"$HOME$TEST$USER\"",
+		"echo \"$TEST$TEST=lol$TEST\"",
+		"echo \"   $TEST lol $TEST\"",
+		"echo $TEST$TEST$TEST",
+		"echo $TEST$TEST=lol$TEST",
+		"lol",
+		"echo    $TEST lol $TEST",
+		"echo test ",
+		" test ",
+		" test",
+		"echo \"$=TEST\"",
+		"echo \'$=TEST\'",
+		"echo $=TEST",
+		"echo \"$\"",
+		"echo \"$?TEST\"",
+		"echo \"$1TEST\"",
+		"echo \"$T1TEST\"",
+		"echo $TEST$TEST$=TEST",
 		// "env | sort | grep -v SHLVL | grep -v _=",
 		// "export | sort | grep -v SHLVL | grep -v _= | grep -v OLDPWD",
+		// "grep -v -l",
 		// "export =",
-		// "export 1TEST= ;' $ENV_SHO",
+		// "export 1TEST= ;\' $ENV_SHO", //unclosed quotes
 		// "export TEST ;' $EXPORT_SHO",
 		// "export ",
 		// "=",
@@ -59,7 +61,7 @@ void test_parser_tokeniser(char **env)
 		// "export TEST=LOL; export TEST+=LOL ; echo $TEST ;' $ENV_SHO",
 		// "ENV_SHO",
 		// "EXPORT_SHO",
-		// "export TEST=\"ls       -l     - a\" ; echo $TEST ; $LS ; \' $ENV_SHO"
+		// // "export TEST=\"ls       -l     - a\" ; echo $TEST ; $LS ; \' $ENV_SHO"
 		// "echo test > ls ; cat ls",
 		// "echo test > ls >> ls >> ls ; echo test >> ls; cat ls",
 		// "> lol echo test lol; cat lol",
@@ -69,11 +71,14 @@ void test_parser_tokeniser(char **env)
 		// // "cat \"<< ls\" \'>> ls",
 		// ">> ls ls -l",
 		// "< ls cat"
-		"< infile cat > outfile",
-		"< infile2 grep \"ls -la hello world\" > outfile2"
+		// "< infile cat > outfile",
+		// "< infile2 grep \"ls -la hello world\" > outfile2",
+		// "ls -l -a > outfile3"
 	};
 	 for (long unsigned int i = 0; i < sizeof(tests) / sizeof(char *); i++)
 	{
+		printf("\n\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
+
 		printf("%s\n", tests[i]);
 		t_token *head = apply_lexer(tests[i]);
 		if (is_unclosed_quotes(&head))
@@ -83,19 +88,23 @@ void test_parser_tokeniser(char **env)
 			exit(EXIT_SUCCESS);
 		}
 		merge_envs(&head);
+
 		expand_env(&head, env);
 		concate_quotes(&head);
 		remove_whitespaces(&head);
 		concate_redirections_heredoc(&head);
 		validate_commands(&head, env);
 		validate_filename(&head);
-		// char **test = create_full_command(head);
-		// while (*test)
+		// count_parameters(head);
+		// char **test = create_full_command(&head);
+		// int j = 0;
+		// while (test[j])
 		// {
-		// 	printf("command %s\n", *test);
-		// 	test++;
+		// 	printf("command %s\n", test[j]);
+		// 	free(test[j]);
+		// 	j++;
 		// }
-		// printf("++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
+		// free(test);
 		print_tokens(head);
 		free_tokens(head);
 	}

@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:43:02 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/15 17:17:51 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/17 20:57:25 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	merge_envs(t_token **token)
 				free(head->text);
 				head->text = ft_strdup("$HOME");
 			}
-			else if (head->next->type == WORD)
+			else if (head->next->type == WORD && !is_special_character(head->next->text[0]))
 			{
 				head->text = ft_strjoin(head->text, head->next->text);
 				head->len = ft_strlen(head->text);
@@ -71,7 +71,7 @@ char	*get_env_value(char *text, char **env)
 	{
 		env_found = ft_strnstr(env[i], text + 1, ft_strlen(text));
 		if (env_found && is_length_match(env_found, text + 1))
-			return (env_found + ft_strlen(text) + 1);
+			return (env_found + ft_strlen(text));
 	}
 	return (NULL);
 }
@@ -87,7 +87,7 @@ void	expand_env(t_token **token, char **env)
 	head = *token;
 	while (head)
 	{
-		if (head->type == ENV_VARIBLE)
+		if (head->type == ENV_VARIBLE && head->quote != IN_QUOTE1 && !is_special_character(head->text[1]))
 		{
 			env_value = get_env_value(head->text, env);
 			free(head->text);
