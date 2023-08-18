@@ -125,8 +125,8 @@ void test_parser_tokeniser(char **env)
 			free_tokens(head);
 			exit(EXIT_SUCCESS);
 		}
-		merge_envs(&head);
 
+		merge_envs(&head);
 		expand_env(&head, env);
 		concate_quotes(&head);
 		concate_redirections_heredoc(&head);
@@ -135,28 +135,12 @@ void test_parser_tokeniser(char **env)
 		remove_whitespaces(&head);
 		validate_filename(&head);
 
+		// split to pipes and fill in the information in cmd node for each command
 		t_cmd *tmp = split_to_pipes(&head);
-
 		print_t_cmd(tmp);
 		free_cmd_nodes(&tmp);
 		free(tmp);
-	
 
-		// cmd_node = split_to_pipes(&head);
-		// create_full_command(&head, &cmd_node);
-		// print_t_cmd(cmd_node);
-		// free_cmd_node(cmd_node);
-		// free(cmd_node);
-		// int j = 0;
-		
-		// while (test[j])
-		// {
-		// 	printf("command [%d] %s\n", j, test[j]);
-		// 	free(test[j]);
-		// 	j++;
-		// }
-
-		// free(test);
 		// print_tokens(head);
 		free_tokens(head);
 	}
