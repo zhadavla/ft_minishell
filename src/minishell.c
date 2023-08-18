@@ -43,13 +43,13 @@ void test_parser_tokeniser(char **env)
 		// "echo \"$T1TEST\"",
 		// "echo $TEST$TEST$=TEST",
 		// "echo ++ll",
-		"echo l++lld$fkl--sd+fl",
-		"echo \'l++lld$fkl--sd+fl\'",
-		"echo \"l++lld$fkl--sd+fl\"",
-		"echo l++lld$HOME--sd+fl",
-		"echo l++lld$fkl-- sd+fl >> outfile",
-		"echo l++lld$HOME -- sd+fl >> outfile",
-		"echo $HOME",
+		// "echo l++lld$fkl--sd+fl",
+		// "echo \'l++lld$fkl--sd+fl\'",
+		// "echo \"l++lld$fkl--sd+fl\"",
+		// "echo l++lld$HOME--sd+fl",
+		// "echo l++lld$fkl-- sd+fl >> outfile",
+		// "echo l++lld$HOME -- sd+fl >> outfile",
+		// "echo $HOME",
 		// "echo ?TEST", //expected output: ?TEST
 		// "echo \"$?TEST\"", //expected output: 0TEST (expanded variable + TEST)
 		// "echo ?", //expected output: ?
@@ -57,7 +57,9 @@ void test_parser_tokeniser(char **env)
 		// "echo \"$?\"", //expected output: expanded variable
 		// "echo \'$?\'", //expected output: $?
 		// "echo $USER"
-		">infile grep \"hello world\" >outfile2",
+		">outfile grep \"hello world\" ",
+		"<infile grep \"hello world\" ",
+		"<infile grep \"hello world\" > outfile",
 		// "echo $TEST",
 		// "echo \"df s\"",
 		// "echo $USER",
@@ -98,7 +100,7 @@ void test_parser_tokeniser(char **env)
 		// "ENV_SHO",
 		// "EXPORT_SHO",
 		// "export TEST=\"ls       -l     - a\" ; echo $TEST ; $LS ; \' $ENV_SHO"
-		"echo test > ls ; cat ls",
+		// "echo test > ls ; cat ls",
 		// "echo test > ls >> ls >> ls ; echo test >> ls; cat ls",
 		// "> lol echo test lol; cat lol",
 		// ">lol echo > test>lol>test>>lol>test mdr >lol test >test; cat test",
@@ -132,19 +134,28 @@ void test_parser_tokeniser(char **env)
 		concate_leftover_strings(&head);
 		remove_whitespaces(&head);
 		validate_filename(&head);
+		// t_cmd *cmd_node = split_to_pipes(&head);
+		// print_t_cmd(cmd_node);
+	
 
-		// // count_parameters(head);
 		t_cmd *cmd_node = malloc(sizeof(t_cmd));
-		char **test = create_full_command(&head, &cmd_node);
-		int j = 0;
+		init_cmd_node(&cmd_node);
+		// cmd_node = split_to_pipes(&head);
 		
-		while (test[j])
-		{
-			printf("command [%d] %s\n", j, test[j]);
-			free(test[j]);
-			j++;
-		}
-		free(test);
+		create_full_command(&head, &cmd_node);
+		print_t_cmd(cmd_node);
+		free_cmd_node(cmd_node);
+		free(cmd_node);
+		// int j = 0;
+		
+		// while (test[j])
+		// {
+		// 	printf("command [%d] %s\n", j, test[j]);
+		// 	free(test[j]);
+		// 	j++;
+		// }
+
+		// free(test);
 		print_tokens(head);
 		free_tokens(head);
 	}

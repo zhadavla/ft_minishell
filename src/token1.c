@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 19:33:44 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/17 20:15:41 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/18 16:43:17 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ void	t_add(t_token **head, t_token *new)
 }
 
 void	sublexer(const char *str, int i, t_token **head,
-		enum e_quote *q_s)
+		t_quote *q_s)
 {
-	enum e_token_type	token_type;
+	t_token_type	token_type;
 
 	token_type = update_token_type(str[i], str[i + 1]);
 	if (str[i] == '\'' || str[i] == '\"')
@@ -59,7 +59,7 @@ t_token	*apply_lexer(char *str)
 	t_token			*head;
 	int				len;
 	int				i;
-	enum e_quote	q_s;
+	t_quote	q_s;
 
 	head = NULL;
 	len = 0;

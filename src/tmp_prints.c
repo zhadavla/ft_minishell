@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-char *e_quote_to_str(enum e_quote quote)
+char *e_quote_to_str(t_quote quote)
 {
 	if (quote == QUOTE0)
 		return ("QUOTE0");
@@ -11,7 +11,7 @@ char *e_quote_to_str(enum e_quote quote)
 	return ("ERROR");
 }
 
-char *e_token_type_to_str(enum e_token_type type)
+char *e_token_type_to_str(t_token_type type)
 {
 	if (type == WORD)
 		return ("WORD");
@@ -44,7 +44,7 @@ char *e_token_type_to_str(enum e_token_type type)
 	return ("ERROR");
 }
 
-void print_qoute_status(enum e_quote q_s)
+void print_qoute_status(t_quote q_s)
 {
 	if (q_s == QUOTE0)
 		printf("QUOTE0\n");
