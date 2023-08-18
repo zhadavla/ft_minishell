@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_cmds.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 20:50:18 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/17 19:55:58 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/18 15:51:34 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int	ft_execute(char *cmd, char **env)
 	return (FALSE);
 }
 
+// later: don't forget to handle wrong command input and return error message: "command not found"
 void	validate_commands(t_token **token, char **g_env)
 {
 	t_token	*head;
@@ -88,6 +89,12 @@ void	validate_commands(t_token **token, char **g_env)
 	{
 		if (head->type == WORD && ft_execute(head->text, g_env) == TRUE)
 			head->type = COMMAND;
+		// else if (head->type == WORD && ft_execute(head->text, g_env) == FALSE)
+		// {
+		// 	write(2, "Command not found\n", 18);
+		// 	free_tokens(head);
+		// 	exit(EXIT_SUCCESS);
+		// }
 		else if (head->type == ENV_VARIBLE)
 			head->type = WORD;
 		head = head->next;

@@ -78,5 +78,6 @@ void					remove_whitespaces(t_token **token);
 void					validate_filename(t_token **token);
 int count_parameters(t_token *token);
 int	is_special_character(char c);
+void concate_leftover_strings(t_token **token);
 
 #endif // MINISHELL_H

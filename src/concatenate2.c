@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   concatenate2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 20:53:28 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/17 19:10:06 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/18 15:32:17 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,3 +48,48 @@ void remove_whitespaces(t_token **token)
 		}
 	}	
 }
+
+void concate_leftover_strings(t_token **token)
+{
+	t_token *head;
+	t_token *prev;
+	
+	head = *token;
+	while (head)
+	{
+		if (head->type == WORD)
+		{
+			while (head->next && (head->next->type == WORD || head->next->type == ENV_VARIBLE))
+			{
+				head->text = ft_strjoin(head->text, head->next->text);
+				head->len += head->next->len;
+				prev = head->next;
+				head->next = head->next->next;
+				free_token(prev); 
+			}
+		}
+		head = head->next;
+	}
+}
+
+// {
+// 	t_token *head;
+// 	t_token *tmp;
+// 	t_token *prev;
+
+// 	head = *token;
+// 	while (head)
+// 	{
+// 		if ((head->type == REDIR_APPEND && head->next->type == REDIR_OUT)
+// 		|| (head->type == HEREDOC && head->next->type == REDIR_IN))
+// 		{
+// 			head->text = ft_strjoin(head->text, head->next->text);
+// 			head->len += head->next->len;
+// 			prev = head->next;
+// 			head->next = head->next->next;
+// 			free_token(prev); 
+// 		}
+// 		head = head->next;
+// 	}
+// }
+
