@@ -55,7 +55,8 @@ char **create_full_command(t_token **token)
 			|| (*token)->type == REDIR_APPEND || (*token)->type == HEREDOC))
 			break;
 		else if (is_command && ((*token)->type == WORD || (*token)->type == ENV_VARIBLE))
-		{
+		{	
+			
 			// printf("token->text = %s\n", (*token)->text);
 			full_command[i] = ft_strdup((*token)->text);
 			i++;
