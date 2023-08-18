@@ -21,30 +21,32 @@ void test_parser_tokeniser(char **env)
 	char *tests[] = {
 
 		// "echo \"test",
-		"echo $TEST",
-		"echo \"df s\"",
-		"echo $USER",
-		"echo '$TEST'",
-		"echo \"$HOME$TEST$USER\"",
-		"echo \"$TEST$TEST=lol$TEST\"",
-		"echo \"   $TEST lol $TEST\"",
-		"echo $TEST$TEST$TEST",
-		"echo $TEST$TEST=lol$TEST",
-		"lol",
-		"echo    $TEST lol $TEST",
-		"echo test ",
-		" test ",
-		" test",
-		"echo \"$=TEST\"",
-		"echo \'$=TEST\'",
-		"echo $=TEST",
-		"echo \"$\"",
-		"echo \"$?TEST\"",
-		"echo \"$1TEST\"",
-		"echo \"$T1TEST\"",
-		"echo $TEST$TEST$=TEST",
-		"echo ++ll",
-		"echo ++lldsf+_sd?$fkl--sdfl"
+		// "echo $USER"
+		">infile grep \"hello world\" >outfile2",
+		// "echo $TEST",
+		// "echo \"df s\"",
+		// "echo $USER",
+		// "echo '$TEST'",
+		// "echo \"$HOME$TEST$USER\"",
+		// "echo \"$TEST$TEST=lol$TEST\"",
+		// "echo \"   $TEST lol $TEST\"",
+		// "echo $TEST$TEST$TEST",
+		// "echo $TEST$TEST=lol$TEST",
+		// "lol",
+		// "echo    $TEST lol $TEST",
+		// "echo test ",
+		// " test ",
+		// " test",
+		// "echo \"$=TEST\"",
+		// "echo \'$=TEST\'",
+		// "echo $=TEST",
+		// "echo \"$\"",
+		// "echo \"$?TEST\"",
+		// "echo \"$1TEST\"",
+		// "echo \"$T1TEST\"",
+		// "echo $TEST$TEST$=TEST",
+		// "echo ++ll",
+		// "echo ++lldsf+_sd?$fkl--sdfl"
 		// "env | sort | grep -v SHLVL | grep -v _=",
 		// "export | sort | grep -v SHLVL | grep -v _= | grep -v OLDPWD",
 		// "grep -v -l",
@@ -97,16 +99,18 @@ void test_parser_tokeniser(char **env)
 		concate_redirections_heredoc(&head);
 		validate_commands(&head, env);
 		validate_filename(&head);
-		count_parameters(head);
-		// char **test = create_full_command(&head);
-		// int j = 0;
-		// while (test[j])
-		// {
-		// 	printf("command %s\n", test[j]);
-		// 	free(test[j]);
-		// 	j++;
-		// }
-		// free(test);
+		// count_parameters(head);
+		t_cmd *cmd_node = malloc(sizeof(t_cmd));
+		char **test = create_full_command(&head, &cmd_node);
+		int j = 0;
+		
+		while (test[j])
+		{
+			printf("command [%d] %s\n", j, test[j]);
+			free(test[j]);
+			j++;
+		}
+		free(test);
 		print_tokens(head);
 		free_tokens(head);
 	}

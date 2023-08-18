@@ -1,8 +1,12 @@
 #include 		"../includes/minishell.h"
+
+static void redirections_switch(t_token *token, t_cmd **cmd_node);
+static int count_parameters(t_token *token);
+
 /**
  * Counting parameters of command
 */
-int count_parameters(t_token *token)
+static int count_parameters(t_token *token)
 {
 	int count;
 	int is_command;
@@ -33,7 +37,7 @@ int count_parameters(t_token *token)
 }
 
 
-char **create_full_command(t_token **token)
+char **create_full_command(t_token **token, t_cmd **cmd)
 {
 	char **full_command;
 	int i;
@@ -56,11 +60,11 @@ char **create_full_command(t_token **token)
 			break;
 		else if (is_command && ((*token)->type == WORD || (*token)->type == ENV_VARIBLE))
 		{	
-			
-			// printf("token->text = %s\n", (*token)->text);
 			full_command[i] = ft_strdup((*token)->text);
 			i++;
 		}
+		else if ((*token)->type == REDIR_APPEND || (*token)->type == REDIR_OUT || (*token)->type == REDIR_IN)
+			redirections_switch(*token, cmd);
 		prev = *token;
 		*token = (*token)->next;
 		free_token(prev);	
@@ -68,4 +72,29 @@ char **create_full_command(t_token **token)
 	full_command[i] = NULL;
 	return (full_command);
 }
-	
+
+
+static void redirections_switch(t_token *token, t_cmd **cmd_node)
+{
+	if (token->type == REDIR_OUT)
+	{
+		printf(">  {%s}\n", token->next->text);
+		(*cmd_node)->outfile_name = ft_strdup(token->next->text);
+		(*cmd_node)->is_append = FALSE;
+	}
+	else if (token->type == REDIR_APPEND)
+	{
+
+		(*cmd_node)->outfile_name = ft_strdup(token->next->text);
+		(*cmd_node)->is_append = TRUE;
+	}
+	else if (token->type == REDIR_IN)
+	{	
+		(*cmd_node)->infile_name = ft_strdup(token->next->text);
+	}
+	else if (token->type == HEREDOC)
+	{
+		(*cmd_node)->infile_name = ft_strdup(token->next->text);
+		(*cmd_node)->is_heredoc = TRUE;
+	}
+}
