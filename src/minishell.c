@@ -57,9 +57,9 @@ void test_parser_tokeniser(char **env)
 		// "echo \"$?\"", //expected output: expanded variable
 		// "echo \'$?\'", //expected output: $?
 		// "echo $USER"
-		">outfile grep \"hello world\" ",
-		"<infile grep \"hello world\" ",
-		"<infile grep \"hello world\" > outfile",
+		// ">outfile grep hello world",
+		"< infile grep hello world | > filecat cat -e | wc -l > outfile",
+		// "<infile grep \"hello world\" > outfile",
 		// "echo $TEST",
 		// "echo \"df s\"",
 		// "echo $USER",
@@ -134,18 +134,19 @@ void test_parser_tokeniser(char **env)
 		concate_leftover_strings(&head);
 		remove_whitespaces(&head);
 		validate_filename(&head);
-		// t_cmd *cmd_node = split_to_pipes(&head);
-		// print_t_cmd(cmd_node);
+
+		t_cmd *tmp = split_to_pipes(&head);
+
+		print_t_cmd(tmp);
+		free_cmd_nodes(&tmp);
+		free(tmp);
 	
 
-		t_cmd *cmd_node = malloc(sizeof(t_cmd));
-		init_cmd_node(&cmd_node);
 		// cmd_node = split_to_pipes(&head);
-		
-		create_full_command(&head, &cmd_node);
-		print_t_cmd(cmd_node);
-		free_cmd_node(cmd_node);
-		free(cmd_node);
+		// create_full_command(&head, &cmd_node);
+		// print_t_cmd(cmd_node);
+		// free_cmd_node(cmd_node);
+		// free(cmd_node);
 		// int j = 0;
 		
 		// while (test[j])
@@ -156,7 +157,7 @@ void test_parser_tokeniser(char **env)
 		// }
 
 		// free(test);
-		print_tokens(head);
+		// print_tokens(head);
 		free_tokens(head);
 	}
 }

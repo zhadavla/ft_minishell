@@ -16,9 +16,9 @@ void	t_cmd_add(t_cmd **head, t_cmd *new)
 	tmp->next = new;
 }
 
-int is_pipe(char c)
+int is_pipe(t_token *token)
 {
-	return (c == '|' || c == '\0');
+	return (token->type == PIPE);
 }
 
 /**
@@ -30,12 +30,14 @@ t_cmd *new_cmd(t_token *till_pipe)
 {
 	t_cmd *node_cmd;
 
-	node_cmd = malloc(sizeof(t_cmd));
-	while (till_pipe)
-	{
-		create_full_command(&till_pipe, &node_cmd);
-		till_pipe = till_pipe->next;
-	}
+	init_cmd_node(&node_cmd);
+	create_full_command(&till_pipe, &node_cmd);
+	// print_t_cmd(node_cmd);
+	// while (till_pipe)
+	// {
+	// 	printf("till_pipe->text: %s\n", till_pipe->text);
+	// 	till_pipe = till_pipe->next;
+	// }
 	return (node_cmd);
 }
 /**
@@ -51,27 +53,47 @@ t_cmd *split_to_pipes(t_token **token)
 
 	while (head)
 	{
-		if (is_pipe(head->type))
+		if (head->type == PIPE)
 		{
-			t_cmd_add(&cmd_head, new_cmd(till_pipe));
+			t_cmd *tmp_cmd = new_cmd(till_pipe);
+			t_cmd_add(&cmd_head, tmp_cmd);
 			till_pipe = NULL;
 		}
 		else
-			t_add(&till_pipe, new_token(ft_strdup(head->text), \
-			head->len, head->type, head->quote));
+			t_add(&till_pipe, new_token(ft_strdup(head->text), head->len, head->type, head->quote));
 		head = head->next;
 	}
+	t_cmd *tmp_cmd = new_cmd(till_pipe);
+	t_cmd_add(&cmd_head, tmp_cmd);
+	till_pipe = NULL;
+	return (cmd_head);
 }
 
 void print_t_cmd(t_cmd *head)
 {
 	while (head)
 	{
+		printf("\n\nprint_t_cmd\n\n");	
 		printf("infile name: %s\n", head->infile_name);
 		printf("outfile name: %s\n", head->outfile_name);
 		for (int i = 0; head->cmd_full[i] != NULL; i++)
 			printf("cmd_full[%d]: %s\n", i, head->cmd_full[i]);
 		head = head->next;
+	}
+	printf("\n");
+}
+
+
+void free_cmd_nodes(t_cmd **head)
+{
+	t_cmd *tmp;
+
+	while (*head)
+	{
+		tmp = *head;
+		*head = (*head)->next;
+		free_cmd_node(tmp);
+		free(tmp);
 	}
 }
 
