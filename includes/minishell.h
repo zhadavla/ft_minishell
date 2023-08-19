@@ -6,7 +6,7 @@
 /*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/19 18:10:34 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/08/19 18:57:52 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void						validate_commands(t_token **token, char **g_env);
 void						validate_commands_two(t_token **token);
 void						validate_filename(t_token **token);
 void						concate_quotes(t_token **token);
-void						concate_redirections_heredoc(t_token **token);
+void						merge_redirections_heredoc(t_token **token);
 int							is_special_character(char c);
 void						validate_dollarsign(t_token **token);
 

@@ -3,7 +3,7 @@
 /**
  * Merge heredoc and redirection_append into one token
 */
-void concate_redirections_heredoc(t_token **token)
+void merge_redirections_heredoc(t_token **token)
 {
 	t_token *head;
 	t_token *tmp;

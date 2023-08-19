@@ -98,7 +98,7 @@ void test_parser_tokeniser(char **env)
 		// "export TEST=LlOL ; echo $TEST$TEST$TEST=lol$TEST",
 		// "export TEST=LOL; export TEST+=LOL ; echo $TEST ; $ENV_SHO",
 		// // "export TEST=\"ls       -l     - a\" ; echo $TEST ; $LS ; \' $ENV_SHO", //unclosed quotes
-		// "echo test > ls cat ls",  //MEM LEAK!!!!!
+		"echo test > ls cat ls",  //MEM LEAK!!!!!
 		// "echo test > ls",
 		// "echo test > ls >> ls >> ls ; echo test >> ls cat ls", //MEM LEAK!!!!!
 		// "> lol echo test lol; cat lol",
@@ -135,15 +135,15 @@ void test_parser_tokeniser(char **env)
 		merge_envs(&head);
 		expand_env(&head, env);
 		concate_quotes(&head);
-		concate_redirections_heredoc(&head);
+		merge_redirections_heredoc(&head);
 		validate_commands(&head, env);
 		concate_leftover_strings(&head);
 		remove_whitespaces(&head);
 		remove_quotes(&head);
-		validate_commands_two(&head);
 		validate_filename(&head);
 		validate_heredoc(&head);
 		validate_dollarsign(&head);
+		validate_commands_two(&head);
 	
 		// split to pipes and fill in the information in cmd node for each command
 		t_cmd *tmp = split_to_pipes(&head);
