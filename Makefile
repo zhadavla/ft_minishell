@@ -3,11 +3,12 @@ NAME = minishell
 SRC_DIR = src
 BONUS_DIR = bonus
 
+
 SOURCES = $(wildcard $(SRC_DIR)/*.c)
 BONUS = $(wildcard $(BONUS_DIR)/*.c)
 
 # CFLAGS = -Wall -Wextra -Werror
-LIBFLAGS = -L./libft -lft -ldl -lglfw -pthread -lm
+LIBFLAGS = -L./libft -lft -ldl -pthread -lm
 MY_HEADER = ./includes/
 
 OBJ_DIR = obj
