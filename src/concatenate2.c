@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   concatenate2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 20:53:28 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/18 15:32:17 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/08/19 15:50:47 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,25 +71,3 @@ void concate_leftover_strings(t_token **token)
 		head = head->next;
 	}
 }
-
-// {
-// 	t_token *head;
-// 	t_token *tmp;
-// 	t_token *prev;
-
-// 	head = *token;
-// 	while (head)
-// 	{
-// 		if ((head->type == REDIR_APPEND && head->next->type == REDIR_OUT)
-// 		|| (head->type == HEREDOC && head->next->type == REDIR_IN))
-// 		{
-// 			head->text = ft_strjoin(head->text, head->next->text);
-// 			head->len += head->next->len;
-// 			prev = head->next;
-// 			head->next = head->next->next;
-// 			free_token(prev); 
-// 		}
-// 		head = head->next;
-// 	}
-// }
-

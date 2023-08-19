@@ -41,6 +41,8 @@ char *e_token_type_to_str(t_token_type type)
 		return ("OUTFILE_AP");
 	if (type == INFILE)
 		return ("INFILE");
+	if (type == DELIM_H)
+		return ("DELIM_H");
 	return ("ERROR");
 }
 
