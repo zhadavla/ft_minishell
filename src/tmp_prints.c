@@ -43,6 +43,8 @@ char *e_token_type_to_str(t_token_type type)
 		return ("INFILE");
 	if (type == DELIM_H)
 		return ("DELIM_H");
+	if (type == DOLLAR_SIGN)
+		return ("DOLLAR_SIGN");
 	return ("ERROR");
 }
 

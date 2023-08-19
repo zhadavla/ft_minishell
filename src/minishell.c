@@ -50,12 +50,12 @@ void test_parser_tokeniser(char **env)
 		// "echo l++lld$fkl-- sd+fl >> outfile",
 		// "echo l++lld$HOME -- sd+fl >> outfile",
 		// "echo $HOME",
-		"echo ?TEST", //expected output: ?TEST
-		"echo \"$?TEST\"", //expected output: 0TEST (expanded variable + TEST)
-		"echo ?", //expected output: ?
-		"echo $?", //expected output: expanded variable
-		"echo \"$?\"", //expected output: expanded variable
-		"echo \'$?\'", //expected output: $?
+		// "echo ?TEST", //expected output: ?TEST
+		// "echo \"$?TEST\"", //expected output: 0TEST (expanded variable + TEST)
+		// "echo ?", //expected output: ?
+		// "echo $?", //expected output: expanded variable
+		// "echo \"$?\"", //expected output: expanded variable
+		// "echo \'$?\'", //expected output: $?
 		// "echo $USER"
 		// ">outfile grep hello world",
 		// "< infile grep hello world | > filecat cat -e | wc -l > outfile",
@@ -112,10 +112,11 @@ void test_parser_tokeniser(char **env)
 		// "< infile cat > outfile",
 		// "< infile2 grep \"ls -la hello world\" > outfile2",
 		// "ls -l -a > outfile3"
-		"<< stop ls",
-		"<< stop ls -l",
-		"<< stop",
+		// "<< stop ls",
+		// "<< stop ls -l",
+		// "<< stop",
 		// "<<",
+		// "echo 42 |"
 	};
 	 for (long unsigned int i = 0; i < sizeof(tests) / sizeof(char *); i++)
 	{
@@ -125,7 +126,7 @@ void test_parser_tokeniser(char **env)
 		t_token *head = apply_lexer(tests[i]);
 		if (is_unclosed_quotes(&head))
 		{
-			write(2, "Unclosed quotes\n", 16);
+			// write(2, "Unclosed quotes\n", 16);
 			free_tokens(head);
 			exit(EXIT_SUCCESS);
 		}
@@ -139,13 +140,13 @@ void test_parser_tokeniser(char **env)
 		remove_whitespaces(&head);
 		validate_filename(&head);
 		validate_heredoc(&head);
-
-
+		validate_dollarsign(&head);
+	
 		// split to pipes and fill in the information in cmd node for each command
-		// t_cmd *tmp = split_to_pipes(&head);
-		// print_t_cmd(tmp);
-		// free_cmd_nodes(&tmp);
-		// free(tmp);
+		t_cmd *tmp = split_to_pipes(&head);
+		print_t_cmd(tmp);
+		free_cmd_nodes(&tmp);
+		free(tmp);
 
 		print_tokens(head);
 		free_tokens(head);

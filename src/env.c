@@ -6,7 +6,7 @@
 /*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:43:02 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/18 15:25:04 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/08/19 16:47:24 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,17 @@ void	expand_env(t_token **token, char **env)
 		}
 		head = head->next;
 	}
+}
+
+void validate_dollarsign(t_token **token)
+{
+	t_token *head;
+
+	head = *token;
+	while(head)
+	{
+		if (head->type == WORD && head->text[0] == '$' && head->text[1] == '?' && head->quote != IN_QUOTE1)
+			head->type = DOLLAR_SIGN;
+		head = head->next;
+	}	
 }

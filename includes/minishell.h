@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/19 16:09:27 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/19 16:38:32 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,14 @@ typedef enum e_token_type
 	OUTFILE_AP,
 	INFILE,
 	DELIM_H,
+	DOLLAR_SIGN,
 }							t_token_type;
 
-typedef enum e_error_status{
+typedef enum e_error_status
+{
 	NO_DELIMITER = 101,
 	NO_COMMAND_AFTER_HEREDOC = 102,
-} t_error_status;
+}							t_error_status;
 
 typedef enum e_quote
 {
@@ -101,6 +103,7 @@ void						validate_filename(t_token **token);
 void						concate_quotes(t_token **token);
 void						concate_redirections_heredoc(t_token **token);
 int							is_special_character(char c);
+void						validate_dollarsign(t_token **token);
 
 /**************************Split to pipes*******************************/
 /**
