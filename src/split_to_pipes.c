@@ -44,7 +44,6 @@ t_cmd	*split_to_pipes(t_token **token)
 	t_token	*till_pipe;
 	t_cmd	*cmd_head;
 	t_cmd	*tmp_cmd;
-	t_cmd	*tmp_cmd;
 
 	head = *token;
 	till_pipe = NULL;
