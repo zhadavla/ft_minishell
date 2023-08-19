@@ -18,12 +18,14 @@ void validate_heredoc(t_token **token)
 				head->next->type = DELIM_H;
 				if (!(head->next->next) || head->next->next->type != COMMAND)
 				{
+					free_tokens(head);
 					ft_putstr_fd("Heredoc has to be followed by a command\n", 2);
 					exit(NO_COMMAND_AFTER_HEREDOC);
 				}
 			}
 			else
 			{
+				free_tokens(head);
 				ft_putstr_fd("Delimeter has to be specified\n", 2);
 				exit(NO_DELIMITER);
 			}
