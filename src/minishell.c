@@ -20,7 +20,7 @@ void test_parser_tokeniser(char **env)
 	// }; 	
 	char *tests[] = {
 
-		// "echo \"test",
+		// "echo \"test", //unclosed quotes
 		// "echo $TEST",
 		// "echo \"df s\"",
 		// "echo $USER",
@@ -56,7 +56,7 @@ void test_parser_tokeniser(char **env)
 		// "echo $?", //expected output: expanded variable
 		// "echo \"$?\"", //expected output: expanded variable
 		// "echo \'$?\'", //expected output: $?
-		// "echo $USER"
+		// "echo $USER",
 		// ">outfile grep hello world",
 		// "< infile grep hello world | > filecat cat -e | wc -l > outfile",
 		// "<infile grep \"hello world\" > outfile",
@@ -88,8 +88,8 @@ void test_parser_tokeniser(char **env)
 		// "export | sort | grep -v SHLVL | grep -v _= | grep -v OLDPWD",
 		// "grep -v -l",
 		// "export =",
-		// "export 1TEST= ;\' $ENV_SHO", //unclosed quotes
-		// "export TEST ;' $EXPORT_SHO", //unclosed quotes
+		// // "export 1TEST= ;\' $ENV_SHO", //unclosed quotes
+		// // "export TEST ;' $EXPORT_SHO", //unclosed quotes
 		// "export ",
 		// "=",
 		// "export TES=T=",
@@ -97,18 +97,19 @@ void test_parser_tokeniser(char **env)
 		// "export TEST=LOL ; echo $TEST ;\' $ENV_SHO\'",
 		// "export TEST=LlOL ; echo $TEST$TEST$TEST=lol$TEST",
 		// "export TEST=LOL; export TEST+=LOL ; echo $TEST ; $ENV_SHO",
-		// "ENV_SHO",
-		// "EXPORT_SHO",
-		// "export TEST=\"ls       -l     - a\" ; echo $TEST ; $LS ; \' $ENV_SHO"
-		// "echo test > ls ; cat ls",
-		// "echo test > ls >> ls >> ls ; echo test >> ls; cat ls",
+		// // "export TEST=\"ls       -l     - a\" ; echo $TEST ; $LS ; \' $ENV_SHO", //unclosed quotes
+		// "echo test > ls cat ls",  //MEM LEAK!!!!!
+		// "echo test > ls",
+		// "echo test > ls >> ls >> ls ; echo test >> ls cat ls", //MEM LEAK!!!!!
 		// "> lol echo test lol; cat lol",
-		// ">lol echo > test>lol>test>>lol>test mdr >lol test >test; cat test",
+		// ">lol echo > test>lol>test>>lol>test mdr >lol test >test; cat test", //MEM LEAK!!!!!
 		// "\'cat\' < \"ls\"",
-		// "cat << ls > ls",
-		// "cat \"<< ls\" \'>> ls",
+		// "\'cat\' < \"filename\"",
+		// "\'cat\' < filname",
+		// "cat << ls > ls", //missing 2 frees validate_heredoc 
+		// // "cat \"<< ls\" \'>> ls", //unclosed quotes
 		// ">> ls ls -l",
-		// "< ls cat"
+		// "< ls cat",
 		// "< infile cat > outfile",
 		// "< infile2 grep \"ls -la hello world\" > outfile2",
 		// "ls -l -a > outfile3"
@@ -126,7 +127,7 @@ void test_parser_tokeniser(char **env)
 		t_token *head = apply_lexer(tests[i]);
 		if (is_unclosed_quotes(&head))
 		{
-			// write(2, "Unclosed quotes\n", 16);
+			write(2, "Unclosed quotes\n", 16);
 			free_tokens(head);
 			exit(EXIT_SUCCESS);
 		}
@@ -138,6 +139,8 @@ void test_parser_tokeniser(char **env)
 		validate_commands(&head, env);
 		concate_leftover_strings(&head);
 		remove_whitespaces(&head);
+		remove_quotes(&head);
+		validate_commands_two(&head);
 		validate_filename(&head);
 		validate_heredoc(&head);
 		validate_dollarsign(&head);

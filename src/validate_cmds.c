@@ -6,7 +6,7 @@
 /*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 20:50:18 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/18 15:51:34 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/08/19 18:13:58 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,5 +122,15 @@ void validate_filename(t_token **token)
 	}
 }
 
+void validate_commands_two(t_token **token)
+{
+	t_token *head;
 
-
+	head = *token;
+	while (head)
+	{
+		if (head->next && head->type == COMMAND && head->next->type == COMMAND)
+			head->next->type = WORD;
+		head = head->next;
+	}
+}

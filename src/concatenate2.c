@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   concatenate2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 20:53:28 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/19 15:50:47 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/19 17:55:06 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,31 @@ void concate_leftover_strings(t_token **token)
 				head->next = head->next->next;
 				free_token(prev); 
 			}
+		}
+		head = head->next;
+	}
+}
+
+void remove_quotes(t_token **token)
+{
+	t_token *head;
+	t_token *prev;
+
+	if ((*token) && ((*token)->type == SINGLE_QUOTE || (*token)->type == DOUBLE_QUOTE) 
+		&& (*token)->quote == QUOTE0)
+	{
+		prev = *token;
+		*token = (*token)->next;
+		free_token(prev);
+	}
+	head = *token;
+	while (head)
+	{
+		if (head->next && (head->next->type == SINGLE_QUOTE || head->next->type == DOUBLE_QUOTE) && head->next->quote == QUOTE0)
+		{
+			prev = head->next;
+			head->next = head->next->next;
+			free_token(prev);
 		}
 		head = head->next;
 	}
