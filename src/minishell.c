@@ -17,7 +17,7 @@ void test_parser_tokeniser(char **env)
 	// 	"$HOME",
 	// 	"$ f",
 	// 	"~"
-	// };
+	// }; 	
 	char *tests[] = {
 
 		// "echo \"test",
@@ -112,6 +112,10 @@ void test_parser_tokeniser(char **env)
 		// "< infile cat > outfile",
 		// "< infile2 grep \"ls -la hello world\" > outfile2",
 		// "ls -l -a > outfile3"
+		"<< stop ls",
+		"<< stop ls -l",
+		"<< stop",
+		// "<<",
 	};
 	 for (long unsigned int i = 0; i < sizeof(tests) / sizeof(char *); i++)
 	{
@@ -134,6 +138,8 @@ void test_parser_tokeniser(char **env)
 		concate_leftover_strings(&head);
 		remove_whitespaces(&head);
 		validate_filename(&head);
+		validate_heredoc(&head);
+
 
 		// split to pipes and fill in the information in cmd node for each command
 		// t_cmd *tmp = split_to_pipes(&head);

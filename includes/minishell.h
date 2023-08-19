@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/18 20:48:18 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/19 16:09:27 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,13 @@ typedef enum e_token_type
 	OUTFILE,
 	OUTFILE_AP,
 	INFILE,
+	DELIM_H,
 }							t_token_type;
+
+typedef enum e_error_status{
+	NO_DELIMITER = 101,
+	NO_COMMAND_AFTER_HEREDOC = 102,
+} t_error_status;
 
 typedef enum e_quote
 {
@@ -73,6 +79,7 @@ typedef struct token
 }							t_token;
 
 /**************************Tokenization*******************************/
+void						validate_heredoc(t_token **token);
 void						init_cmd_node(t_cmd **cmd_node);
 void						free_cmd_node(t_cmd *cmd_node);
 int							is_unclosed_quotes(t_token **token);
