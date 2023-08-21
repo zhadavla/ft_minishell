@@ -22,6 +22,7 @@ Goal: *Get a populated linked list with one node per cmd/pipe. Each node will co
 	 - [x] \> output 
 	 - [x] \>> append to output
 - [ ] 7. Handle **heredoc**.
+      	- [ ] the position of heredoc sign in the string (before, in the middle of the pipes, or in the end).
 - [x] 8. Tokenize commands (change WORD token type to COMMAND token type)
 	- [x] command in QUOTES will be executed as a command only if there is nothing else in the quotes; if there is something else, it will be treated as a string;
 - [x] 9. Fill in each node in ```C struct s_cmd_node ``` in the linked list.
@@ -44,7 +45,6 @@ typedef struct s_cmd
 - [x] **Step 3:** Single quotes do not expand environmental variables (e.g. echo '$USER' will print $USER).
 - [x] **Step 3:** Single and double quotes do not expand wave sign ~ to the user's home directory. (e.g. echo "~/src" will print ~/src).
 - [ ] Spaces and tabs WITHOUT QUOTES will be printed as ONE space between elements.
-- [ ] the position of >> sign in the string (before, in the middle of the pipes, or in the end).
 - [ ] readline promt: if the line returned contains only spaces and tabs → all you need to do is to display a new prompt, if there is something in the line then you’ll add it to your history.
 - [x] **Step 9:** commands can be executed in single and double quotes when first in pipe; 
 
