@@ -44,10 +44,19 @@ int is_redirection_out(t_token *token)
 	return (token->type == REDIR_OUT || token->type == REDIR_APPEND);
 }
 
-int is_redirection_file(t_token *token)
+int is_outfile(t_token *token)
 {
-	return (token->type == OUTFILE || token->type == INFILE
-		|| token->type == OUTFILE_AP);
+	return (token->type == OUTFILE || token->type == OUTFILE_AP);
+}
+
+int is_infile(t_token *token)
+{
+	return (token->type == INFILE);
+}
+
+int is_file(t_token *token)
+{
+	return (is_outfile(token) || is_infile(token));
 }
 
 /**
@@ -70,6 +79,35 @@ void remove_redirections(t_token **till_pipe)
 		}
 		head = head->next;
 	}
+}
+
+/**
+ * Creates a list of tokens before the pipe
+ * and removes the nodes with redirections from the till_pipe list
+ */
+t_token *create_list_of_files(t_token **till_pipe)
+{
+	t_token	*head;
+	t_token *prev;
+	t_token *list_of_files;
+
+	head = *till_pipe;
+	prev = NULL;
+	list_of_files = NULL;
+	while (head)
+	{
+		if (is_file(head))
+		{
+			t_add(&list_of_files, new_token(ft_strdup(head->text), head->len,
+					head->type, head->quote));
+			prev = head;
+			head = head->next;
+			remove_node(till_pipe, prev);
+		}
+		else
+			head = head->next;
+	}
+	return (list_of_files);
 }
 
 /**

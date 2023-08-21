@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/21 18:24:10 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/21 18:41:40 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ typedef struct token
 
 void remove_node(t_token **token, t_token *node);
 void remove_redirections(t_token **token);
-
+t_token *create_list_of_files(t_token **till_pipe);
 
 /**************************Tokenization*******************************/
 void						validate_heredoc(t_token **token);

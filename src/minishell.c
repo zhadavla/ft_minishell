@@ -101,7 +101,8 @@ void test_parser_tokeniser(char **env)
 		// "echo test > ls cat ls",  //MEM LEAK!!!!!
 		// "ls > file cat | grep 42",
 		// "echo test > ls",
-		// "echo test > ls >> ls >> ls ; echo test >> ls cat ls", //MEM LEAK!!!!!
+		// "echo test > ls >> ls >> ls echo test >> ls cat ls", //MEM LEAK!!!!!
+		"echo test > ls1 >> ls2 >> ls3 echo test >> ls4 cat ls5",
 		// "> lol echo test lol; cat lol",
 		// ">lol echo > test>lol>test>>lol>test mdr >lol test >test; cat test", //MEM LEAK!!!!!
 		// "\'cat\' < \"ls\"",
@@ -111,7 +112,8 @@ void test_parser_tokeniser(char **env)
 		// // "cat \"<< ls\" \'>> ls", //unclosed quotes
 		// ">> ls ls -l",
 		// "< ls cat",
-		"< infile cat > outfile",
+		"<inifle1 < infile2 cat > outfile",
+		"< infile cat > outfile > fil3",
 		// "< infile2 grep \"ls -la hello world\" > outfile2",
 		// "ls -l -a > outfile3"
 		// "<< stop ls",
@@ -145,7 +147,7 @@ void test_parser_tokeniser(char **env)
 		validate_heredoc(&head);
 		validate_dollarsign(&head);
 		validate_commands_two(&head);
-	
+
 
 
 		// split to pipes and fill in the information in cmd node for each command
@@ -156,7 +158,10 @@ void test_parser_tokeniser(char **env)
 
 		print_tokens(head);
 		remove_redirections(&head);
+		t_token *tmp = create_list_of_files(&head);
+		print_tokens(tmp);
 		print_tokens(head);
+		free_tokens(tmp);
 		free_tokens(head);
 	}
 }
