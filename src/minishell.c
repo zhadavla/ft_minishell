@@ -98,7 +98,8 @@ void test_parser_tokeniser(char **env)
 		// "export TEST=LlOL ; echo $TEST$TEST$TEST=lol$TEST",
 		// "export TEST=LOL; export TEST+=LOL ; echo $TEST ; $ENV_SHO",
 		// // "export TEST=\"ls       -l     - a\" ; echo $TEST ; $LS ; \' $ENV_SHO", //unclosed quotes
-		"echo test > ls cat ls",  //MEM LEAK!!!!!
+		// "echo test > ls cat ls",  //MEM LEAK!!!!!
+		// "ls > file cat | grep 42",
 		// "echo test > ls",
 		// "echo test > ls >> ls >> ls ; echo test >> ls cat ls", //MEM LEAK!!!!!
 		// "> lol echo test lol; cat lol",
@@ -110,7 +111,7 @@ void test_parser_tokeniser(char **env)
 		// // "cat \"<< ls\" \'>> ls", //unclosed quotes
 		// ">> ls ls -l",
 		// "< ls cat",
-		// "< infile cat > outfile",
+		"< infile cat > outfile",
 		// "< infile2 grep \"ls -la hello world\" > outfile2",
 		// "ls -l -a > outfile3"
 		// "<< stop ls",
