@@ -123,6 +123,8 @@ void get_outfile_names(t_token *token, t_cmd **cmd_node)
 	(*cmd_node)->outfile_names[i] = NULL;
 	if (prev && prev->type == REDIR_APPEND)
 		(*cmd_node)->is_append = TRUE;
+	if (prev)
+		(*cmd_node)->outfile_name = ft_strdup(prev->text);
 }
 
 /**
@@ -142,8 +144,11 @@ void	handle_in_out_files(t_token **token, t_cmd **cmd_node)
 	free_tokens(tmp);
 	printf("---------------------------------infile names:\n");
 	print_array_of_chars((*cmd_node)->infile_names);
+	printf("FINAL INFILE NAME: %s\n", (*cmd_node)->infile_name);
 	printf("---------------------------------outfile names:\n");
+	printf("FINAL OUTFILE NAME: %s\n", (*cmd_node)->outfile_name);
 	print_array_of_chars((*cmd_node)->outfile_names);
+
 
 }
 
