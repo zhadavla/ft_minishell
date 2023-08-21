@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 19:33:44 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/18 19:19:47 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/21 20:18:03 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,6 @@
 int	is_special_character(char c)
 {
 	return !ft_isalnum(c);
-	
-	// return (c == '|' || c == '<' || c == '>' || c == '\'' || c == '\"'
-	// 	|| c == '$' || c == ' ' || c == '~' || c == '\t' || c =='\r' || c == '\v' || c == '=');
 }
 
 void	t_add(t_token **head, t_token *new)

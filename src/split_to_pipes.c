@@ -69,35 +69,6 @@ void remove_redirections(t_token **till_pipe)
 }
 
 /**
- * Creates a list of tokens before the pipe
- * and removes the nodes with redirections from the till_pipe list
- */
-t_token *create_list_of_files(t_token **till_pipe)
-{
-	t_token	*head;
-	t_token *prev;
-	t_token *list_of_files;
-
-	head = *till_pipe;
-	prev = NULL;
-	list_of_files = NULL;
-	while (head)
-	{
-		if (is_file(head))
-		{
-			t_add(&list_of_files, new_token(ft_strdup(head->text), head->len,
-					head->type, head->quote));
-			prev = head;
-			head = head->next;
-			remove_node(till_pipe, prev);
-		}
-		else
-			head = head->next;
-	}
-	return (list_of_files);
-}
-
-/**
  * Populates the node of t_cmd
  * with the neccessary data for execution of the process
  * creates list of tokens before the pipe, named till_pipe
@@ -119,9 +90,6 @@ t_cmd	*split_to_pipes(t_token **token)
 	{
 		if (head->type == PIPE)
 		{
-			remove_redirections(&head);
-			t_token *tmp = create_list_of_files(&head);
-			// free_tokens(tmp);
 			tmp_cmd = new_cmd(till_pipe);
 			t_cmd_add(&cmd_head, tmp_cmd);
 			till_pipe = NULL;
