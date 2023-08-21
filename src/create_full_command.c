@@ -105,6 +105,7 @@ void get_outfile_names(t_token *token, t_cmd **cmd_node)
 	t_token	*prev;
 	int		i;
 
+	prev = NULL;
 	i = count_files(token, FALSE);
 	(*cmd_node)->outfile_names = (char **)malloc(sizeof(char *) * (i + 1));
 	i = 0;
@@ -120,7 +121,7 @@ void get_outfile_names(t_token *token, t_cmd **cmd_node)
 		tmp = tmp->next;
 	}
 	(*cmd_node)->outfile_names[i] = NULL;
-	if (prev->type == REDIR_APPEND)
+	if (prev && prev->type == REDIR_APPEND)
 		(*cmd_node)->is_append = TRUE;
 }
 

@@ -112,7 +112,7 @@ void test_parser_tokeniser(char **env)
 		// // "cat \"<< ls\" \'>> ls", //unclosed quotes
 		// ">> ls ls -l",
 		// "< ls cat",
-		// "<inifle1 < infile2 cat > outfile",
+		"<inifle1 < infile2 cat",
 		// "< infile cat > outfile > fil3",
 		// "< infile2 grep \"ls -la hello world\" > outfile2",
 		// "ls -l -a > outfile3"
