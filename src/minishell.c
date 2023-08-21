@@ -102,7 +102,7 @@ void test_parser_tokeniser(char **env)
 		// "ls > file cat | grep 42",
 		// "echo test > ls",
 		// "echo test > ls >> ls >> ls echo test >> ls cat ls", //MEM LEAK!!!!!
-		"echo test > ls1 >> ls2 >> ls3 echo test >> ls4 cat ls5",
+		// "echo test > ls1 >> ls2 >> ls3 echo test >> ls4 cat ls5",
 		// "> lol echo test lol; cat lol",
 		// ">lol echo > test>lol>test>>lol>test mdr >lol test >test; cat test", //MEM LEAK!!!!!
 		// "\'cat\' < \"ls\"",
@@ -113,8 +113,8 @@ void test_parser_tokeniser(char **env)
 		// ">> ls ls -l",
 		// "< ls cat",
 		"<inifle1 < infile2 cat",
-		// "< infile cat > outfile > fil3",
-		// "< infile2 grep \"ls -la hello world\" > outfile2",
+		"< infile cat > outfile > fil3",
+		"< infile2 grep \"ls -la hello world\" > outfile2",
 		// "ls -l -a > outfile3"
 		// "<< stop ls",
 		// "<< stop ls -l",
