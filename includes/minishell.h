@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/21 20:17:54 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/21 20:25:58 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void						handle_in_out_files(t_token **token,
 void						print_array_of_chars(char **array);
 void						remove_node(t_token **token, t_token *node);
 void						remove_redirections(t_token **token);
+void						command_to_words(t_token **token);
 // t_token						*create_list_of_files(t_token **till_pipe);
 
 /**************************Tokenization*******************************/

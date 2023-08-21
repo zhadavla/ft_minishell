@@ -153,12 +153,13 @@ void test_parser_tokeniser(char **env)
 		t_cmd *tmp2 = malloc(sizeof(t_cmd));
 		init_cmd_node(&tmp2);
 		handle_in_out_files(&head, &tmp2);
-
+		command_to_words(&head);
+	
 		// split to pipes and fill in the information in cmd node for each command
-		// t_cmd *tmp = split_to_pipes(&head);
-		// print_t_cmd(tmp);
-		// free_cmd_nodes(&tmp);
-		// free(tmp);
+		t_cmd *tmp = split_to_pipes(&head);
+		print_t_cmd(tmp);
+		free_cmd_nodes(&tmp);
+		free(tmp);
 
 		print_tokens(head);
 		

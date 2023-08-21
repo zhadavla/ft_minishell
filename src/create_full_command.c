@@ -6,6 +6,28 @@ static int	count_parameters(t_token *token);
 /**
  * Counting parameters of command
  */
+
+void	command_to_words(t_token **till_pipe)
+{
+	t_token *head;
+
+	head = *till_pipe;
+	while(head)
+	{
+		if (head->type == COMMAND)
+			break;
+		head = head->next;
+	}
+	if (head)
+		head = head->next;
+	while (head)
+	{
+		if (head->type == COMMAND)
+			head->type = WORD;
+		head = head->next;
+	}
+}
+
 static int	count_parameters(t_token *token)
 {
 	int	count;
@@ -78,6 +100,7 @@ void	init_cmd_node(t_cmd **cmd_node)
 	(*cmd_node)->is_heredoc = FALSE;
 	(*cmd_node)->is_append = FALSE;
 	(*cmd_node)->infile_name = NULL;
+	(*cmd_node)->outfile_name = NULL;
 	(*cmd_node)->infile_names = NULL;
 	(*cmd_node)->outfile_names = NULL;
 	(*cmd_node)->infile_fd = 0;
