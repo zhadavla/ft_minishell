@@ -33,6 +33,45 @@ t_cmd	*new_cmd(t_token *till_pipe)
 	create_full_command(&till_pipe, &node_cmd);
 	return (node_cmd);
 }
+
+int is_redirection_in(t_token *token)
+{
+	return (token->type == REDIR_IN);
+}
+
+int is_redirection_out(t_token *token)
+{
+	return (token->type == REDIR_OUT || token->type == REDIR_APPEND);
+}
+
+int is_redirection_file(t_token *token)
+{
+	return (token->type == OUTFILE || token->type == INFILE
+		|| token->type == OUTFILE_AP);
+}
+
+/**
+ * Removes the node with redirections from the till_pipe list
+ */
+void remove_redirections(t_token **till_pipe)
+{
+	t_token	*head;
+	t_token *prev;
+
+	head = *till_pipe;
+	prev = NULL;
+	while (head)
+	{
+		if ((is_redirection_in(head) || is_redirection_out(head))){
+
+			prev = head;
+			head = head->next;
+			remove_node(till_pipe, prev);
+		}
+		head = head->next;
+	}
+}
+
 /**
  * Populates the node of t_cmd
  * with the neccessary data for execution of the process

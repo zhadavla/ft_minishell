@@ -146,12 +146,16 @@ void test_parser_tokeniser(char **env)
 		validate_dollarsign(&head);
 		validate_commands_two(&head);
 	
-		// split to pipes and fill in the information in cmd node for each command
-		t_cmd *tmp = split_to_pipes(&head);
-		print_t_cmd(tmp);
-		free_cmd_nodes(&tmp);
-		free(tmp);
 
+
+		// split to pipes and fill in the information in cmd node for each command
+		// t_cmd *tmp = split_to_pipes(&head);
+		// print_t_cmd(tmp);
+		// free_cmd_nodes(&tmp);
+		// free(tmp);
+
+		print_tokens(head);
+		remove_redirections(&head);
 		print_tokens(head);
 		free_tokens(head);
 	}

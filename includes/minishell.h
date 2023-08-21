@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/19 18:57:52 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/08/21 18:24:10 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,11 @@ typedef struct token
 	size_t					len;
 	struct token			*next;
 }							t_token;
+
+
+void remove_node(t_token **token, t_token *node);
+void remove_redirections(t_token **token);
+
 
 /**************************Tokenization*******************************/
 void						validate_heredoc(t_token **token);
