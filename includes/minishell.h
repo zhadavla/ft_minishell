@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/21 18:41:40 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/21 19:24:06 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,9 @@ typedef struct s_cmd
 {
 	int						is_heredoc;
 	int						is_append;
+	char					**infile_names;
 	char					*infile_name;
-	char					*outfile_name;
+	char					**outfile_names;
 	int						infile_fd;
 	int						outfile_fd;
 	char					**cmd_full;
@@ -80,7 +81,9 @@ typedef struct token
 	struct token			*next;
 }							t_token;
 
-
+int is_file(t_token *token);
+void	handle_in_out_files(t_token **token, t_cmd **cmd_node);
+void print_array_of_chars(char **array);
 void remove_node(t_token **token, t_token *node);
 void remove_redirections(t_token **token);
 t_token *create_list_of_files(t_token **till_pipe);

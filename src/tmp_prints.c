@@ -73,3 +73,15 @@ void print_tokens(t_token *head)
         head = head->next;
     }
 }
+
+void print_array_of_chars(char **array)
+{
+	int i;
+
+	i = 0;
+	while (array[i])
+	{
+		printf("%s\n", array[i]);
+		i++;
+	}
+}

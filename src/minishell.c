@@ -112,8 +112,8 @@ void test_parser_tokeniser(char **env)
 		// // "cat \"<< ls\" \'>> ls", //unclosed quotes
 		// ">> ls ls -l",
 		// "< ls cat",
-		"<inifle1 < infile2 cat > outfile",
-		"< infile cat > outfile > fil3",
+		// "<inifle1 < infile2 cat > outfile",
+		// "< infile cat > outfile > fil3",
 		// "< infile2 grep \"ls -la hello world\" > outfile2",
 		// "ls -l -a > outfile3"
 		// "<< stop ls",
@@ -149,6 +149,9 @@ void test_parser_tokeniser(char **env)
 		validate_commands_two(&head);
 
 
+		t_cmd *tmp2 = malloc(sizeof(t_cmd));
+		init_cmd_node(&tmp2);
+		handle_in_out_files(&head, &tmp2);
 
 		// split to pipes and fill in the information in cmd node for each command
 		// t_cmd *tmp = split_to_pipes(&head);
@@ -157,11 +160,7 @@ void test_parser_tokeniser(char **env)
 		// free(tmp);
 
 		print_tokens(head);
-		remove_redirections(&head);
-		t_token *tmp = create_list_of_files(&head);
-		print_tokens(tmp);
-		print_tokens(head);
-		free_tokens(tmp);
+		
 		free_tokens(head);
 	}
 }

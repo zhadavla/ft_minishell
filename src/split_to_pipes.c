@@ -44,20 +44,7 @@ int is_redirection_out(t_token *token)
 	return (token->type == REDIR_OUT || token->type == REDIR_APPEND);
 }
 
-int is_outfile(t_token *token)
-{
-	return (token->type == OUTFILE || token->type == OUTFILE_AP);
-}
 
-int is_infile(t_token *token)
-{
-	return (token->type == INFILE);
-}
-
-int is_file(t_token *token)
-{
-	return (is_outfile(token) || is_infile(token));
-}
 
 /**
  * Removes the node with redirections from the till_pipe list
@@ -122,6 +109,9 @@ t_cmd	*split_to_pipes(t_token **token)
 	t_cmd	*cmd_head;
 	t_cmd	*tmp_cmd;
 
+
+
+
 	head = *token;
 	till_pipe = NULL;
 	cmd_head = NULL;
@@ -129,9 +119,13 @@ t_cmd	*split_to_pipes(t_token **token)
 	{
 		if (head->type == PIPE)
 		{
+			remove_redirections(&head);
+			t_token *tmp = create_list_of_files(&head);
+			// free_tokens(tmp);
 			tmp_cmd = new_cmd(till_pipe);
 			t_cmd_add(&cmd_head, tmp_cmd);
 			till_pipe = NULL;
+
 		}
 		else
 			t_add(&till_pipe, new_token(ft_strdup(head->text), head->len,
@@ -150,7 +144,7 @@ void	print_t_cmd(t_cmd *head)
 	{
 		printf("\n\nprint_t_cmd\n\n");
 		printf("infile name: %s\n", head->infile_name);
-		printf("outfile name: %s\n", head->outfile_name);
+		// printf("outfile name: %s\n", head->outfile_name);
 		for (int i = 0; head->cmd_full[i] != NULL; i++)
 			printf("cmd_full[%d]: %s\n", i, head->cmd_full[i]);
 		head = head->next;
