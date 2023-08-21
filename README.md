@@ -22,7 +22,7 @@ Goal: *Get a populated linked list with one node per cmd/pipe. Each node will co
 	 - [x] \> output 
 	 - [x] \>> append to output
 - [ ] 7. Handle **heredoc**.
-      	- [ ] the position of heredoc sign in the string (before, in the middle of the pipes, or in the end).
+	- [ ] the position of heredoc sign in the string (before, in the middle of the pipes, or in the end).
 - [x] 8. Tokenize commands (change WORD token type to COMMAND token type)
 	- [x] command in QUOTES will be executed as a command only if there is nothing else in the quotes; if there is something else, it will be treated as a string;
 - [x] 9. Fill in each node in ```C struct s_cmd_node ``` in the linked list.
