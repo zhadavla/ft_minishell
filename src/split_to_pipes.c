@@ -30,6 +30,8 @@ t_cmd	*new_cmd(t_token *till_pipe)
 	t_cmd	*node_cmd;
 
 	init_cmd_node(&node_cmd);
+	handle_in_out_files(&till_pipe, &node_cmd);
+	command_to_words(&till_pipe);
 	create_full_command(&till_pipe, &node_cmd);
 	return (node_cmd);
 }
@@ -43,8 +45,6 @@ int is_redirection_out(t_token *token)
 {
 	return (token->type == REDIR_OUT || token->type == REDIR_APPEND);
 }
-
-
 
 /**
  * Removes the node with redirections from the till_pipe list
@@ -80,9 +80,6 @@ t_cmd	*split_to_pipes(t_token **token)
 	t_cmd	*cmd_head;
 	t_cmd	*tmp_cmd;
 
-
-
-
 	head = *token;
 	till_pipe = NULL;
 	cmd_head = NULL;
@@ -110,11 +107,19 @@ void	print_t_cmd(t_cmd *head)
 {
 	while (head)
 	{
-		printf("\n\nprint_t_cmd\n\n");
+		printf("\n\n==================print_t_cmd=================\n\n");
 		printf("infile name: %s\n", head->infile_name);
-		// printf("outfile name: %s\n", head->outfile_name);
+		printf("outfile name: %s\n", head->outfile_name);
 		for (int i = 0; head->cmd_full[i] != NULL; i++)
 			printf("cmd_full[%d]: %s\n", i, head->cmd_full[i]);
+		// printf infile_names
+		printf("\ninfile_names list\n\n");
+		for (int i = 0; head->infile_names[i] != NULL; i++)
+			printf("infile_names[%d]: %s\n", i, head->infile_names[i]);
+		printf("\noutfile_names list\n\n");
+		for (int i = 0; head->outfile_names[i] != NULL; i++)
+			printf("outfile_names[%d]: %s\n", i, head->outfile_names[i]);
+		printf("is_append: %d\n", head->is_append);
 		head = head->next;
 	}
 	printf("\n");

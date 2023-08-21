@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 20:50:31 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/21 19:21:54 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/21 20:59:07 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,16 @@ void	free_cmd_node(t_cmd *cmd_node)
 
 	i = 0;
 	free(cmd_node->infile_name);
-	free(cmd_node->outfile_names);
+	free(cmd_node->outfile_name);
 	while (cmd_node->cmd_full[i] != NULL)
 		free(cmd_node->cmd_full[i++]);
+	i = 0;
+	while(cmd_node->infile_names[i] != NULL)
+		free(cmd_node->infile_names[i++]);
+	i = 0;
+	while(cmd_node->outfile_names[i] != NULL)
+		free(cmd_node->outfile_names[i++]);
+	free(cmd_node->infile_names);
+	free(cmd_node->outfile_names);
 	free(cmd_node->cmd_full);
 }

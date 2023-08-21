@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 20:01:54 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/21 20:11:04 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/21 20:50:10 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ static void	get_outfile_names(t_token *token, t_cmd **cmd_node)
 		tmp = tmp->next;
 	}
 	(*cmd_node)->outfile_names[i] = NULL;
-	if (prev && prev->type == REDIR_APPEND)
+	if (prev && prev->type == OUTFILE_AP)
 		(*cmd_node)->is_append = TRUE;
 	if (prev)
 		(*cmd_node)->outfile_name = ft_strdup(prev->text);
