@@ -30,6 +30,8 @@ t_cmd	*new_cmd(t_token *till_pipe)
 	t_cmd	*node_cmd;
 
 	init_cmd_node(&node_cmd);
+	handle_heredoc(&till_pipe, &node_cmd);
+	find_heredoc_node(&node_cmd);
 	handle_in_out_files(&till_pipe, &node_cmd);
 	command_to_words(&till_pipe);
 	create_full_command(&till_pipe, &node_cmd);
@@ -90,7 +92,6 @@ t_cmd	*split_to_pipes(t_token **token)
 			tmp_cmd = new_cmd(till_pipe);
 			t_cmd_add(&cmd_head, tmp_cmd);
 			till_pipe = NULL;
-
 		}
 		else
 			t_add(&till_pipe, new_token(ft_strdup(head->text), head->len,
