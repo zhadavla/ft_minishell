@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 20:01:54 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/21 20:50:10 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/22 18:58:47 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,10 +139,10 @@ void	handle_in_out_files(t_token **token, t_cmd **cmd_node)
 	free_tokens(tmp);
 
 	/////////////////////////////////////////////////////////////
-	printf("---------------------------------infile names:\n");
-	print_array_of_chars((*cmd_node)->infile_names);
-	printf("FINAL INFILE NAME: %s\n", (*cmd_node)->infile_name);
-	printf("---------------------------------outfile names:\n");
-	printf("FINAL OUTFILE NAME: %s\n", (*cmd_node)->outfile_name);
-	print_array_of_chars((*cmd_node)->outfile_names);
+	// printf("---------------------------------infile names:\n");
+	// print_array_of_chars((*cmd_node)->infile_names);
+	// printf("FINAL INFILE NAME: %s\n", (*cmd_node)->infile_name);
+	// printf("---------------------------------outfile names:\n");
+	// printf("FINAL OUTFILE NAME: %s\n", (*cmd_node)->outfile_name);
+	// print_array_of_chars((*cmd_node)->outfile_names);
 }

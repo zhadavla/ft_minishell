@@ -127,7 +127,9 @@ void test_parser_tokeniser(char **env)
 		// "< infile2 grep \"ls -la hello world\" | cat > outfile2",
 		// "ls -l -a >> outfile3",
 		// "cat << stop ls",
-		"<< stop ls -l",
+		// "<< stop cat | grep hello",
+		// "grep hello | wc -l | << stop cat",
+		"ls -l >> outfile | << stop cat >> outfile2",
 		// "<< stop",
 		// "<<",
 		// "echo 42 |",
@@ -168,6 +170,7 @@ void test_parser_tokeniser(char **env)
 
 		// split to pipes and fill in the information in cmd node for each command
 		t_cmd *tmp = split_to_pipes(&head);
+	
 		print_t_cmd(tmp);
 		free_cmd_nodes(&tmp);
 		free(tmp);
@@ -179,7 +182,7 @@ void test_parser_tokeniser(char **env)
 		// command_to_words(&head);
 
 
-		print_tokens(head);
+		// print_tokens(head);
 		
 		free_tokens(head);
 	}

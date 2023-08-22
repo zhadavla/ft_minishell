@@ -14,28 +14,46 @@ void add_front_t_cmd(t_cmd **cmd_node, t_cmd *new)
     (*cmd_node)->next = tmp;
 }
 
-void move_to_first_place_heredoc(t_cmd **cmd_node, t_cmd *node)
+t_cmd *copy_t_cmd(t_cmd *node)
 {
-    t_cmd *tmp;
-
-    tmp = node;
-    // remove_node_cmd(cmd_node, node);
-    // add_front_t_cmd(cmd_node, tmp);
+    t_cmd *new;
+    
+    init_cmd_node(&new);
+    new->infile_name = ft_strdup(node->infile_name);
+    new->outfile_name = ft_strdup(node->outfile_name);
+    // duplicat infile_names
+    for (int i = 0; node->infile_names[i] != NULL; i++)
+        new->infile_names[i] = ft_strdup(node->infile_names[i]);
+    // duplicate outfile_names
+    for (int i = 0; node->outfile_names[i] != NULL; i++)
+        new->outfile_names[i] = ft_strdup(node->outfile_names[i]);
+    new->delim = ft_strdup(node->delim);
+    new->is_heredoc = node->is_heredoc;
+    new->next = NULL;
+    return new;
 }
 
-void find_heredoc_node(t_cmd **cmd_node)
+void move_to_first_place_heredoc(t_cmd **cmd_head)
 {
     t_cmd *head;
+    t_cmd *prev;
 
-    head = *cmd_node;
+    head = *cmd_head;
+    prev = NULL;
     while (head)
     {
         if (head->is_heredoc)
-            move_to_first_place_heredoc(cmd_node, head);
+        {
+            prev->next = head->next;
+            head->next = *cmd_head;
+            *cmd_head = head;
+            break;
+        }
+        prev = head;
         head = head->next;
     }
-
 }
+
 
 void handle_heredoc(t_token **till_pipe, t_cmd **cmd_node)
 {
@@ -45,7 +63,8 @@ void handle_heredoc(t_token **till_pipe, t_cmd **cmd_node)
     head = *till_pipe;
     prev = NULL;
     while (head)
-    {
+    {   
+        
         if (head->type == HEREDOC && head->next && head->next->type == DELIM_H)
         {
             (*cmd_node)->is_heredoc = TRUE;
@@ -60,7 +79,7 @@ void handle_heredoc(t_token **till_pipe, t_cmd **cmd_node)
         head = head->next;
     }
 	/////////////////////////////////////////////////////////////
-	printf("is_heredoc: %d\n", (*cmd_node)->is_heredoc);
-	printf("Delimeter: %s\n", (*cmd_node)->delim);
+	// printf("is_heredoc: %d\n", (*cmd_node)->is_heredoc);
+	// printf("Delimeter: %s\n", (*cmd_node)->delim);
 
 }
