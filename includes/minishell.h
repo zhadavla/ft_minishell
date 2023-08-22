@@ -6,7 +6,7 @@
 /*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/21 20:25:58 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/08/22 17:44:07 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef enum e_quote
 typedef struct s_cmd
 {
 	int						is_heredoc;
+	char					*delim;
 	int						is_append;
 	char					**infile_names;
 	char					*infile_name;
@@ -96,8 +97,12 @@ int							is_special_character(char c);
  */
 void						handle_in_out_files(t_token **token,
 								t_cmd **cmd_node);
+void						handle_heredoc(t_token **till_pipe,
+								t_cmd **cmd_node);
+void						find_heredoc_node(t_cmd **head);
 void						print_array_of_chars(char **array);
 void						remove_node(t_token **token, t_token *node);
+void						remove_node_cmd(t_cmd **token, t_cmd *node);
 void						remove_redirections(t_token **token);
 void						command_to_words(t_token **token);
 // t_token						*create_list_of_files(t_token **till_pipe);

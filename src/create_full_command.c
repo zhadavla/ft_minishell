@@ -99,6 +99,7 @@ void	init_cmd_node(t_cmd **cmd_node)
 	*cmd_node = malloc(sizeof(t_cmd));
 	(*cmd_node)->is_heredoc = FALSE;
 	(*cmd_node)->is_append = FALSE;
+	(*cmd_node)->delim = NULL;
 	(*cmd_node)->infile_name = NULL;
 	(*cmd_node)->outfile_name = NULL;
 	(*cmd_node)->infile_names = NULL;

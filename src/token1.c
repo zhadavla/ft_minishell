@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 19:33:44 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/21 20:19:30 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/22 17:00:12 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_special_character(char c)
 {
-	return (!ft_isalnum(c));
+	return (!ft_isalnum(c) && c != '_');
 }
 
 /**

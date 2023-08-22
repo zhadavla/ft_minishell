@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_cmd_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 20:50:31 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/21 20:59:07 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/22 17:46:06 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	free_cmd_node(t_cmd *cmd_node)
 	int	i;
 
 	i = 0;
+	free(cmd_node->delim);
 	free(cmd_node->infile_name);
 	free(cmd_node->outfile_name);
 	while (cmd_node->cmd_full[i] != NULL)
