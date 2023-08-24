@@ -6,7 +6,7 @@
 /*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 20:50:18 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/19 18:58:43 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/08/24 20:08:47 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*ft_join(char const *s1, char const *s2)
 	return (str);
 }
 
-int	ft_execute(char *cmd, char **env)
+int	ft_exec_validation(char *cmd, char **env)
 {
 	char	**path;
 	char	*pathname;
@@ -87,7 +87,7 @@ void	validate_commands(t_token **token, char **g_env)
 	head = *token;
 	while (head)
 	{
-		if (head->type == WORD && ft_execute(head->text, g_env) == TRUE)
+		if (head->type == WORD && ft_exec_validation(head->text, g_env) == TRUE)
 			head->type = COMMAND;
 		// else if (head->type == WORD && ft_execute(head->text, g_env) == FALSE)
 		// {

@@ -6,7 +6,7 @@
 /*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 12:47:30 by mnurlybe          #+#    #+#             */
-/*   Updated: 2023/08/24 15:00:52 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/08/24 20:59:42 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,7 @@ void        open_outfile(char **file_names, t_cmd **cmd_node)
         i++;
     }
      if ((*cmd_node)->outfile_name)
-        printf("outfile name: %s fd: %d\n", (*cmd_node)->outfile_name, fd);
-    (*cmd_node)->outfile_fd = fd;
+        (*cmd_node)->outfile_fd = fd;
 }
 
 void    open_files(t_cmd **cmd_node)

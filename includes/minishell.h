@@ -6,7 +6,7 @@
 /*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/24 18:41:34 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/08/24 20:45:37 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "libft.h"
 # include <fcntl.h>
 # include <stdbool.h>
+# include <sys/wait.h>
 
 # define TRUE 1
 # define FALSE 0
@@ -165,6 +166,8 @@ void						open_files(t_cmd **cmd_node);
 /**************************Pipes*******************************/
 
 void						first_last_cmd(t_cmd **cmd_node);
-void						update_pipe_fds(t_cmd **cmd_node);
+void						update_pipe_fds(t_cmd **cmd_node, char **env);
+char						**get_binaries(char **env);
+void    execute_command(t_pipex *pipex, t_cmd *node_cmd, char **env);
 
 #endif // MINISHELL_H

@@ -135,11 +135,13 @@ void test_parser_tokeniser(char **env)
 		// "ls -l >> outfile | << stop cat >> outfile2 | grep hello | wc -l >> outfile3",
 		// "<< stop",
 		// "<<",
-		// "echo 42 |",
+		"echo 42 > out | grep 42",
 		// "> test000",
-		// "echo hello < infile >> out2 | wc -l > out3",
+		// "ls",
+		// "echo hello | ls | cat | ls | ls -l | echo 42",
+		// "echo hello < infile >> out2 | <out2 wc -l > out3 > out4 > out5",
 		// "echo hello < infile | wc -l > outfile",
-		"echo hello | wc -l | cat",
+		// "echo hello > infile | < infile grep ll",
 
 	};
 	 for (long unsigned int i = 0; i < sizeof(tests) / sizeof(char *); i++)
@@ -173,9 +175,11 @@ void test_parser_tokeniser(char **env)
 		open_files(&tmp);
 		first_last_cmd(&tmp);
 
-		update_pipe_fds(&tmp);
+		update_pipe_fds(&tmp, env);
 
-		print_t_cmd(tmp);
+		// print_t_cmd(tmp);
+
+
 		free_cmd_nodes(&tmp);
 		free(tmp);
 
