@@ -129,7 +129,7 @@ void test_parser_tokeniser(char **env)
 		// "cat << stop ls",
 		// "<< stop cat | grep hello",
 		// "grep hello | wc -l | << stop cat",
-		"ls -l >> outfile | << stop cat >> outfile2",
+		"ls -l >> outfile | << stop cat >> outfile2 | grep hello | wc -l >> outfile3",
 		// "<< stop",
 		// "<<",
 		// "echo 42 |",

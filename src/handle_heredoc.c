@@ -33,6 +33,10 @@ t_cmd *copy_t_cmd(t_cmd *node)
     return new;
 }
 
+/**
+ * Move heredoc node to the first place
+ * Marks nodes after and before heredoc.
+*/
 void move_to_first_place_heredoc(t_cmd **cmd_head)
 {
     t_cmd *head;
@@ -43,7 +47,10 @@ void move_to_first_place_heredoc(t_cmd **cmd_head)
     while (head)
     {
         if (head->is_heredoc)
-        {
+        {   
+            if (head->next)
+                head->next->is_after_heredoc = TRUE;
+            prev->is_before_heredoc = TRUE;
             prev->next = head->next;
             head->next = *cmd_head;
             *cmd_head = head;
@@ -54,7 +61,9 @@ void move_to_first_place_heredoc(t_cmd **cmd_head)
     }
 }
 
-
+/**
+ * Find heredoc node, remove node with heredoc and delimeter from till_pipe list.
+*/
 void handle_heredoc(t_token **till_pipe, t_cmd **cmd_node)
 {
     t_token *head;
@@ -64,7 +73,6 @@ void handle_heredoc(t_token **till_pipe, t_cmd **cmd_node)
     prev = NULL;
     while (head)
     {   
-        
         if (head->type == HEREDOC && head->next && head->next->type == DELIM_H)
         {
             (*cmd_node)->is_heredoc = TRUE;
@@ -78,8 +86,4 @@ void handle_heredoc(t_token **till_pipe, t_cmd **cmd_node)
         }
         head = head->next;
     }
-	/////////////////////////////////////////////////////////////
-	// printf("is_heredoc: %d\n", (*cmd_node)->is_heredoc);
-	// printf("Delimeter: %s\n", (*cmd_node)->delim);
-
 }

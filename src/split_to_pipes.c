@@ -129,6 +129,8 @@ void	print_t_cmd(t_cmd *head)
 		}
 		else
 		{
+			printf("is_before_heredoc: %d\n", head->is_before_heredoc);
+			printf("is_after_heredoc: %d\n", head->is_after_heredoc);
 			for (int i = 0; head->cmd_full[i] != NULL; i++)
 				printf("cmd_full[%d]: %s\n", i, head->cmd_full[i]);
 			printf("\ninfile_names list\n\n");
