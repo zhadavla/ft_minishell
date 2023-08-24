@@ -6,7 +6,7 @@
 /*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/24 14:44:17 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/08/24 14:48:04 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ typedef struct s_cmd
 	char					**cmd_full;
 	char					**env;
 	char					*cmd_path;
+	int						is_before_heredoc;
+	int						is_after_heredoc;
 	struct s_cmd			*next;
 }							t_cmd;
 
@@ -106,9 +108,9 @@ void						remove_node(t_token **token, t_token *node);
 void						remove_node_cmd(t_cmd **token, t_cmd *node);
 void						remove_redirections(t_token **token);
 void						command_to_words(t_token **token);
-t_cmd  *find_heredoc_node(t_cmd **cmd_node);
-t_cmd	*new_cmd(t_token *till_pipe);
-void move_to_first_place_heredoc(t_cmd **cmd_node);
+t_cmd						*find_heredoc_node(t_cmd **cmd_node);
+t_cmd						*new_cmd(t_token *till_pipe);
+void						move_to_first_place_heredoc(t_cmd **cmd_node);
 // t_token						*create_list_of_files(t_token **till_pipe);
 
 /**************************Tokenization*******************************/

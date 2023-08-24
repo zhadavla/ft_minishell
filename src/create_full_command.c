@@ -97,6 +97,8 @@ void	create_full_command(t_token **token, t_cmd **cmd_node)
 void	init_cmd_node(t_cmd **cmd_node)
 {
 	*cmd_node = malloc(sizeof(t_cmd));
+	(*cmd_node)->is_before_heredoc = FALSE;
+	(*cmd_node)->is_after_heredoc = FALSE;
 	(*cmd_node)->is_heredoc = FALSE;
 	(*cmd_node)->is_append = FALSE;
 	(*cmd_node)->delim = NULL;
