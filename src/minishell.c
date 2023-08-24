@@ -126,9 +126,9 @@ void test_parser_tokeniser(char **env)
 		// ">> ls | ls -l",
 		// "< ls cat",
 		// "<inifle1 < infile2 cat",
-		"< if1 grep ll | cat > outfile > fil3",
+		// "< if1 grep ll | cat > outfile > fil3",
 		// "< infile2 grep \"ls -la hello world\" | cat > outfile2",
-		// "ls -l -a >> outfile3",
+		// "ls -l -a > out2| grep hello >> out1 | < infile wc -l",
 		// "cat << stop ls",
 		// "<< stop cat | grep hello",
 		// "grep hello | wc -l | << stop cat",
@@ -136,7 +136,10 @@ void test_parser_tokeniser(char **env)
 		// "<< stop",
 		// "<<",
 		// "echo 42 |",
-		// "> test000"
+		// "> test000",
+		// "echo hello < infile >> out2 | wc -l > out3",
+		// "echo hello < infile | wc -l > outfile",
+		"echo hello | wc -l | cat",
 
 	};
 	 for (long unsigned int i = 0; i < sizeof(tests) / sizeof(char *); i++)
@@ -165,26 +168,16 @@ void test_parser_tokeniser(char **env)
 		validate_dollarsign(&head);
 		validate_commands_two(&head);
 
-
-		// t_cmd *tmp2 = malloc(sizeof(t_cmd));
-		// init_cmd_node(&tmp2);
-		// handle_in_out_files(&head, &tmp2);
-		// command_to_words(&head);
-
 		// split to pipes and fill in the information in cmd node for each command
 		t_cmd *tmp = split_to_pipes(&head);
-
 		open_files(&tmp);
+		first_last_cmd(&tmp);
+
+		update_pipe_fds(&tmp);
+
 		print_t_cmd(tmp);
 		free_cmd_nodes(&tmp);
 		free(tmp);
-
-		// t_cmd *tmp2 = malloc(sizeof(t_cmd));
-		// init_cmd_node(&tmp2);
-		// handle_heredoc(&head, &tmp2);
-		// handle_in_out_files(&head, &tmp2);
-		// command_to_words(&head);
-
 
 		// print_tokens(head);
 		

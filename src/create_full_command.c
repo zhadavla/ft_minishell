@@ -111,6 +111,8 @@ void	init_cmd_node(t_cmd **cmd_node)
 	(*cmd_node)->cmd_full = NULL;
 	(*cmd_node)->env = NULL;
 	(*cmd_node)->cmd_path = NULL;
+	(*cmd_node)->is_last = FALSE;
+	(*cmd_node)->is_first = FALSE;
 	(*cmd_node)->next = NULL;
 }
 

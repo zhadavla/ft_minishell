@@ -6,7 +6,7 @@
 /*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/24 14:48:04 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/08/24 18:41:34 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 # include "ft_printf.h"
 # include "get_next_line.h"
 # include "libft.h"
-# include <stdbool.h>
 # include <fcntl.h>
+# include <stdbool.h>
 
 # define TRUE 1
 # define FALSE 0
@@ -48,7 +48,7 @@ typedef enum e_token_type
 typedef enum e_error_status
 {
 	SYNTAX_ERROR_NL = 2, // bash: syntax error near unexpected token `newline'
-	NO_FILE_EXISTS = 1, //bash: file: No such file or directory
+	NO_FILE_EXISTS = 1,  // bash: file: No such file or directory
 }							t_error_status;
 
 typedef enum e_quote
@@ -74,6 +74,8 @@ typedef struct s_cmd
 	char					*cmd_path;
 	int						is_before_heredoc;
 	int						is_after_heredoc;
+	int						is_last;
+	int						is_first;
 	struct s_cmd			*next;
 }							t_cmd;
 
@@ -85,6 +87,14 @@ typedef struct token
 	size_t					len;
 	struct token			*next;
 }							t_token;
+
+typedef struct s_pipex
+{
+	int						fd_pipes_count;
+	int						cmd_count;
+	int						*fd_pipes;
+	int						fd_ind;
+}							t_pipex;
 
 /*******************bool utilits for more readable code********************/
 int							is_outfile(t_token *token);
@@ -150,6 +160,11 @@ void						create_full_command(t_token **token,
 								t_cmd **cmd_node);
 void						free_cmd_nodes(t_cmd **head);
 
-void    open_files(t_cmd **cmd_node);
+void						open_files(t_cmd **cmd_node);
+
+/**************************Pipes*******************************/
+
+void						first_last_cmd(t_cmd **cmd_node);
+void						update_pipe_fds(t_cmd **cmd_node);
 
 #endif // MINISHELL_H

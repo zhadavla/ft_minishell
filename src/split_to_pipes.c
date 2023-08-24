@@ -143,6 +143,8 @@ void	print_t_cmd(t_cmd *head)
 				printf("outfile_names[%d]: %s\n", i, head->outfile_names[i]);
 			printf("is_append: %d\n", head->is_append);
 		}
+		printf("is_first: %d\n", head->is_first);
+		printf("is_last: %d\n", head->is_last);
 		number_of_pipe++;
 		head = head->next;
 	}
