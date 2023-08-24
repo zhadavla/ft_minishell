@@ -51,3 +51,14 @@ typedef struct s_cmd
 # Part 2: The Executer
 
 - [ ] handle $? --> this will be handled in Part II.
+
+
+# Status as of 24.08 (what is left):
+
+- [ ] built ins
+- [ ] $?
+- [ ] error handling (also with $?)
+- [ ] signals
+- [ ] readline (or get next line) to be decided what is better to use :)
+- [ ] heredoc -> on execute command stage :(
+- [ ] history
