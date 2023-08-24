@@ -119,7 +119,9 @@ void test_parser_tokeniser(char **env)
 		// "\'cat\' >> filname",
 		// // "cat << ls > ls", //missing 2 frees validate_heredoc 
 		// // "cat << ls >> ls",
-		// "sdfsd < f1 <f2 <f3 > o1 | hello >> o2 >>o3 | sdfs <f4 >o5 sdfsdf",
+		// "sdfsd < f1 < f2 < f3 > o1 | hello >> o2 >>o3 | sdfs <f4 >o5 sdfsdf",
+		"< if1 < if2 < if3 < if4 grep 42",
+		// "< if1 < if2 < if3 < if4 > of1 >> of2 >> of3 > of4",
 		// ">> ls | ls -l",
 		// "< ls cat",
 		// "<inifle1 < infile2 cat",
@@ -129,7 +131,7 @@ void test_parser_tokeniser(char **env)
 		// "cat << stop ls",
 		// "<< stop cat | grep hello",
 		// "grep hello | wc -l | << stop cat",
-		"ls -l >> outfile | << stop cat >> outfile2",
+		// "ls -l >> outfile | << stop cat >> outfile2",
 		// "<< stop",
 		// "<<",
 		// "echo 42 |",
@@ -170,7 +172,8 @@ void test_parser_tokeniser(char **env)
 
 		// split to pipes and fill in the information in cmd node for each command
 		t_cmd *tmp = split_to_pipes(&head);
-	
+
+		open_files(&tmp);
 		print_t_cmd(tmp);
 		free_cmd_nodes(&tmp);
 		free(tmp);

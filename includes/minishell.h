@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/22 18:46:16 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/24 14:44:17 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "get_next_line.h"
 # include "libft.h"
 # include <stdbool.h>
+# include <fcntl.h>
 
 # define TRUE 1
 # define FALSE 0
@@ -46,8 +47,8 @@ typedef enum e_token_type
 
 typedef enum e_error_status
 {
-	NO_DELIMITER = 101,
-	NO_COMMAND_AFTER_HEREDOC = 102,
+	SYNTAX_ERROR_NL = 2, // bash: syntax error near unexpected token `newline'
+	NO_FILE_EXISTS = 1, //bash: file: No such file or directory
 }							t_error_status;
 
 typedef enum e_quote
@@ -146,5 +147,7 @@ void						t_add(t_token **head, t_token *new);
 void						create_full_command(t_token **token,
 								t_cmd **cmd_node);
 void						free_cmd_nodes(t_cmd **head);
+
+void    open_files(t_cmd **cmd_node);
 
 #endif // MINISHELL_H

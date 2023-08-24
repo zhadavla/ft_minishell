@@ -20,14 +20,14 @@ void validate_heredoc(t_token **token)
 				{
 					free_tokens(head);
 					ft_putstr_fd("Heredoc has to be followed by a command\n", 2);
-					exit(NO_COMMAND_AFTER_HEREDOC);
+					exit(SYNTAX_ERROR_NL);
 				}
 			}
 			else
 			{
 				free_tokens(head);
 				ft_putstr_fd("Delimeter has to be specified\n", 2);
-				exit(NO_DELIMITER);
+				exit(SYNTAX_ERROR_NL);
 			}
 		}
 		head = head->next;

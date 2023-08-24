@@ -121,7 +121,9 @@ void	print_t_cmd(t_cmd *head)
 		printf("\n==================pipe number [%d]=================\n",
 			number_of_pipe);
 		printf("infile name: %s\n", head->infile_name);
+		printf("infile_fd: %d\n", head->infile_fd);
 		printf("outfile name: %s\n", head->outfile_name);
+		printf("outfile_fd: %d\n", head->outfile_fd);
 		if (head->is_heredoc)
 		{
 			printf("is_heredoc: %d\n", head->is_heredoc);
