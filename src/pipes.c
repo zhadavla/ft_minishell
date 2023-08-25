@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 19:51:48 by mnurlybe          #+#    #+#             */
-/*   Updated: 2023/08/24 20:56:03 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/08/25 20:45:56 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	init_pipex(t_pipex *pipex, t_cmd *cmd_head)
 }
 
 /**
- * print the file descriptors stored into the pipex->fd_pipes array
+ * create pipes for each command node
 */
 int	create_pipes(t_pipex *pipex)
 {
@@ -54,11 +54,7 @@ int	create_pipes(t_pipex *pipex)
 			return (-1);
 		}
 		i += 2;
-	}
-    // printf pipex->fd_pipes fds
-    // printf("\n\nfd_pipes: \n");
-    // for (int i = 0; i < pipex->fd_pipes_count; i++)
-    //     printf("{fd %d: %d} \n", i, pipex->fd_pipes[i]);
+    }
 	return (1);
 }
 

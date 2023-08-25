@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_execute.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/24 19:52:08 by mnurlybe          #+#    #+#             */
-/*   Updated: 2023/08/24 20:42:16 by mnurlybe         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/minishell.h"
 
 static int	ft_dup2(int fd1, int fd2)
@@ -95,11 +83,6 @@ static void    do_fork(t_pipex *pipex, t_cmd *node_cmd, char **env)
     int dup_check;
 
     pid = fork();
-    // if (pid == -1)
-    // {
-    //     perror("fork");
-    //     exit(EXIT_FAILURE);
-    // }
     dup_check = 1;
     if (pid == 0)
     {

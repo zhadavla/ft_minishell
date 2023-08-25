@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   token2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 20:14:50 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/22 17:39:17 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/08/25 20:47:06 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 // change quote status if quote is opened or closed
-enum e_quote	update_q_s(char c, enum e_quote quote)
+t_quote	update_q_s(char c, enum e_quote quote)
 {
 	if ((c == '\'' && quote == IN_QUOTE1) || (c == '\"' && quote == IN_QUOTE2))
 		return (QUOTE0);
@@ -28,7 +28,10 @@ enum e_quote	update_q_s(char c, enum e_quote quote)
 	return (QUOTE0);
 }
 
-enum e_token_type	update_token_type(char c, char d)
+/**
+ * Returns token type, depending on the characters
+*/
+t_token_type	update_token_type(char c, char d)
 {
 	if (c == '|')
 		return (PIPE);
@@ -51,8 +54,8 @@ enum e_token_type	update_token_type(char c, char d)
 	return (WORD);
 }
 
-t_token	*new_token(char *text, size_t len, enum e_token_type type,
-		enum e_quote quote)
+t_token	*new_token(char *text, size_t len, t_token_type type,
+		t_quote quote)
 {
 	t_token	*new;
 

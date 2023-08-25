@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bool_file_utils.c                                  :+:      :+:    :+:   */
+/*   int_file_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 20:01:54 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/25 20:18:43 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/25 20:29:15 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	is_in_quotes(t_token *head)
 		|| (head->quote == IN_QUOTE2 && head->next->quote == IN_QUOTE2));
 }
 
-bool	is_length_match(char *env_i, char *text)
+int	is_length_match(char *env_i, char *text)
 {
 	int	i;
 
@@ -41,4 +41,14 @@ bool	is_length_match(char *env_i, char *text)
 	while (env_i[++i] != '=')
 		;
 	return (i == ft_strlen(text));
+}
+
+int	is_unclosed_quotes(t_token **token)
+{
+	t_token	*head;
+
+	head = *token;
+	while (head->next)
+		head = head->next;
+	return (head->quote == IN_QUOTE1 || head->quote == IN_QUOTE2);
 }

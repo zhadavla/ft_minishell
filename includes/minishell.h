@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/25 20:18:12 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/25 20:29:37 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "get_next_line.h"
 # include "libft.h"
 # include <fcntl.h>
-# include <stdbool.h>
+# include <stdint.h>
 # include <sys/wait.h>
 
 # define TRUE 1
@@ -97,7 +97,7 @@ typedef struct s_pipex
 	int						fd_ind;
 }							t_pipex;
 
-/*******************bool utilits for more readable code********************/
+/*******************int utilits for more readable code********************/
 int							is_outfile(t_token *token);
 int							is_infile(t_token *token);
 int							is_file(t_token *token);
@@ -107,7 +107,7 @@ int							is_in_quotes(t_token *head);
 /**
  * Compare length of env variable and text
  */
-bool	is_length_match(char *env_i, char *text);
+int	is_length_match(char *env_i, char *text);
 	/**
 		* Writes to the cmd_node the information about redirections
 		* and removes the redirections from the list of tokens
