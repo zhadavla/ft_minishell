@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:43:02 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/19 19:00:00 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/08/25 20:28:15 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static char	*get_env_value(char *text, char **env);
 
 /**
  * Merge env variables with words
@@ -44,38 +46,6 @@ void	merge_envs(t_token **token)
 	}
 }
 
-bool	is_length_match(char *env_i, char *text)
-{
-	int	i;
-
-	i = -1;
-	while (env_i[++i] != '=')
-		;
-	return (i == ft_strlen(text));
-}
-
-/**
- * Find env variable in env array
- * Return value of env variable
- * Empty string if not found
- * It should compare length of text and env variable
- * and only if they are equal compare the strings
- */
-char	*get_env_value(char *text, char **env)
-{
-	int		i;
-	char	*env_found;
-
-	i = 0;
-	while (env[++i])
-	{
-		env_found = ft_strnstr(env[i], text + 1, ft_strlen(text));
-		if (env_found && is_length_match(env_found, text + 1))
-			return (env_found + ft_strlen(text));
-	}
-	return (NULL);
-}
-
 /**
  * Replace $ENV with value from env in each token
  */
@@ -101,6 +71,31 @@ void	expand_env(t_token **token, char **env)
 	}
 }
 
+/**
+ * Find env variable in env array
+ * Return value of env variable
+ * Empty string if not found
+ * It should compare length of text and env variable
+ * and only if they are equal compare the strings
+ */
+static char	*get_env_value(char *text, char **env)
+{
+	int		i;
+	char	*env_found;
+
+	i = 0;
+	while (env[++i])
+	{
+		env_found = ft_strnstr(env[i], text + 1, ft_strlen(text));
+		if (env_found && is_length_match(env_found, text + 1))
+			return (env_found + ft_strlen(text));
+	}
+	return (NULL);
+}
+
+/**
+ * ????
+*/
 void validate_dollarsign(t_token **token)
 {
 	t_token *head;
@@ -108,7 +103,8 @@ void validate_dollarsign(t_token **token)
 	head = *token;
 	while(head)
 	{
-		if (head->type == WORD && head->text[0] == '$' && head->text[1] == '?' && head->quote != IN_QUOTE1)
+		if (head->type == WORD && head->text[0] == '$'
+		 && head->text[1] == '?' && head->quote != IN_QUOTE1)
 			head->type = DOLLAR_SIGN;
 		head = head->next;
 	}	

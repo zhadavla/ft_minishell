@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/24 20:45:37 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/08/25 20:18:12 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,14 +103,18 @@ int							is_infile(t_token *token);
 int							is_file(t_token *token);
 int							is_unclosed_quotes(t_token **token);
 int							is_special_character(char c);
+int							is_in_quotes(t_token *head);
 /**
- * Writes to the cmd_node the information about redirections
- * and removes the redirections from the list of tokens
- * cmd_node->infile_names, cmd_node->outfile_names,
- * cmd_node->is_append for the last outfile name
+ * Compare length of env variable and text
  */
-void						handle_in_out_files(t_token **token,
-								t_cmd **cmd_node);
+bool	is_length_match(char *env_i, char *text);
+	/**
+		* Writes to the cmd_node the information about redirections
+		* and removes the redirections from the list of tokens
+		* cmd_node->infile_names, cmd_node->outfile_names,
+		* cmd_node->is_append for the last outfile name
+		*/
+	void handle_in_out_files(t_token **token, t_cmd **cmd_node);
 void						handle_heredoc(t_token **till_pipe,
 								t_cmd **cmd_node);
 // void						find_heredoc_node(t_cmd **head);
@@ -168,6 +172,7 @@ void						open_files(t_cmd **cmd_node);
 void						first_last_cmd(t_cmd **cmd_node);
 void						update_pipe_fds(t_cmd **cmd_node, char **env);
 char						**get_binaries(char **env);
-void    execute_command(t_pipex *pipex, t_cmd *node_cmd, char **env);
+void						execute_command(t_pipex *pipex, t_cmd *node_cmd,
+								char **env);
 
 #endif // MINISHELL_H

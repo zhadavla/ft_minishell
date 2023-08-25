@@ -4,9 +4,8 @@ static void	redirections_switch(t_token *token, t_cmd **cmd_node);
 static int	count_parameters(t_token *token);
 
 /**
- * Counting parameters of command
- */
-
+ * ???? 
+*/
 void	command_to_words(t_token **till_pipe)
 {
 	t_token *head;
@@ -28,6 +27,9 @@ void	command_to_words(t_token **till_pipe)
 	}
 }
 
+/**
+ * ???
+*/
 static int	count_parameters(t_token *token)
 {
 	int	count;
