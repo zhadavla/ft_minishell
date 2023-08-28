@@ -61,4 +61,5 @@ typedef struct s_cmd
 - [ ] signals
 - [ ] readline (or get next line) to be decided what is better to use :)
 - [ ] heredoc -> on execute command stage :(
+- [ ] multiple heredocs handling :(((
 - [ ] history
