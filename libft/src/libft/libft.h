@@ -6,10 +6,16 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 16:20:44 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/24 14:45:37 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/24 15:05:32 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
+
+if (open_f == -1)
+	free...
+	exit(EXIT_FAILURE)
+	
 #ifndef LIBFT_H
 # define LIBFT_H
 # include "../ft_printf/ft_printf.h"
@@ -23,7 +29,7 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
-void	ft_putstr_fd(char *s, int fd);
+void				ft_putstr_fd(char *s, int fd);
 char				*ft_strjoin(char *tmp, char *buf);
 int					ft_atoi(const char *nptr);
 void				ft_bzero(void *s, size_t n);

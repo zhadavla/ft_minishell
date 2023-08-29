@@ -27,6 +27,9 @@
 
 // void print_pids(int **pids){
 
+
+	#include <readline/readline.h>
+
 // }
 #include <string.h>
 char *int_to_str(int num)
@@ -56,29 +59,23 @@ int main(void)
 	pipe(pipefd);
 	char *tmp = (char *)malloc(8 * sizeof(char));
 	strcpy(tmp, "42");
+	
 
-
-	for (int i = 0; i < 2; i++){
+	for (int i = 0; i < 5; i++){
 		int pid1 = fork();
 
 		if (pid1 == 0)
-		{	
-			int pid2 = fork();
-
-			close(pipefd[0]);
-			int pid_getted = getpid();
-			char *str = int_to_str(pid_getted);
-			// printf("int = {%d}\n", pid_getted);
-			// printf("str = {%s}\n", str);
-			write(pipefd[1], str, strlen(str));
-			printf("child pid: %d\n", pid_getted);
-			return 0;
+		{
+			if (i == 0 || i == 3)
+			{
+				
+			heredoc()
+			}
+			printf("excve\n");
+			exit(0);
 		}
 		else 
-			read(pipefd[0], tmp, 8);
-		
-		printf("tmp = {%s}\n", tmp);
-		printf("parent pid: %d\n", getpid());
+			wait(NULL);
 	}
 	
 	return 0;

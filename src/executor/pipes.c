@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 19:51:48 by mnurlybe          #+#    #+#             */
-/*   Updated: 2023/08/25 20:45:56 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/29 18:25:49 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	create_pipes(t_pipex *pipex)
  * except for the first and last command, the infile_fd and outfile_fd will be
  * updated to the corresponding file descriptor stored in open_files() function;
 */
-void    update_pipe_fds(t_cmd **cmd_node, char **env)
+t_pipex update_pipe_fds(t_cmd **cmd_node, char **env)
 {
     t_pipex pipex;
     t_cmd *head;
@@ -92,9 +92,8 @@ void    update_pipe_fds(t_cmd **cmd_node, char **env)
         }
         head = head->next;
     }
-    execute_command(&pipex, *cmd_node, env);
-    if (pipex.cmd_count > 1)
-        free(pipex.fd_pipes);
+    return (pipex);
+
 }
 
 /**

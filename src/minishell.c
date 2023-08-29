@@ -128,14 +128,14 @@ void test_parser_tokeniser(char **env)
 		// "<inifle1 < infile2 cat",
 		// "< if1 grep ll | cat > outfile > fil3",
 		// "< infile2 grep \"ls -la hello world\" | cat > outfile2",
-		// "ls -l -a > out2| grep hello >> out1 | < infile wc -l",
+		"ls -l -a > out2| echo hello >> out1 | wc -l",
 		// "cat << stop ls",
 		// "<< stop cat | grep hello",
 		// "grep hello | wc -l | << stop cat",
 		// "ls -l >> outfile | << stop cat >> outfile2 | grep hello | wc -l >> outfile3",
 		// "<< stop",
 		// "<<",
-		"echo 42 > out | grep 42",
+		// "echo 42 > out | grep 42",
 		// "> test000",
 		// "ls",
 		// "echo hello | ls | cat | ls | ls -l | echo 42",
@@ -175,9 +175,13 @@ void test_parser_tokeniser(char **env)
 		open_files(&tmp);
 		first_last_cmd(&tmp);
 
-		update_pipe_fds(&tmp, env);
+		t_pipex pipex = update_pipe_fds(&tmp, env);
 
-		// print_t_cmd(tmp);
+		if (is_heredoc(tmp))
+			sequential_executor(&tmp, env);
+		else 
+			parallel_executor(pipex, &tmp, env);
+		// // print_t_cmd(tmp);
 
 
 		free_cmd_nodes(&tmp);

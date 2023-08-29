@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/25 20:29:37 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/29 18:27:36 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,14 +107,15 @@ int							is_in_quotes(t_token *head);
 /**
  * Compare length of env variable and text
  */
-int	is_length_match(char *env_i, char *text);
-	/**
-		* Writes to the cmd_node the information about redirections
-		* and removes the redirections from the list of tokens
-		* cmd_node->infile_names, cmd_node->outfile_names,
-		* cmd_node->is_append for the last outfile name
-		*/
-	void handle_in_out_files(t_token **token, t_cmd **cmd_node);
+int							is_length_match(char *env_i, char *text);
+/**
+ * Writes to the cmd_node the information about redirections
+ * and removes the redirections from the list of tokens
+ * cmd_node->infile_names, cmd_node->outfile_names,
+ * cmd_node->is_append for the last outfile name
+ */
+void						handle_in_out_files(t_token **token,
+								t_cmd **cmd_node);
 void						handle_heredoc(t_token **till_pipe,
 								t_cmd **cmd_node);
 // void						find_heredoc_node(t_cmd **head);
@@ -170,9 +171,14 @@ void						open_files(t_cmd **cmd_node);
 /**************************Pipes*******************************/
 
 void						first_last_cmd(t_cmd **cmd_node);
-void						update_pipe_fds(t_cmd **cmd_node, char **env);
+t_pipex update_pipe_fds(t_cmd **cmd_node, char **env);
 char						**get_binaries(char **env);
 void						execute_command(t_pipex *pipex, t_cmd *node_cmd,
 								char **env);
-
+void						parallel_executor(t_pipex pipex, t_cmd **cmd_node,
+								char **env);
+/**
+ * check if there is a heredoc in the command line
+*/
+int is_heredoc(t_cmd *cmd);
 #endif // MINISHELL_H

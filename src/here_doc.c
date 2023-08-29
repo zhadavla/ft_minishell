@@ -33,3 +33,14 @@ void validate_heredoc(t_token **token)
 		head = head->next;
 	}
 }
+
+int is_heredoc(t_cmd *cmd)
+{
+	while (cmd)
+	{
+		if (cmd->is_heredoc)
+			return (TRUE);
+		cmd = cmd->next;
+	}
+	return (FALSE);
+}
