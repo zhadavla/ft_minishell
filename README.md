@@ -72,6 +72,8 @@ typedef struct s_cmd
 
 # Multiple heredocs
 
+In a situation when we have multiple heredocs, we will execute all the processes sequentially (not in parallel like in a pipex). 
+
 ```shell
 << stop1 cat | ls | << stop2 wc
 ```
