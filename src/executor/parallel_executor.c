@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-static int ft_dup2(int fd1, int fd2)
+int ft_dup2(int fd1, int fd2)
 {
 	if (dup2(fd1, 0) == -1)
 		return (-1);
@@ -9,7 +9,7 @@ static int ft_dup2(int fd1, int fd2)
 	return (1);
 }
 
-static void close_fd(t_pipex *pipex)
+void close_fd(t_pipex *pipex)
 {
 	int i;
 
@@ -21,7 +21,7 @@ static void close_fd(t_pipex *pipex)
 	}
 }
 
-static char *ft_join(char const *s1, char const *s2)
+char *ft_join(char const *s1, char const *s2)
 {
 	size_t len1;
 	size_t len2;
@@ -39,7 +39,7 @@ static char *ft_join(char const *s1, char const *s2)
 	return (str);
 }
 
-static void free_split(char **strs)
+void free_split(char **strs)
 {
 	int i;
 
@@ -91,8 +91,8 @@ static void do_fork(t_pipex *pipex, t_cmd *node_cmd, char **env)
 	    dup_check = ft_dup2(node_cmd->infile_fd, node_cmd->outfile_fd);
 	    close_fd(pipex);
 	    ft_execute(node_cmd->cmd_full, env);
-	    close(node_cmd->infile_fd);
-	    close(node_cmd->outfile_fd);
+	    // close(node_cmd->infile_fd);
+	    // close(node_cmd->outfile_fd);
 	}
 
 	if (dup_check == -1)

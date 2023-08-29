@@ -177,9 +177,9 @@ void test_parser_tokeniser(char **env)
 
 		t_pipex pipex = update_pipe_fds(&tmp, env);
 
-		if (is_heredoc(tmp))
-			sequential_executor(&tmp, env);
-		else 
+		// if (is_heredoc(tmp))
+		// 	sequential_executor(&tmp, env);
+		// else 
 			parallel_executor(pipex, &tmp, env);
 		// // print_t_cmd(tmp);
 

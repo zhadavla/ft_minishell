@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/29 18:27:36 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/08/29 19:18:24 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,16 @@ void						execute_command(t_pipex *pipex, t_cmd *node_cmd,
 								char **env);
 void						parallel_executor(t_pipex pipex, t_cmd **cmd_node,
 								char **env);
+
+
+/**************************Executor*******************************/
+
+void free_split(char **strs);
+char *ft_join(char const *s1, char const *s2);
+void close_fd(t_pipex *pipex);
+
+int ft_dup2(int fd1, int fd2);
+int ft_execute(char **full_cmd, char **env);
 /**
  * check if there is a heredoc in the command line
 */

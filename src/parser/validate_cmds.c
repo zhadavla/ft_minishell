@@ -3,27 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   validate_cmds.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 20:50:18 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/24 20:08:47 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/08/29 19:21:26 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	free_split(char **strs)
-{
-	int	i;
-
-	i = 0;
-	while (strs[i])
-	{
-		free(strs[i]);
-		i++;
-	}
-	free(strs);
-}
 
 char	**get_binaries(char **env)
 {
@@ -34,24 +21,6 @@ char	**get_binaries(char **env)
 		if (ft_strnstr(env[i], "PATH=", 5))
 			return (ft_split(env[i] + 5, ':'));
 	return (NULL);
-}
-
-char	*ft_join(char const *s1, char const *s2)
-{
-	size_t	len1;
-	size_t	len2;
-	char	*str;
-
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	str = (char *)malloc(sizeof(char) * (len1 + len2) + 1);
-	if (!s1 || !s2)
-		return (NULL);
-	if (!str)
-		return (NULL);
-	ft_strlcpy(str, s1, len1 + 1);
-	ft_strlcat(str, s2, len2 + len1 + 1);
-	return (str);
 }
 
 int	ft_exec_validation(char *cmd, char **env)
