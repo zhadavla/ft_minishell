@@ -25,9 +25,10 @@ Goal: *Get a populated linked list with one node per cmd/pipe. Each node will co
      - [x] \>> append to output
 - [ ] 7. Handle **heredoc**.
      - [ ] the position of heredoc sign in the string (before, in the middle of the pipes, or in the end).
+     - [ ] invalid input: when there is a cat command with existing infile and heredoc: ``` cat <<heredoc Makefile ```
 - [x] 8. Tokenize commands (change WORD token type to COMMAND token type)
      - [x] command in QUOTES will be executed as a command only if there is nothing else in the quotes; if there is something else, it will be treated as a string;
-- [x] 9. Fill in each node in ```C struct s_cmd_node ``` in the linked list.
+- [x] 9. Fill in each node in ``` struct s_cmd_node ``` in the linked list.
 - [ ] 10. Finish handling error messages for invalid input.
 
 Important Add-on: ***Handle errors, memory leaks and error outputs on each step we make.***
@@ -70,6 +71,8 @@ typedef struct s_cmd
 
 
 # Multiple heredocs
+
+In a situation when we have multiple heredocs, we will execute all the processes sequentially (not in parallel like in a pipex). 
 
 ```shell
 << stop1 cat | ls | << stop2 wc
