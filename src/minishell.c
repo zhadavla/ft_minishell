@@ -128,20 +128,29 @@ void test_parser_tokeniser(char **env)
 		// "<inifle1 < infile2 cat",
 		// "< if1 grep ll | cat > outfile > fil3",
 		// "< infile2 grep \"ls -la hello world\" | cat > outfile2",
-		"ls -l -a > out2| echo hello >> out1 | wc -l",
+		// "ls -l -a > out2| echo hello >> out1 | wc -l",
 		// "cat << stop ls",
-		// "<< stop cat | grep hello",
+		// "echo 42"
+		// "<< stop cat",
 		// "grep hello | wc -l | << stop cat",
 		// "ls -l >> outfile | << stop cat >> outfile2 | grep hello | wc -l >> outfile3",
-		// "<< stop",
+		// "<< stop tr '_' '*' | cat | << stop2 cat | wc -l",
+		// "cat << stop",
+		// "echo 42 | grep 42 | wc -l"
+		// "echo 42 | grep 42 > cat | << stop cat"
 		// "<<",
 		// "echo 42 > out | grep 42",
 		// "> test000",
 		// "ls",
 		// "echo hello | ls | cat | ls | ls -l | echo 42",
 		// "echo hello < infile >> out2 | <out2 wc -l > out3 > out4 > out5",
-		// "echo hello < infile | wc -l > outfile",
-		// "echo hello > infile | < infile grep ll",
+		// "echo hello > outfile1 | wc -l > outfile2",
+		// "echo 42 | wc -l "
+		// "ls | cat",
+		"<< stop cat"
+		// "echo hello > infile | < infile grep ll"
+		// "cat << stop /dev/urandom | head -n 5",
+		// "<< stop1 cat > out1 | echo 42 | <<stop2 cat > out2 | < out2 wc -l",
 
 	};
 	 for (long unsigned int i = 0; i < sizeof(tests) / sizeof(char *); i++)
@@ -175,13 +184,15 @@ void test_parser_tokeniser(char **env)
 		open_files(&tmp);
 		first_last_cmd(&tmp);
 
-		t_pipex pipex = update_pipe_fds(&tmp, env);
-
+		// t_pipex pipex = update_pipe_fds(&tmp, env);
+		t_pipex *pipex = NULL;
 		// if (is_heredoc(tmp))
-		// 	sequential_executor(&tmp, env);
+		// print_t_cmd(tmp);
+		// {
+			sequential_executor(pipex, tmp, env);
+		// }
 		// else 
-			parallel_executor(pipex, &tmp, env);
-		// // print_t_cmd(tmp);
+			// parallel_executor(pipex, &tmp, env);
 
 
 		free_cmd_nodes(&tmp);

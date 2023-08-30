@@ -29,8 +29,8 @@ t_cmd	*new_cmd(t_token *till_pipe)
 {
 	t_cmd	*node_cmd;
 
-	init_cmd_node(&node_cmd);
 	handle_heredoc(&till_pipe, &node_cmd);
+	init_cmd_node(&node_cmd);
 	// find_heredoc_node(&node_cmd);
 	handle_in_out_files(&till_pipe, &node_cmd);
 	command_to_words(&till_pipe);
@@ -104,7 +104,7 @@ t_cmd	*split_to_pipes(t_token **token)
 	t_cmd_add(&cmd_head, tmp_cmd);
 	till_pipe = NULL;
 	
-	move_to_first_place_heredoc(&cmd_head);
+	// move_to_first_place_heredoc(&cmd_head);
 	// t_cmd *tmp = find_heredoc_node(&cmd_head);
 	// move_to_first_place_heredoc(&cmd_head, tmp);
 	return (cmd_head);

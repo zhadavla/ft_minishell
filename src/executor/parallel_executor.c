@@ -14,8 +14,10 @@ void close_fd(t_pipex *pipex)
 	int i;
 
 	i = 0;
+	// printf("pipex->fd_pipes_count = %d\n", pipex->fd_pipes_count);
 	while (i < pipex->fd_pipes_count)
-	{
+	{	
+		// printf("pipex->fd_pipes[%d] = %d\n", i, pipex->fd_pipes[i]);
 		close(pipex->fd_pipes[i]);
 		i++;
 	}
@@ -89,12 +91,12 @@ static void do_fork(t_pipex *pipex, t_cmd *node_cmd, char **env)
 	if (pid == 0)
 	{
 	    dup_check = ft_dup2(node_cmd->infile_fd, node_cmd->outfile_fd);
+		// printf("node_cmd->infile_fd = %d\n", node_cmd->infile_fd);
+		// printf("node_cmd->outfile_fd = %d\n", node_cmd->outfile_fd);
 	    close_fd(pipex);
 	    ft_execute(node_cmd->cmd_full, env);
-	    // close(node_cmd->infile_fd);
-	    // close(node_cmd->outfile_fd);
 	}
-
+	
 	if (dup_check == -1)
 	{
 		write(2, "dup2 error\n", 11);
@@ -120,6 +122,7 @@ void execute_command(t_pipex *pipex, t_cmd *node_cmd, char **env)
 		node_cmd = node_cmd->next;
 	}
 
+	close_fd(pipex);
 	i = 0;
 	while (++i < pipex->cmd_count)
 		wait(&status);
