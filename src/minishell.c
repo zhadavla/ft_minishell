@@ -147,7 +147,7 @@ void test_parser_tokeniser(char **env)
 		// "echo hello > outfile1 | wc -l > outfile2",
 		// "echo 42 | wc -l "
 		// "ls | cat",
-		"<< stop cat"
+		"<< stop cat | grep 42 | wc -l"
 		// "echo hello > infile | < infile grep ll"
 		// "cat << stop /dev/urandom | head -n 5",
 		// "<< stop1 cat > out1 | echo 42 | <<stop2 cat > out2 | < out2 wc -l",

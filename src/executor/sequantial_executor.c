@@ -1,4 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sequantial_executor.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/01 14:16:01 by vzhadan           #+#    #+#             */
+/*   Updated: 2023/09/01 14:33:00 by vzhadan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
+
+static int	handle_delimiter(int fd[2], char *line, char *joined_line)
+{
+	write(fd[1], joined_line, ft_strlen(joined_line));
+	free(joined_line);
+	free(line);
+	close(fd[1]);
+	return (fd[0]);
+}
 
 /**
  * Reads from input untill the delimiter is found
@@ -25,53 +46,64 @@ int	here_doc(char *delimiter)
 		}
 		joined_line = ft_strjoin(joined_line, line);
 		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter)))
-		{
-			write(fd[1], joined_line, ft_strlen(joined_line));
-			free(joined_line);
-			free(line);
-			close(fd[1]);
-			break ;
-		}
+			return (handle_delimiter(fd, line, joined_line));
 		free(line);
 	}
 	return (fd[0]);
 }
 
 /**
- * Executes commands in sequence to hangle multiple heredocs
+ * Handles setting up file descriptors
+ */
+void	setup_file_descriptors(t_cmd *node_cmd, int *prev_read_end,
+		int *pipex_pipe, int hd_fd)
+{
+	if (node_cmd->is_heredoc)
+	{
+		hd_fd = here_doc(node_cmd->delim);
+		dup2(hd_fd, STDIN_FILENO);
+		close(hd_fd);
+	}
+	close(pipex_pipe[0]);
+	if (*prev_read_end != -1 && !node_cmd->is_heredoc)
+	{
+		dup2(*prev_read_end, STDIN_FILENO);
+		close(*prev_read_end);
+	}
+	if (node_cmd->next)
+		dup2(pipex_pipe[1], STDOUT_FILENO);
+}
+
+/**
+ * Creates a pipe
+ */
+int	create_pipe(int *pipex_pipe)
+{
+	if (pipe(pipex_pipe) == -1)
+	{
+		perror("Pipe creation failed");
+		return (-1);
+	}
+	return (0);
+}
+
+/**
+ * Handles the sequential execution of commands
  */
 void	sequential_executor(t_cmd *node_cmd, char **env)
 {
 	int	pipex_pipe[2];
-	int	pid;
 	int	prev_read_end;
 	int	hd_fd;
 
 	prev_read_end = -1;
 	while (node_cmd)
 	{
-		if (pipe(pipex_pipe) == -1)
-		{
-			perror("Pipe creation failed");
+		if (create_pipe(pipex_pipe) == -1)
 			return ;
-		}
-		pid = fork();
-		if (pid == 0)
+		if (fork() == 0)
 		{
-			if (node_cmd->is_heredoc)
-			{
-				hd_fd = here_doc(node_cmd->delim);
-				dup2(hd_fd, STDIN_FILENO);
-				close(hd_fd);
-			}
-			close(pipex_pipe[0]);
-			if (prev_read_end != -1 && !node_cmd->is_heredoc)
-			{
-				dup2(prev_read_end, STDIN_FILENO);
-				close(prev_read_end);
-			}
-			if (node_cmd->next)
-				dup2(pipex_pipe[1], STDOUT_FILENO);
+			setup_file_descriptors(node_cmd, &prev_read_end, pipex_pipe, hd_fd);
 			ft_execute(node_cmd->cmd_full, env);
 			exit(0);
 		}
