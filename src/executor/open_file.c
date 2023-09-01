@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 12:47:30 by mnurlybe          #+#    #+#             */
-/*   Updated: 2023/08/25 20:44:59 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/01 13:58:22 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /**
  * Opens files for reading, if there's no file, exit with error
-*/
+ */
 static void	open_infile(char **file_names, t_cmd **cmd_node)
 {
 	int	fd;
@@ -74,10 +74,10 @@ static void	open_outfile(char **file_names, t_cmd **cmd_node)
 
 /**
  * Opens infile and outfile for each command
-*/
+ */
 void	open_files(t_cmd **cmd_node)
 {
-	t_cmd *head;
+	t_cmd	*head;
 
 	head = *cmd_node;
 	while (head)

@@ -189,7 +189,7 @@ void test_parser_tokeniser(char **env)
 		// if (is_heredoc(tmp))
 		// print_t_cmd(tmp);
 		// {
-			sequential_executor(pipex, tmp, env);
+			sequential_executor(tmp, env);
 		// }
 		// else 
 			// parallel_executor(pipex, &tmp, env);
