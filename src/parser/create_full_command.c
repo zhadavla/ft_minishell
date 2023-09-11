@@ -1,20 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   create_full_command.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/11 19:03:39 by vzhadan           #+#    #+#             */
+/*   Updated: 2023/09/11 19:16:15 by vzhadan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 static void	redirections_switch(t_token *token, t_cmd **cmd_node);
 static int	count_parameters(t_token *token);
 
 /**
- * ???? 
-*/
+ * ????
+ */
 void	command_to_words(t_token **till_pipe)
 {
-	t_token *head;
+	t_token	*head;
 
 	head = *till_pipe;
-	while(head)
+	while (head)
 	{
 		if (head->type == COMMAND)
-			break;
+			break ;
 		head = head->next;
 	}
 	if (head)
@@ -29,7 +41,7 @@ void	command_to_words(t_token **till_pipe)
 
 /**
  * ???
-*/
+ */
 static int	count_parameters(t_token *token)
 {
 	int	count;
@@ -60,7 +72,7 @@ static int	count_parameters(t_token *token)
 
 /**
  * Creates **full_command array in cmd_node
-*/
+ */
 void	create_full_command(t_token **token, t_cmd **cmd_node)
 {
 	char	**full_command;
@@ -68,30 +80,24 @@ void	create_full_command(t_token **token, t_cmd **cmd_node)
 	int		is_command;
 	t_token	*prev;
 
-
-	full_command = (char **)malloc(sizeof(char *) * (count_parameters(*token)
-			+ 1));
-	i = 0;
+	full_command = malloc(sizeof(char *) * (count_parameters(*token) + 1));
+	i = -1;
 	is_command = FALSE;
 	while (*token)
 	{
 		if ((*token)->type == COMMAND)
 		{
 			is_command = TRUE;
-			full_command[i] = ft_strdup((*token)->text);
-			i++;
+			full_command[++i] = ft_strdup((*token)->text);
 		}
 		else if (is_command && ((*token)->type == WORD
 				|| (*token)->type == ENV_VARIBLE))
-		{
-			full_command[i] = ft_strdup((*token)->text);
-			i++;
-		}
+			full_command[++i] = ft_strdup((*token)->text);
 		prev = *token;
 		*token = (*token)->next;
 		free_token(prev);
 	}
-	full_command[i] = NULL;
+	full_command[++i] = NULL;
 	(*cmd_node)->cmd_full = full_command;
 	(*cmd_node)->next = NULL;
 }
@@ -117,4 +123,3 @@ void	init_cmd_node(t_cmd **cmd_node)
 	(*cmd_node)->is_first = FALSE;
 	(*cmd_node)->next = NULL;
 }
-

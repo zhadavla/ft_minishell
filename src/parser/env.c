@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:43:02 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/25 20:28:15 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/11 19:19:27 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ void	merge_envs(t_token **token)
 				free(head->text);
 				head->text = ft_strdup("$HOME");
 			}
-			else if (head->next->type == WORD && !is_special_character(head->next->text[0]))
+			else if (head->next->type == WORD
+				&& !is_special_character(head->next->text[0]))
 			{
 				head->text = ft_strjoin(head->text, head->next->text);
 				head->len = ft_strlen(head->text);
@@ -57,7 +58,8 @@ void	expand_env(t_token **token, char **env)
 	head = *token;
 	while (head)
 	{
-		if (head->type == ENV_VARIBLE && head->quote != IN_QUOTE1 && !is_special_character(head->text[1]))
+		if (head->type == ENV_VARIBLE && head->quote != IN_QUOTE1
+			&& !is_special_character(head->text[1]))
 		{
 			env_value = get_env_value(head->text, env);
 			free(head->text);
@@ -95,17 +97,17 @@ static char	*get_env_value(char *text, char **env)
 
 /**
  * ????
-*/
-void validate_dollarsign(t_token **token)
+ */
+void	validate_dollarsign(t_token **token)
 {
-	t_token *head;
+	t_token	*head;
 
 	head = *token;
-	while(head)
+	while (head)
 	{
-		if (head->type == WORD && head->text[0] == '$'
-		 && head->text[1] == '?' && head->quote != IN_QUOTE1)
+		if (head->type == WORD && head->text[0] == '$' && head->text[1] == '?'
+			&& head->quote != IN_QUOTE1)
 			head->type = DOLLAR_SIGN;
 		head = head->next;
-	}	
+	}
 }

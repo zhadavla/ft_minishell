@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/01 14:07:02 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/11 19:28:51 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ void						remove_redirections(t_token **token);
 void						command_to_words(t_token **token);
 t_cmd						*find_heredoc_node(t_cmd **cmd_node);
 t_cmd						*new_cmd(t_token *till_pipe);
+void						print_t_cmd(t_cmd *head);
 void						move_to_first_place_heredoc(t_cmd **cmd_node);
 // t_token						*create_list_of_files(t_token **till_pipe);
 
@@ -151,6 +152,7 @@ void						validate_commands(t_token **token, char **g_env);
 void						validate_commands_two(t_token **token);
 void						validate_filename(t_token **token);
 void						concate_quotes(t_token **token);
+void						concatenate_minus(t_token **token);
 void						merge_redirections_heredoc(t_token **token);
 void						validate_dollarsign(t_token **token);
 
@@ -171,24 +173,30 @@ void						open_files(t_cmd **cmd_node);
 /**************************Pipes*******************************/
 
 void						first_last_cmd(t_cmd **cmd_node);
-t_pipex update_pipe_fds(t_cmd **cmd_node, char **env);
+t_pipex						update_pipe_fds(t_cmd **cmd_node, char **env);
+
 char						**get_binaries(char **env);
 void						execute_command(t_pipex *pipex, t_cmd *node_cmd,
 								char **env);
 void						parallel_executor(t_pipex pipex, t_cmd **cmd_node,
 								char **env);
-void	sequential_executor(t_cmd *node_cmd, char **env);
+void						sequential_executor(t_cmd *node_cmd, char **env);
 
 /**************************Executor*******************************/
 
-void free_split(char **strs);
-char *ft_join(char const *s1, char const *s2);
-void close_fd(t_pipex *pipex);
+void						free_split(char **strs);
+char						*ft_join(char const *s1, char const *s2);
+void						close_fd(t_pipex *pipex);
 
-int ft_dup2(int fd1, int fd2);
-int ft_execute(char **full_cmd, char **env);
+int							ft_dup2(int fd1, int fd2);
+int							ft_execute(char **full_cmd, char **env);
 /**
  * check if there is a heredoc in the command line
-*/
-int is_heredoc(t_cmd *cmd);
+ */
+int							is_heredoc(t_cmd *cmd);
+
+int							is_pipe(t_token *token);
+int							is_redirection_in(t_token *token);
+int							is_redirection_out(t_token *token);
+
 #endif // MINISHELL_H

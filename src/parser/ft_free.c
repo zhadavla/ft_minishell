@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:04:20 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/22 17:40:41 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/09/11 19:19:10 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 /**
  * Removes the node from the list of tokens
-*/
-void remove_node(t_token **token, t_token *node)
+ */
+void	remove_node(t_token **token, t_token *node)
 {
 	t_token	*head;
 	t_token	*prev;
@@ -38,7 +38,7 @@ void remove_node(t_token **token, t_token *node)
 	}
 }
 
-void remove_node_cmd(t_cmd **cmd_node, t_cmd *node)
+void	remove_node_cmd(t_cmd **cmd_node, t_cmd *node)
 {
 	t_cmd	*head;
 	t_cmd	*prev;

@@ -6,11 +6,36 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 20:53:28 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/25 20:25:24 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/11 19:02:48 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static void	remove_whitespace(t_token **prev, t_token **tmp, t_token **token);
+
+/**
+ * Removeing one whitespace from the token,
+ * because we don't need them anymore
+ * also free up memory
+ */
+static void	remove_whitespace(t_token **prev, t_token **tmp, t_token **token)
+{
+	if (*prev)
+	{
+		(*prev)->next = (*tmp)->next;
+		free((*tmp)->text);
+		free(*tmp);
+		(*tmp) = (*prev)->next;
+	}
+	else
+	{
+		*token = (*tmp)->next;
+		free((*tmp)->text);
+		free(*tmp);
+		(*tmp) = *token;
+	}
+}
 
 /**
  * Removing nodes with whitespaces
@@ -25,22 +50,7 @@ void	remove_whitespaces(t_token **token)
 	while (tmp)
 	{
 		if (tmp->type == WHITE_SPACE)
-		{
-			if (prev)
-			{
-				prev->next = tmp->next;
-				free(tmp->text);
-				free(tmp);
-				tmp = prev->next;
-			}
-			else
-			{
-				*token = tmp->next;
-				free(tmp->text);
-				free(tmp);
-				tmp = *token;
-			}
-		}
+			remove_whitespace(&prev, &tmp, token);
 		else
 		{
 			prev = tmp;
@@ -79,11 +89,11 @@ void	concate_leftover_strings(t_token **token)
 /**
  * Remove quotes from tokens,
  * because we don't need them anymore
-*/
+ */
 void	remove_quotes(t_token **token)
 {
-	t_token *head;
-	t_token *prev;
+	t_token	*head;
+	t_token	*prev;
 
 	if ((*token) && ((*token)->type == SINGLE_QUOTE
 			|| (*token)->type == DOUBLE_QUOTE) && (*token)->quote == QUOTE0)

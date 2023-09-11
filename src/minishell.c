@@ -70,8 +70,8 @@ void test_parser_tokeniser(char **env)
 		// "<infile grep \"hello world\" > outfile",
 		// "echo $TEST",
 		// "echo \"df s\"",
-		// "echo $USER",
-		// "echo '$TEST'",
+		"echo $USER",
+		"echo '$TEST'",
 		// "echo \"$HOME$TEST$USER\"",
 		// "echo \"$TEST$TEST=lol$TEST\"",
 		// "echo \"   $TEST lol $TEST\"",
@@ -128,7 +128,7 @@ void test_parser_tokeniser(char **env)
 		// "<inifle1 < infile2 cat",
 		// "< if1 grep ll | cat > outfile > fil3",
 		// "< infile2 grep \"ls -la hello world\" | cat > outfile2",
-		// "ls -l -a > out2| echo hello >> out1 | wc -l",
+		// "ls -l -a > out2 | echo hello >> out1 | wc -l",
 		// "cat << stop ls",
 		// "echo 42"
 		// "<< stop cat",
@@ -136,7 +136,7 @@ void test_parser_tokeniser(char **env)
 		// "ls -l >> outfile | << stop cat >> outfile2 | grep hello | wc -l >> outfile3",
 		// "<< stop tr '_' '*' | cat | << stop2 cat | wc -l",
 		// "cat << stop",
-		// "echo 42 | grep 42 | wc -l"
+		"echo 42 | echo 42 | wc -l",
 		// "echo 42 | grep 42 > cat | << stop cat"
 		// "<<",
 		// "echo 42 > out | grep 42",
@@ -144,14 +144,14 @@ void test_parser_tokeniser(char **env)
 		// "ls",
 		// "echo hello | ls | cat | ls | ls -l | echo 42",
 		// "echo hello < infile >> out2 | <out2 wc -l > out3 > out4 > out5",
-		// "echo hello > outfile1 | wc -l > outfile2",
+		"echo hello > outfile1 | wc -l > outfile2",
 		// "echo 42 | wc -l "
-		// "ls | cat",
+		"ls | cat",
 		// "<< stop cat | grep 42 | wc -l"
 		// "echo hello > infile | < infile grep ll"
 		// "cat << stop /dev/urandom | head -n 5",
 		// "<< stop1 cat > out1 | echo 42 | <<stop2 cat > out2 | < out2 wc -l",
-		"<< stop1 cat > outfile",
+		// "<< stop1 cat >> outfile",
 		// "cat < Makefile"
 
 	};
@@ -170,6 +170,7 @@ void test_parser_tokeniser(char **env)
 
 		merge_envs(&head);
 		expand_env(&head, env);
+		concatenate_minus(&head);
 		concate_quotes(&head);
 		merge_redirections_heredoc(&head);
 		validate_commands(&head, env);
@@ -184,18 +185,22 @@ void test_parser_tokeniser(char **env)
 		// split to pipes and fill in the information in cmd node for each command
 		t_cmd *tmp = split_to_pipes(&head);
 		open_files(&tmp);
+		// print_t_cmd(tmp);
 		first_last_cmd(&tmp);
 
 		t_pipex pipex = update_pipe_fds(&tmp, env);
 		// t_pipex *pipex = NULL;
-		// if (is_heredoc(tmp))
-		// {
+		if (is_heredoc(tmp))
+		{
+			printf("=============sequence===========\n");
 			sequential_executor(tmp, env);
-		// }
-		// else 
-		// 	parallel_executor(pipex, &tmp, env);
+		}
+		else{
+			printf("===========parallel===========\n");
+			parallel_executor(pipex, &tmp, env);
+		} 
 
-
+		
 		free_cmd_nodes(&tmp);
 		free(tmp);
 

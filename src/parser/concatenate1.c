@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   concatenate1.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/11 18:45:46 by vzhadan           #+#    #+#             */
+/*   Updated: 2023/09/11 18:55:02 by vzhadan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
-static void	concatenate_minus(t_token **token);
+void	concatenate_minus(t_token **token);
 
 /**
  * Merge heredoc and redirection_append into one token
@@ -39,7 +51,6 @@ void	concate_quotes(t_token **token)
 	t_token	*tmp;
 	t_token	*prev;
 
-	concatenate_minus(token);
 	head = *token;
 	while (head)
 	{
@@ -63,7 +74,7 @@ void	concate_quotes(t_token **token)
 	}
 }
 
-static void	concatenate_minus(t_token **token)
+void	concatenate_minus(t_token **token)
 {
 	t_token	*head;
 	t_token	*tmp;

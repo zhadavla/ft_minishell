@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 20:50:18 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/29 19:21:26 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/11 19:30:24 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ int	ft_exec_validation(char *cmd, char **env)
 	return (FALSE);
 }
 
-// later: don't forget to handle wrong command input and return error message: "command not found"
+/**
+ * later: don't forget to handle wrong command input 
+ * and return error message: "command not found"
+ * */
 void	validate_commands(t_token **token, char **g_env)
 {
 	t_token	*head;
@@ -58,27 +61,21 @@ void	validate_commands(t_token **token, char **g_env)
 	{
 		if (head->type == WORD && ft_exec_validation(head->text, g_env) == TRUE)
 			head->type = COMMAND;
-		// else if (head->type == WORD && ft_execute(head->text, g_env) == FALSE)
-		// {
-		// 	write(2, "Command not found\n", 18);
-		// 	free_tokens(head);
-		// 	exit(EXIT_SUCCESS);
-		// }
 		else if (head->type == ENV_VARIBLE)
 			head->type = WORD;
 		head = head->next;
 	}
 }
 
-void validate_filename(t_token **token)
+void	validate_filename(t_token **token)
 {
-	t_token *head;
+	t_token	*head;
 
 	head = *token;
 	while (head)
 	{
-		if (head->next && (head->next->type == WORD 
-		|| head->next->type == COMMAND))
+		if (head->next && (head->next->type == WORD
+				|| head->next->type == COMMAND))
 		{
 			if (head->type == REDIR_APPEND)
 				head->next->type = OUTFILE_AP;
@@ -91,9 +88,9 @@ void validate_filename(t_token **token)
 	}
 }
 
-void validate_commands_two(t_token **token)
+void	validate_commands_two(t_token **token)
 {
-	t_token *head;
+	t_token	*head;
 
 	head = *token;
 	while (head)

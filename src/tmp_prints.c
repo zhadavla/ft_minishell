@@ -85,3 +85,44 @@ void print_array_of_chars(char **array)
 		i++;
 	}
 }
+
+void	print_t_cmd(t_cmd *head)
+{
+	int	number_of_pipe;
+
+	number_of_pipe = 0;
+	while (head)
+	{
+		// printf("\n\n==================print_t_cmd=================\n\n");
+		printf("\n==================pipe number [%d]=================\n",
+			number_of_pipe);
+		printf("infile name: %s\n", head->infile_name);
+		printf("infile_fd: %d\n", head->infile_fd);
+		printf("outfile name: %s\n", head->outfile_name);
+		printf("outfile_fd: %d\n", head->outfile_fd);
+		if (head->is_heredoc)
+		{
+			printf("is_heredoc: %d\n", head->is_heredoc);
+			printf("delim: %s\n", head->delim);
+		}
+		else
+		{
+			printf("is_before_heredoc: %d\n", head->is_before_heredoc);
+			printf("is_after_heredoc: %d\n", head->is_after_heredoc);
+			for (int i = 0; head->cmd_full[i] != NULL; i++)
+				printf("cmd_full[%d]: %s\n", i, head->cmd_full[i]);
+			printf("\ninfile_names list\n\n");
+			for (int i = 0; head->infile_names[i] != NULL; i++)
+				printf("infile_names[%d]: %s\n", i, head->infile_names[i]);
+			printf("\noutfile_names list\n\n");
+			for (int i = 0; head->outfile_names[i] != NULL; i++)
+				printf("outfile_names[%d]: %s\n", i, head->outfile_names[i]);
+			printf("is_append: %d\n", head->is_append);
+		}
+		printf("is_first: %d\n", head->is_first);
+		printf("is_last: %d\n", head->is_last);
+		number_of_pipe++;
+		head = head->next;
+	}
+	printf("\n");
+}

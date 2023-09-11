@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:16:01 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/11 17:09:45 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/11 17:29:52 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,16 @@ static int	handle_delimiter(int fd[2], char *line, char *joined_line)
 	free(line);
 	close(fd[1]);
 	return (fd[0]);
+}
+
+/**
+ * Replaces $ENV with value from env in string
+*/
+void replace_env(char *str)
+{
+	// sdjalkgjkl; adsjglkaj glkasdj lgkdsaj lk$HOME
+	char *env_val = ft_strchr(str, '$');
+	
 }
 
 /**
@@ -49,6 +59,7 @@ int	here_doc(char *delimiter)
 		joined_line = ft_strjoin(joined_line, line);
 		free(line);
 	}
+	
 	return (fd[0]);
 }
 
