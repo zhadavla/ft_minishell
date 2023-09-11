@@ -147,10 +147,12 @@ void test_parser_tokeniser(char **env)
 		// "echo hello > outfile1 | wc -l > outfile2",
 		// "echo 42 | wc -l "
 		// "ls | cat",
-		"<< stop cat | grep 42 | wc -l"
+		// "<< stop cat | grep 42 | wc -l"
 		// "echo hello > infile | < infile grep ll"
 		// "cat << stop /dev/urandom | head -n 5",
 		// "<< stop1 cat > out1 | echo 42 | <<stop2 cat > out2 | < out2 wc -l",
+		"<< stop1 cat > outfile",
+		// "cat < Makefile"
 
 	};
 	 for (long unsigned int i = 0; i < sizeof(tests) / sizeof(char *); i++)
@@ -184,15 +186,14 @@ void test_parser_tokeniser(char **env)
 		open_files(&tmp);
 		first_last_cmd(&tmp);
 
-		// t_pipex pipex = update_pipe_fds(&tmp, env);
-		t_pipex *pipex = NULL;
+		t_pipex pipex = update_pipe_fds(&tmp, env);
+		// t_pipex *pipex = NULL;
 		// if (is_heredoc(tmp))
-		// print_t_cmd(tmp);
 		// {
 			sequential_executor(tmp, env);
 		// }
 		// else 
-			// parallel_executor(pipex, &tmp, env);
+		// 	parallel_executor(pipex, &tmp, env);
 
 
 		free_cmd_nodes(&tmp);
