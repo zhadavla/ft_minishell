@@ -12,25 +12,19 @@
 
 #include "../includes/minishell.h"
 
-int is_outfile(t_token *token)
+int	is_outfile(t_token *token)
 {
 	return (token->type == OUTFILE || token->type == OUTFILE_AP);
 }
 
-int is_infile(t_token *token)
+int	is_infile(t_token *token)
 {
 	return (token->type == INFILE);
 }
 
-int is_file(t_token *token)
+int	is_file(t_token *token)
 {
 	return (is_outfile(token) || is_infile(token));
-}
-
-int	is_in_quotes(t_token *head)
-{
-	return ((head->quote == IN_QUOTE1 && head->next->quote == IN_QUOTE1)
-		|| (head->quote == IN_QUOTE2 && head->next->quote == IN_QUOTE2));
 }
 
 int	is_length_match(char *env_i, char *text)

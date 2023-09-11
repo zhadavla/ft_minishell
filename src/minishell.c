@@ -19,28 +19,23 @@ void test_parser_tokeniser(char **env)
 	// 	"~"
 	// }; 	
 	char *tests[] = {
-
 		// "echo \"test", //unclosed quotes
-		// "echo $TEST",
-		// "echo \"df s\"",
-		// "echo $USER",
-		// "< $USER echo 5555",
-		// "echo < $USER 5555",
-		// "echo 555 < $USER",
-		// "> $USER echo 5555",
-		// "echo > $USER 5555",
-		// "echo 555 > $USER",
-		// "echo '$TEST'",
-		// "echo \"$HOME$TEST$USER\"",
-		// "echo \"$TEST$TEST=lol$TEST\"",
-		// "echo \"   $TEST lol $TEST\"",
-		// "echo $TEST$TEST$TEST",
+		// "echo $TEST", // works
+		// "echo \"df s\"", // +
+		// "echo $USER", // +
+		// ">$USER", // -
+		// // "< $USER echo 5555", // -
+		// // "echo < $USER 5555", // -
+		// // "echo 555 < $USER", // -
+		// // "> $USER echo 5555", // -
+		// // "echo > $USER 5555", // -
+		// // "echo 555 > $USER", // -
+		// "echo '$TEST'", //+
+		// "echo \"$HOME$TEST$USER\"", // +
+		// "echo \"$TEST$TEST=lol$TEST\"",//+
+		// "echo \"   $TEST lol $TEST\"", //+
+		// "echo $TEST$TEST$TEST", //+
 		// "echo $TEST$TEST=lol$TEST",
-		// "lol",
-		// "echo    $TEST lol $TEST",
-		// "echo test ",
-		// "echo     ",
-		// "echo",
 		// " test ",
 		// " test",
 		// "echo \"$=TEST\"",
@@ -66,12 +61,13 @@ void test_parser_tokeniser(char **env)
 		// "echo \'$?\'", //expected output: $?
 		// "echo $USER",
 		// ">outfile grep hello world",
+		// "echo \"hello world\" | grep hello world",
 		// "< infile grep hello world | > filecat cat -e | wc -l > outfile",
 		// "<infile grep \"hello world\" > outfile",
 		// "echo $TEST",
 		// "echo \"df s\"",
-		"echo $USER",
-		"echo '$TEST'",
+		// "echo $USER",
+		// "echo '$TEST'",
 		// "echo \"$HOME$TEST$USER\"",
 		// "echo \"$TEST$TEST=lol$TEST\"",
 		// "echo \"   $TEST lol $TEST\"",
@@ -92,8 +88,8 @@ void test_parser_tokeniser(char **env)
 		// "echo $TEST$TEST$=TEST",
 		// "echo ++ll",
 		// "echo ++lldsf+_sd?$fkl--sdfl"
-		// "env | sort | grep -v SHLVL | grep -v _=",
-		// "export | sort | grep -v SHLVL | grep -v _= | grep -v OLDPWD",
+		// // "env | sort | grep -v SHLVL | grep -v _=",
+		// // "export | sort | grep -v SHLVL | grep -v _= | grep -v OLDPWD",
 		// "grep -v -l",
 		// "grep -vl",
 		// "export =",
@@ -133,10 +129,10 @@ void test_parser_tokeniser(char **env)
 		// "echo 42"
 		// "<< stop cat",
 		// "grep hello | wc -l | << stop cat",
-		// "ls -l >> outfile | << stop cat >> outfile2 | grep hello | wc -l >> outfile3",
+		"<< stop cat >outf | grep hello >>outf |  wc -l",
 		// "<< stop tr '_' '*' | cat | << stop2 cat | wc -l",
 		// "cat << stop",
-		"echo 42 | echo 42 | wc -l",
+		// "echo 42 | echo 42 | wc -l",
 		// "echo 42 | grep 42 > cat | << stop cat"
 		// "<<",
 		// "echo 42 > out | grep 42",
@@ -144,9 +140,9 @@ void test_parser_tokeniser(char **env)
 		// "ls",
 		// "echo hello | ls | cat | ls | ls -l | echo 42",
 		// "echo hello < infile >> out2 | <out2 wc -l > out3 > out4 > out5",
-		"echo hello > outfile1 | wc -l > outfile2",
+		// "echo hello > outfile1 | wc -l > outfile2",
 		// "echo 42 | wc -l "
-		"ls | cat",
+		// "ls | cat",
 		// "<< stop cat | grep 42 | wc -l"
 		// "echo hello > infile | < infile grep ll"
 		// "cat << stop /dev/urandom | head -n 5",
@@ -185,10 +181,8 @@ void test_parser_tokeniser(char **env)
 		// split to pipes and fill in the information in cmd node for each command
 		t_cmd *tmp = split_to_pipes(&head);
 		open_files(&tmp);
-		// print_t_cmd(tmp);
 		first_last_cmd(&tmp);
 
-		t_pipex pipex = update_pipe_fds(&tmp, env);
 		// t_pipex *pipex = NULL;
 		if (is_heredoc(tmp))
 		{
@@ -196,10 +190,12 @@ void test_parser_tokeniser(char **env)
 			sequential_executor(tmp, env);
 		}
 		else{
+			t_pipex pipex = update_pipe_fds(&tmp, env);
 			printf("===========parallel===========\n");
 			parallel_executor(pipex, &tmp, env);
 		} 
 
+		// print_t_cmd(tmp);
 		
 		free_cmd_nodes(&tmp);
 		free(tmp);

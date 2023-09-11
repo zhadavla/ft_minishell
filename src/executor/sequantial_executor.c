@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:16:01 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/11 17:29:52 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/11 20:46:39 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,6 @@ static int	handle_delimiter(int fd[2], char *line, char *joined_line)
 	free(line);
 	close(fd[1]);
 	return (fd[0]);
-}
-
-/**
- * Replaces $ENV with value from env in string
-*/
-void replace_env(char *str)
-{
-	// sdjalkgjkl; adsjglkaj glkasdj lgkdsaj lk$HOME
-	char *env_val = ft_strchr(str, '$');
-	
 }
 
 /**
@@ -59,7 +49,6 @@ int	here_doc(char *delimiter)
 		joined_line = ft_strjoin(joined_line, line);
 		free(line);
 	}
-	
 	return (fd[0]);
 }
 
@@ -83,10 +72,16 @@ void	setup_file_descriptors(t_cmd *node_cmd, int *prev_read_end,
 	}
 	if (node_cmd->next)
 		dup2(pipex_pipe[1], STDOUT_FILENO);
-	if (node_cmd->infile_fd != 0)
+	if (node_cmd->infile_fd != 0){
+		// prin
 		dup2(node_cmd->infile_fd, STDIN_FILENO);
-	if (node_cmd->outfile_fd != 1)
+		// close(*prev_read_end);	
+	}
+	if (node_cmd->outfile_fd != 1){
 		dup2(node_cmd->outfile_fd, STDOUT_FILENO);
+		// close(pipex_pipe[1]);
+		// close(*prev_read_end);	
+	}
 }
 
 /**

@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 19:27:05 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/11 19:28:30 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/11 19:41:52 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,10 @@ int	is_redirection_in(t_token *token)
 int	is_redirection_out(t_token *token)
 {
 	return (token->type == REDIR_OUT || token->type == REDIR_APPEND);
+}
+
+int	is_in_quotes(t_token *head)
+{
+	return ((head->quote == IN_QUOTE1 && head->next->quote == IN_QUOTE1)
+		|| (head->quote == IN_QUOTE2 && head->next->quote == IN_QUOTE2));
 }
