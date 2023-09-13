@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:17:49 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/01 14:17:50 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/13 18:43:53 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	execute_command(t_pipex *pipex, t_cmd *node_cmd, char **env)
 		node_cmd = node_cmd->next;
 	}
 	close_fd(pipex);
-	i = 0;
+	i = -1;
 	while (++i < pipex->cmd_count)
 		wait(&status);
 }

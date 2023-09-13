@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/11 19:28:51 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/13 18:32:55 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include <stdint.h>
 # include <sys/wait.h>
+# include <readline/readline.h>
 
 # define TRUE 1
 # define FALSE 0

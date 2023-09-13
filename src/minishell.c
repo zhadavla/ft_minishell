@@ -129,7 +129,7 @@ void test_parser_tokeniser(char **env)
 		// "echo 42"
 		// "<< stop cat",
 		// "grep hello | wc -l | << stop cat",
-		"<< stop cat >outf | grep hello >>outf |  wc -l",
+		// "<< stop cat >outf | grep hello >>outf |  wc -l",
 		// "<< stop tr '_' '*' | cat | << stop2 cat | wc -l",
 		// "cat << stop",
 		// "echo 42 | echo 42 | wc -l",
@@ -146,6 +146,8 @@ void test_parser_tokeniser(char **env)
 		// "<< stop cat | grep 42 | wc -l"
 		// "echo hello > infile | < infile grep ll"
 		// "cat << stop /dev/urandom | head -n 5",
+		// "./minishell"
+		// "<< stop1 cat "
 		// "<< stop1 cat > out1 | echo 42 | <<stop2 cat > out2 | < out2 wc -l",
 		// "<< stop1 cat >> outfile",
 		// "cat < Makefile"
@@ -200,26 +202,85 @@ void test_parser_tokeniser(char **env)
 		free_cmd_nodes(&tmp);
 		free(tmp);
 
-		// print_tokens(head);
+		print_tokens(head);
 		
 		free_tokens(head);
 	}
 }
 
+void executor(char *line, char **env)
+{
+	t_token *head = apply_lexer(line);
+
+	if (is_unclosed_quotes(&head))
+	{
+		write(2, "Unclosed quotes\n", 16);
+		free_tokens(head);
+		exit(EXIT_SUCCESS);
+	}
+
+	merge_envs(&head);
+	expand_env(&head, env);
+	concatenate_minus(&head);
+	concate_quotes(&head);
+	merge_redirections_heredoc(&head);
+	validate_commands(&head, env);
+	concate_leftover_strings(&head);
+	remove_whitespaces(&head);
+	remove_quotes(&head);
+	validate_filename(&head);
+	validate_heredoc(&head);
+	validate_dollarsign(&head);
+	validate_commands_two(&head);
+
+	// split to pipes and fill in the information in cmd node for each command
+	t_cmd *tmp = split_to_pipes(&head);
+	open_files(&tmp);
+	first_last_cmd(&tmp);
+
+	// t_pipex *pipex = NULL;
+	if (is_heredoc(tmp))
+	{
+		printf("=============sequence===========\n");
+		sequential_executor(tmp, env);
+	}
+	else{
+		t_pipex pipex = update_pipe_fds(&tmp, env);
+		printf("===========parallel===========\n");
+		parallel_executor(pipex, &tmp, env);
+	} 
+
+	free_cmd_nodes(&tmp);
+	free(tmp);
+
+	// print_tokens(head);
+	free(line);
+	free_tokens(head);
+}
+
+
+
 int main(int argc, char **argv, char **env)
 {
 	(void)argc;
 	(void)argv;
-	// for (int i = 0; env[i] != NULL; i++)
-	// 	printf("%s\n", env[i]);
-	// printf("%s\n", get_env_value("$PWD", env));
-	test_parser_tokeniser(env);
-	// char *test = "grep   \"fsd hesdagsadgasdgasdllo\" \"world\"";
+	
+	while (TRUE)
+	{
+		char *line = readline("minishell$ ");
+		// fprintf(stderr,"readed line = %s\n", line);
+		t_cmd *cmd_node = NULL;
 
-	// // printf("%s\n", ft_substr(test, 0, 4));
+		if (!line)
+		{
+			free(line);
+			printf("exit\n");
+			exit(EXIT_SUCCESS);
+		}
 
-	// t_token *head = apply_lexer(test);
-	// print_tokens(head);
-	// print_tokens(head);
+		executor(line, env);
+	}
+	// test_parser_tokeniser(env);
+
 	return (0);
 }
