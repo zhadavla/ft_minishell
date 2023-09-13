@@ -1,5 +1,7 @@
 # ft_minishell
 
+# DEADLINE 24.09.2023
+
 # Part I: The Parser
 
 Goal: *Get a populated linked list with one node per cmd/pipe. Each node will contain all the necessary information to be able to execute the commands in Part II.*
@@ -87,3 +89,5 @@ typedef struct s_cmd
      - we need to tokenize them first as the COMMAND, and then handle a the paths to pass to execve function.
      - /bin/ls is passed to the execve in this form: execve("/bin/ls", {"/bin/ls", NULL}, NULL);
      - ./minishell: execve("./minishell", {"./minishell", NULL}, NULL);
+     
+# DEADLINE 24.09.2023
