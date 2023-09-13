@@ -6,7 +6,7 @@ Goal: *Get a populated linked list with one node per cmd/pipe. Each node will co
 
 ## Steps:
 
-- [ ] 1. Read a string in a prompt using **readline**.
+- [x] 1. Read a string in a prompt using **readline**.
 - [x] 2. **Split** the string by space, single and double quotes resulting in char **.
      
           - [x] Tokenize every element by categories (word, double_quote, singe_quote, pipe, redirection flag, whitespace, special characters, outfile, infile, outfile_ap, command etc.)
@@ -23,9 +23,9 @@ Goal: *Get a populated linked list with one node per cmd/pipe. Each node will co
      - [x] < input 
      - [x] \> output 
      - [x] \>> append to output
-- [ ] 7. Handle **heredoc**.
-     - [ ] the position of heredoc sign in the string (before, in the middle of the pipes, or in the end).
-     - [ ] invalid input: when there is a cat command with existing infile and heredoc: ``` cat <<heredoc Makefile ```
+- [x] 7. Handle **heredoc**.
+     - [x] the position of heredoc sign in the string (before, in the middle of the pipes, or in the end).
+     - [x] invalid input: when there is a cat command with existing infile and heredoc: ``` cat <<heredoc Makefile ``` - handled as invalid input; 
 - [x] 8. Tokenize commands (change WORD token type to COMMAND token type)
      - [x] command in QUOTES will be executed as a command only if there is nothing else in the quotes; if there is something else, it will be treated as a string;
 - [x] 9. Fill in each node in ``` struct s_cmd_node ``` in the linked list.
@@ -49,43 +49,41 @@ typedef struct s_cmd
 
 - [x] **Step 3:** Single quotes do not expand environmental variables (e.g. echo '$USER' will print $USER).
 - [x] **Step 3:** Single and double quotes do not expand wave sign ~ to the user's home directory. (e.g. echo "~/src" will print ~/src).
-- [ ] Spaces and tabs WITHOUT QUOTES will be printed as ONE space between elements.
-- [ ] readline promt: if the line returned contains only spaces and tabs → all you need to do is to display a new prompt, if there is something in the line then you’ll add it to your history.
 - [x] **Step 9:** commands can be executed in single and double quotes when first in pipe; 
+- [ ] Spaces and tabs WITHOUT QUOTES will be printed as ONE space between elements.
 
 # Part 2: The Executer
 
-- [ ] handle $? --> this will be handled in Part II.
+## Steps:
+- [x] Pipe creation (split_to_pipes).
+- [x] Creation of child processes and executing commands
+- [x] handling FDs
+- [x] Heredoc
+- [x] Multiple heredocs
+      - [x] In a situation when we have multiple heredocs, we will execute all the processes sequentially (not in parallel like in a pipex).
+- [x] Sequential executor
+- [x] Parallel executor
 
-# Status as of 24.08 (what is left):
+# Part 3: ADD-ONs
 
 - [ ] built ins
 - [ ] $?
-- [ ] error handling (also with $?)
 - [ ] signals
-- [ ] readline (or get next line) to be decided what is better to use :)
-- [ ] heredoc -> on execute command stage :(
-- [ ] multiple heredocs handling :(((
 - [ ] history
 
+# Status as of 13.09 (what is left):
 
-
-# Multiple heredocs
-
-In a situation when we have multiple heredocs, we will execute all the processes sequentially (not in parallel like in a pipex). 
-
-```shell
-<< stop1 cat | ls | << stop2 wc
-```
-
-- We fork() for each command, if it's heredoc then we fork() again inside the hd_child process. 
-
-- hd_child is needed to read from the stdin and writes it to the tmp_pipe, tmp_pipe is created in hd_parent.
-
-- in hd_parent we also write to the pid_pipe[1] pid of the hd_parrent (this will be used in hd_parent2, we're waiting for the first heredoc (hd1) to finish the promt)
-
-- in hd_parent2 we're read from pid_pipe[0] and call waitpid()
-
-- in the main process we use waitpid() to wait all the child processes to be done
-  
-  
+- [ ] built ins
+- [ ] $?
+- [ ] error handling for invalid input;
+- [ ] error handling (also with $?);
+- [ ] signals
+- [x] readline
+     - [ ] readline promt: if the line returned contains only spaces and tabs → all you need to do is to display a new prompt, if there is something in the line then you’ll add it to your history.
+- [ ] history
+- [ ] handle the paths and compiled programs as a COMMAND token, so execve can execute them.
+     - e.g. ./minishell should be executed inside ./minishell with a path: /home/user/ft_minishell/minishell
+     - or /bin/ls is also works in execve function and should be executed without errors.
+     - we need to tokenize them first as the COMMAND, and then handle a the paths to pass to execve function.
+     - /bin/ls is passed to the execve in this form: execve("/bin/ls", {"/bin/ls", NULL}, NULL);
+     - ./minishell: execve("./minishell", {"./minishell", NULL}, NULL);
