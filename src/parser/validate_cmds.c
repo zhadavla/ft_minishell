@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 20:50:18 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/15 18:43:53 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/15 19:04:45 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void validate_absolute_path(t_token *head){
 			head->type = WORD;
 	}
 }
+
+
 
 /**
  * later: don't forget to handle wrong command input

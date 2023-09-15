@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/13 18:32:55 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/15 19:08:58 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 # include "get_next_line.h"
 # include "libft.h"
 # include <fcntl.h>
+# include <readline/readline.h>
 # include <stdint.h>
 # include <sys/wait.h>
-# include <readline/readline.h>
 
 # define TRUE 1
 # define FALSE 0
@@ -39,6 +39,7 @@ typedef enum e_token_type
 	HEREDOC,
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE,
+	BUILTIN,
 	COMMAND,
 	OUTFILE,
 	OUTFILE_AP,
@@ -71,6 +72,9 @@ typedef struct s_cmd
 	char					*outfile_name;
 	int						infile_fd;
 	int						outfile_fd;
+	/*
+		* full command with arguments, first element is command name
+		*/
 	char					**cmd_full;
 	char					**env;
 	char					*cmd_path;
@@ -78,6 +82,7 @@ typedef struct s_cmd
 	int						is_after_heredoc;
 	int						is_last;
 	int						is_first;
+	int						is_builtin;
 	struct s_cmd			*next;
 }							t_cmd;
 
@@ -119,7 +124,7 @@ void						handle_in_out_files(t_token **token,
 								t_cmd **cmd_node);
 void						handle_heredoc(t_token **till_pipe,
 								t_cmd **cmd_node);
-// void						find_heredoc_node(t_cmd **head);
+void						validate_builtins(t_token **token);
 void						print_array_of_chars(char **array);
 void						remove_node(t_token **token, t_token *node);
 void						remove_node_cmd(t_cmd **token, t_cmd *node);

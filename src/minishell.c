@@ -237,29 +237,33 @@ t_cmd *tokenizer(t_token *head, char **env)
 	validate_heredoc(&head);
 	validate_dollarsign(&head);
 	validate_commands_two(&head);
-	return split_to_pipes(&head);
-	
+	validate_builtins(&head);
+	print_tokens(head);
+	t_cmd *cmd_node = split_to_pipes(&head);
+	print_t_cmd(cmd_node);
+	return cmd_node;
 }
 
-void executor(t_cmd *tmp, char **env, t_token *head)
+void executor(t_cmd *cmd_node, char **env, t_token *head)
 {
-	open_files(&tmp);
-	first_last_cmd(&tmp);
 
-	if (is_heredoc(tmp))
+	open_files(&cmd_node);
+	first_last_cmd(&cmd_node);
+
+	if (is_heredoc(cmd_node))
 	{
 		printf("=============sequence===========\n");
-		sequential_executor(tmp, env);
+		sequential_executor(cmd_node, env);
 	}
 	else{
-		t_pipex pipex = update_pipe_fds(&tmp, env);
+		t_pipex pipex = update_pipe_fds(&cmd_node, env);
 		printf("===========parallel===========\n");
-		parallel_executor(pipex, &tmp, env);
+		parallel_executor(pipex, &cmd_node, env);
 	} 
 	
 
-	free_cmd_nodes(&tmp);
-	free(tmp);
+	free_cmd_nodes(&cmd_node);
+	free(cmd_node);
 	free_tokens(head);
 }
 
@@ -281,7 +285,7 @@ int main(int argc, char **argv, char **env)
 
 		t_token *head = lexer(line);
 		t_cmd *cmd = tokenizer(head, env);
-		executor(cmd, env, head);
+		// executor(cmd, env, head);
 		free(line);
 		printf("pid = %d\n", getpid());
 	}

@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 19:03:39 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/11 19:16:15 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/15 19:01:25 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void	create_full_command(t_token **token, t_cmd **cmd_node)
 void	init_cmd_node(t_cmd **cmd_node)
 {
 	*cmd_node = malloc(sizeof(t_cmd));
+	(*cmd_node)->is_builtin = FALSE;
 	(*cmd_node)->is_before_heredoc = FALSE;
 	(*cmd_node)->is_after_heredoc = FALSE;
 	(*cmd_node)->is_heredoc = FALSE;
