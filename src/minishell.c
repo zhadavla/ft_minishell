@@ -208,7 +208,8 @@ void test_parser_tokeniser(char **env)
 	}
 }
 
-void executor(char *line, char **env)
+
+t_token *lexer(char *line)
 {
 	t_token *head = apply_lexer(line);
 
@@ -218,8 +219,11 @@ void executor(char *line, char **env)
 		free_tokens(head);
 		exit(EXIT_SUCCESS);
 	}
+	return head;
+}
 
-	
+t_cmd *tokenizer(t_token *head, char **env)
+{
 	merge_envs(&head);
 	expand_env(&head, env);
 	concatenate_minus(&head);
@@ -227,20 +231,21 @@ void executor(char *line, char **env)
 	merge_redirections_heredoc(&head);
 	concate_leftover_strings(&head);
 	validate_commands(&head, env);
-	// fprintf(stderr, "===================hello from executor\n");
 	remove_whitespaces(&head);
 	remove_quotes(&head);
 	validate_filename(&head);
 	validate_heredoc(&head);
 	validate_dollarsign(&head);
 	validate_commands_two(&head);
+	return split_to_pipes(&head);
+	
+}
 
-	// split to pipes and fill in the information in cmd node for each command
-	t_cmd *tmp = split_to_pipes(&head);
+void executor(t_cmd *tmp, char **env, t_token *head)
+{
 	open_files(&tmp);
 	first_last_cmd(&tmp);
 
-	// t_pipex *pipex = NULL;
 	if (is_heredoc(tmp))
 	{
 		printf("=============sequence===========\n");
@@ -251,17 +256,12 @@ void executor(char *line, char **env)
 		printf("===========parallel===========\n");
 		parallel_executor(pipex, &tmp, env);
 	} 
+	
 
 	free_cmd_nodes(&tmp);
 	free(tmp);
-
-	// print_tokens(head);
-	free(line);
 	free_tokens(head);
 }
-
-
-   extern char **environ;
 
 int main(int argc, char **argv, char **env)
 {
@@ -271,7 +271,7 @@ int main(int argc, char **argv, char **env)
 	while (TRUE)
 	{	
 		char *line = readline("minishell$ ");
-		fprintf(stderr,"readed line = %s\n", line);
+		// fprintf(stderr,"readed line = %s\n", line);
 		if (!line)
 		{
 			free(line);
@@ -279,8 +279,10 @@ int main(int argc, char **argv, char **env)
 			exit(EXIT_SUCCESS);
 		}
 
-		executor(line, env);
-
+		t_token *head = lexer(line);
+		t_cmd *cmd = tokenizer(head, env);
+		executor(cmd, env, head);
+		free(line);
 		printf("pid = %d\n", getpid());
 	}
 	// test_parser_tokeniser(env);
