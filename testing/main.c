@@ -27,8 +27,7 @@
 
 // void print_pids(int **pids){
 
-
-	#include <readline/readline.h>
+#include <readline/readline.h>
 
 // }
 #include <string.h>
@@ -53,30 +52,18 @@ char *int_to_str(int num)
 	return str;
 }
 
-int main(void)
+void foo(char *str)
 {
-	int pipefd[2];
-	pipe(pipefd);
-	char *tmp = (char *)malloc(8 * sizeof(char));
-	strcpy(tmp, "42");
-	
+	*str = 'a';
 
-	for (int i = 0; i < 5; i++){
-		int pid1 = fork();
+}
 
-		if (pid1 == 0)
-		{
-			if (i == 0 || i == 3)
-			{
-				
-			heredoc()
-			}
-			printf("excve\n");
-			exit(0);
-		}
-		else 
-			wait(NULL);
-	}
-	
+#include <unistd.h>
+int main(int argc, char **argv, char **envp)
+{	
+	char *strs[2] = {"./minishell", NULL};
+	printf("hello\n");
+	if (execve("./minishell", strs, envp) == -1)
+		fprintf(stderr, " not hello\n");
 	return 0;
 }

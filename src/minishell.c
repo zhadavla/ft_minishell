@@ -219,13 +219,15 @@ void executor(char *line, char **env)
 		exit(EXIT_SUCCESS);
 	}
 
+	
 	merge_envs(&head);
 	expand_env(&head, env);
 	concatenate_minus(&head);
 	concate_quotes(&head);
 	merge_redirections_heredoc(&head);
-	validate_commands(&head, env);
 	concate_leftover_strings(&head);
+	validate_commands(&head, env);
+	// fprintf(stderr, "===================hello from executor\n");
 	remove_whitespaces(&head);
 	remove_quotes(&head);
 	validate_filename(&head);
@@ -259,6 +261,7 @@ void executor(char *line, char **env)
 }
 
 
+   extern char **environ;
 
 int main(int argc, char **argv, char **env)
 {
@@ -266,11 +269,9 @@ int main(int argc, char **argv, char **env)
 	(void)argv;
 	
 	while (TRUE)
-	{
+	{	
 		char *line = readline("minishell$ ");
-		// fprintf(stderr,"readed line = %s\n", line);
-		t_cmd *cmd_node = NULL;
-
+		fprintf(stderr,"readed line = %s\n", line);
 		if (!line)
 		{
 			free(line);
@@ -279,6 +280,8 @@ int main(int argc, char **argv, char **env)
 		}
 
 		executor(line, env);
+
+		printf("pid = %d\n", getpid());
 	}
 	// test_parser_tokeniser(env);
 

@@ -6,23 +6,23 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 20:50:18 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/11 19:30:24 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/15 18:43:53 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/**
+ * Returns array of paths to binaries
+*/
 char	**get_binaries(char **env)
 {
-	int	i;
-
-	i = 0;
-	while (env[++i])
-		if (ft_strnstr(env[i], "PATH=", 5))
-			return (ft_split(env[i] + 5, ':'));
-	return (NULL);
+	return (ft_split(getenv("PATH"), ':'));
 }
 
+/**
+ * Returns TRUE if command is valid, FALSE otherwise
+*/
 int	ft_exec_validation(char *cmd, char **env)
 {
 	char	**path;
@@ -48,8 +48,18 @@ int	ft_exec_validation(char *cmd, char **env)
 	return (FALSE);
 }
 
+void validate_absolute_path(t_token *head){
+	if (head->text[0] == '/')
+	{
+		if (access(head->text, X_OK) == 0)
+			head->type = COMMAND;
+		else
+			head->type = WORD;
+	}
+}
+
 /**
- * later: don't forget to handle wrong command input 
+ * later: don't forget to handle wrong command input
  * and return error message: "command not found"
  * */
 void	validate_commands(t_token **token, char **g_env)
