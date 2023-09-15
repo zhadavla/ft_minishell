@@ -1,0 +1,1 @@
+ls ~ -l -a | grep s | wc -l 

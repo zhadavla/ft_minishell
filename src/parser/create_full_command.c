@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 19:03:39 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/15 19:44:22 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/15 21:31:13 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	count_parameters(t_token *token)
  */
 void	create_full_command(t_token **token, t_cmd **cmd_node)
 {
-	fprintf(stderr, "create_full_command\n");
+	// fprintf(stderr, "create_full_command\n");
 	char	**full_command;
 	int		i;
 	int		is_command;
