@@ -7,7 +7,7 @@ BONUS_DIR = bonus
 SOURCES = $(shell find $(SRC_DIR) -name '*.c')
 
 # CFLAGS = -Wall -Wextra -Werror
-LIBFLAGS = -L./libft -lft -ldl -pthread -lm -lreadline -g -fsanitize=address
+LIBFLAGS = -L./libft -lft -lm -lreadline -g -fsanitize=address
 MY_HEADER = ./includes/
 
 OBJ_DIR = obj
@@ -15,25 +15,25 @@ OBJ_DIR = obj
 OBJECTS = $(addprefix $(OBJ_DIR)/,$(SOURCES:$(SRC_DIR)/%.c=%.o))
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	gcc $(CFLAGS) -I $(MY_HEADER) -c $< -o $@
+	@gcc $(CFLAGS) -I $(MY_HEADER) -c $< -o $@
+	@echo -n "Compiling src... $<\r"
 
 $(NAME): $(OBJECTS)
-	cc $(CFLAGS) -o $(NAME) $(OBJECTS) $(LIBFLAGS)
+	@gcc $(CFLAGS) -o $(NAME) $(OBJECTS) $(LIBFLAGS)
 
 $(OBJ_DIR):
-	mkdir -p $(dir $(OBJECTS))   # Create subdirectories in OBJ_DIR
+	@mkdir -p $(dir $(OBJECTS))   # Create subdirectories in OBJ_DIR
 
 all: libft $(NAME)
 
 clean:
-	rm -rf $(OBJ_DIR)
+	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 re: fclean all
 
-# Run the command 'make -C libft' at the beginning
 libft:
 	make -C libft
 

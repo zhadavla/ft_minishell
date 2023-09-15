@@ -1,0 +1,9 @@
+[?2004hminishell$ fl
+[?2004l[?2004hminishell$ jlskdjf
+[?2004l[?2004hminishell$ ls
+[?2004lout
+test_one_command
+test.sh
+test_three_commands
+tmp
+[?2004hminishell$ ^C[?2004l

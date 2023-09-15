@@ -184,9 +184,9 @@ t_cmd *tokenizer(t_token *head, char **env)
 	validate_dollarsign(&head);
 	validate_commands_two(&head);
 	validate_builtins(&head);
-	print_tokens(head);
+	// print_tokens(head);
 	t_cmd *cmd_node = split_to_pipes(&head);
-	print_t_cmd(cmd_node);
+	// print_t_cmd(cmd_node);
 	return cmd_node;
 }
 
@@ -198,12 +198,12 @@ void executor(t_cmd *cmd_node, char **env, t_token *head)
 
 	if (is_heredoc(cmd_node))
 	{
-		printf("=============sequence===========\n");
+		// printf("=============sequence===========\n");
 		sequential_executor(cmd_node, env);
 	}
 	else{
 		t_pipex pipex = update_pipe_fds(&cmd_node, env);
-		printf("===========parallel===========\n");
+		// printf("===========parallel===========\n");
 		parallel_executor(pipex, &cmd_node, env);
 	} 
 	
@@ -233,7 +233,7 @@ int main(int argc, char **argv, char **env)
 		t_cmd *cmd = tokenizer(head, env);
 		executor(cmd, env, head);
 		free(line);
-		printf("pid = %d\n", getpid());
+		// printf("pid = %d\n", getpid());
 	}
 	// test_parser_tokeniser(env);
 
