@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:16:01 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/15 19:13:33 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/15 19:21:45 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,9 @@ void	sequential_executor(t_cmd *node_cmd, char **env)
 		if (fork() == 0)
 		{
 			setup_file_descriptors(node_cmd, &prev_read_end, pipex_pipe, hd_fd);
-			// if (node_cmd->is_builtin)
-			// 	ft_execute_builtin(node_cmd, env);
-			// else 
+			if (node_cmd->is_builtin)
+				ft_execute_builtin(node_cmd, env);
+			else 
 				ft_execute(node_cmd->cmd_full, env);
 			exit(0);
 		}

@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 20:53:28 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/11 19:02:48 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/15 19:48:07 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,19 @@ static void	remove_whitespace(t_token **prev, t_token **tmp, t_token **token)
 	if (*prev)
 	{
 		(*prev)->next = (*tmp)->next;
-		free((*tmp)->text);
-		free(*tmp);
+		if ((*tmp)->text)
+			free((*tmp)->text);
+		if (*tmp)
+			free(*tmp);
 		(*tmp) = (*prev)->next;
 	}
 	else
 	{
 		*token = (*tmp)->next;
-		free((*tmp)->text);
-		free(*tmp);
+		if ((*tmp)->text)
+			free((*tmp)->text);
+		if (*tmp)
+			free(*tmp);
 		(*tmp) = *token;
 	}
 }

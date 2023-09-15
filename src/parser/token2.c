@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 20:14:50 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/25 20:47:06 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/15 19:46:04 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,10 @@ t_token	*new_token(char *text, size_t len, t_token_type type,
 
 void	free_token(t_token *token)
 {
-	free(token->text);
-	free(token);
+	if (token->text)
+		free(token->text);
+	if (token)
+		free(token);
 }
 
 void	free_tokens(t_token *head)

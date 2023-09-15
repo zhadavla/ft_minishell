@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 19:03:39 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/15 19:01:25 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/15 19:44:22 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	command_to_words(t_token **till_pipe)
 	head = *till_pipe;
 	while (head)
 	{
-		if (head->type == COMMAND)
+		if (head->type == COMMAND || head->type == BUILTIN)
 			break ;
 		head = head->next;
 	}
@@ -33,7 +33,7 @@ void	command_to_words(t_token **till_pipe)
 		head = head->next;
 	while (head)
 	{
-		if (head->type == COMMAND)
+		if (head->type == COMMAND || head->type == BUILTIN) 
 			head->type = WORD;
 		head = head->next;
 	}
@@ -51,7 +51,7 @@ static int	count_parameters(t_token *token)
 	is_command = FALSE;
 	while (token)
 	{
-		if (token->type == COMMAND)
+		if (token->type == COMMAND || token->type == BUILTIN)
 		{
 			is_command = TRUE;
 			count++;
@@ -75,6 +75,7 @@ static int	count_parameters(t_token *token)
  */
 void	create_full_command(t_token **token, t_cmd **cmd_node)
 {
+	fprintf(stderr, "create_full_command\n");
 	char	**full_command;
 	int		i;
 	int		is_command;
@@ -85,7 +86,7 @@ void	create_full_command(t_token **token, t_cmd **cmd_node)
 	is_command = FALSE;
 	while (*token)
 	{
-		if ((*token)->type == COMMAND)
+		if ((*token)->type == COMMAND || (*token)->type == BUILTIN)
 		{
 			is_command = TRUE;
 			full_command[++i] = ft_strdup((*token)->text);

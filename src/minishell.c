@@ -153,61 +153,7 @@ void test_parser_tokeniser(char **env)
 		// "cat < Makefile"
 
 	};
-	 for (long unsigned int i = 0; i < sizeof(tests) / sizeof(char *); i++)
-	{
-		printf("\n\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
-
-		printf("%s\n", tests[i]);
-		t_token *head = apply_lexer(tests[i]);
-		if (is_unclosed_quotes(&head))
-		{
-			write(2, "Unclosed quotes\n", 16);
-			free_tokens(head);
-			exit(EXIT_SUCCESS);
-		}
-
-		merge_envs(&head);
-		expand_env(&head, env);
-		concatenate_minus(&head);
-		concate_quotes(&head);
-		merge_redirections_heredoc(&head);
-		validate_commands(&head, env);
-		concate_leftover_strings(&head);
-		remove_whitespaces(&head);
-		remove_quotes(&head);
-		validate_filename(&head);
-		validate_heredoc(&head);
-		validate_dollarsign(&head);
-		validate_commands_two(&head);
-
-		// split to pipes and fill in the information in cmd node for each command
-		t_cmd *tmp = split_to_pipes(&head);
-		open_files(&tmp);
-		first_last_cmd(&tmp);
-
-		// t_pipex *pipex = NULL;
-		if (is_heredoc(tmp))
-		{
-			printf("=============sequence===========\n");
-			sequential_executor(tmp, env);
-		}
-		else{
-			t_pipex pipex = update_pipe_fds(&tmp, env);
-			printf("===========parallel===========\n");
-			parallel_executor(pipex, &tmp, env);
-		} 
-
-		// print_t_cmd(tmp);
-		
-		free_cmd_nodes(&tmp);
-		free(tmp);
-
-		print_tokens(head);
-		
-		free_tokens(head);
-	}
 }
-
 
 t_token *lexer(char *line)
 {
@@ -285,7 +231,7 @@ int main(int argc, char **argv, char **env)
 
 		t_token *head = lexer(line);
 		t_cmd *cmd = tokenizer(head, env);
-		// executor(cmd, env, head);
+		executor(cmd, env, head);
 		free(line);
 		printf("pid = %d\n", getpid());
 	}

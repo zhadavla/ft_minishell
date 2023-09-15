@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/15 19:08:58 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/15 19:33:50 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void						handle_in_out_files(t_token **token,
 								t_cmd **cmd_node);
 void						handle_heredoc(t_token **till_pipe,
 								t_cmd **cmd_node);
-void						validate_builtins(t_token **token);
+
 void						print_array_of_chars(char **array);
 void						remove_node(t_token **token, t_token *node);
 void						remove_node_cmd(t_cmd **token, t_cmd *node);
@@ -204,5 +204,10 @@ int							is_heredoc(t_cmd *cmd);
 int							is_pipe(t_token *token);
 int							is_redirection_in(t_token *token);
 int							is_redirection_out(t_token *token);
+
+/**************************Builtins*******************************/
+void						validate_builtins(t_token **token);
+void						ft_echo(char **cmd_full);
+void						ft_execute_builtin(t_cmd *cmd_node, char **env);
 
 #endif // MINISHELL_H

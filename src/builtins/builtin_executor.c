@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   builtin_executor.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/15 18:54:08 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/15 19:27:44 by vzhadan          ###   ########.fr       */
+/*   Created: 2023/09/15 19:22:30 by vzhadan           #+#    #+#             */
+/*   Updated: 2023/09/15 19:33:25 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void ft_echo(char **cmd_full)
+void ft_execute_builtin(t_cmd *cmd_node, char **env)
 {
-	int i = 1;
-	while (cmd_full[i])
-	{
-		printf("%s ", cmd_full[i]);
-		i++;
-	}
-	if (i == 1 || ft_strncmp(cmd_full[1], "-n", 2))
-		printf("\n");
+	if (ft_strncmp(cmd_node->cmd_full[0], "echo", 4))
+		ft_echo(cmd_node->cmd_full);
 }
