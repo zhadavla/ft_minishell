@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/15 19:33:50 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/16 14:41:11 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 
 typedef enum e_token_type	t_token_type;
 typedef enum e_quote		t_quote;
+typedef struct s_cmd		t_cmd;
+typedef struct token		t_token;
+typedef struct s_pipex		t_pipex;
 
 typedef enum e_token_type
 {
@@ -102,6 +105,13 @@ typedef struct s_pipex
 	int						*fd_pipes;
 	int						fd_ind;
 }							t_pipex;
+
+typedef struct s_env
+{
+	char					*key;
+	char					*value;
+	struct s_env			*next;
+}t_env;
 
 /*******************int utilits for more readable code********************/
 int							is_outfile(t_token *token);
@@ -209,5 +219,5 @@ int							is_redirection_out(t_token *token);
 void						validate_builtins(t_token **token);
 void						ft_echo(char **cmd_full);
 void						ft_execute_builtin(t_cmd *cmd_node, char **env);
-
+t_env	*create_env_copy(char **env);
 #endif // MINISHELL_H
