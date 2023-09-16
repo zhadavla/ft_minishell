@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 19:04:58 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/15 21:55:27 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/16 13:54:24 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 /**
  * Returns TRUE if command is a builtin, FALSE otherwise
-*/
-int is_command_builtin(char *str_command)
+ */
+int	is_command_builtin(char *str_command)
 {
 	if (!ft_strncmp(str_command, "echo", ft_strlen("echo")))
 		return (TRUE);
@@ -36,10 +36,10 @@ int is_command_builtin(char *str_command)
 
 /**
  * Checks if command is a builtin, changes token type to BUILTIN if it is
-*/
-void validate_builtins(t_token **token)
+ */
+void	validate_builtins(t_token **token)
 {
-	t_token *head;
+	t_token	*head;
 
 	head = *token;
 	while (head)

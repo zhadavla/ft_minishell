@@ -6,15 +6,17 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 18:54:08 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/15 19:27:44 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/16 13:54:15 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void ft_echo(char **cmd_full)
+void	ft_echo(char **cmd_full)
 {
-	int i = 1;
+	int	i;
+
+	i = 1;
 	while (cmd_full[i])
 	{
 		printf("%s ", cmd_full[i]);
