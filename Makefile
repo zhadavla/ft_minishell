@@ -26,6 +26,7 @@ $(NAME): $(OBJECTS)
 $(OBJ_DIR):
 	@mkdir -p $(dir $(OBJECTS))   # Create subdirectories in OBJ_DIR
 
+all: libft42 $(NAME)
 
 clean:
 	@rm -rf $(OBJ_DIR)
