@@ -5,6 +5,7 @@
 		"ft_printf.h": "c",
 		"chrono": "c",
 		"algorithm": "c",
-		"array": "c"
+		"array": "c",
+		"cstdlib": "c"
 	}
 }

@@ -61,9 +61,11 @@ void foo(char *str)
 #include <unistd.h>
 int main(int argc, char **argv, char **envp)
 {	
-	char *strs[2] = {"./minishell", NULL};
-	printf("hello\n");
-	if (execve("./minishell", strs, envp) == -1)
-		fprintf(stderr, " not hello\n");
+	int ac_b = access("/bin/ls", X_OK);
+	printf("ac_b = %d\n", ac_b);
+	// char *strs[2] = {"./minishell", NULL};
+	// printf("hello\n");
+	// if (execve("./minishell", strs, envp) == -1)
+	// 	fprintf(stderr, " not hello\n");
 	return 0;
 }
