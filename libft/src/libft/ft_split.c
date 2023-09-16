@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:22:14 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/01/31 16:57:10 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/16 14:38:23 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
  *	Finds number of words getted from string {s} splitted by delimited {c}.
 */
-size_t	get_size(char const *s, char c)
+static size_t	get_size(char const *s, char c)
 {
 	size_t	size;
 
@@ -32,7 +32,7 @@ size_t	get_size(char const *s, char c)
 /*
  *	Finds how many non-{c} characters are in {s_moved} before {c} character.
 */
-size_t	find_len_of_word(char const *s_moved, char c)
+static size_t	find_len_of_word(char const *s_moved, char c)
 {
 	size_t	len;
 
@@ -47,7 +47,7 @@ size_t	find_len_of_word(char const *s_moved, char c)
  *	as string before first occurence of {c} in {s_moved}) 
  *	and adds word to {str_indx} array, increments {indx}. 
 */
-void	add_word(char **str_indx, char const *s_moved, char c, size_t *indx)
+static void	add_word(char **str_indx, char const *s_moved, char c, size_t *indx)
 {
 	size_t	len_of_word;
 
