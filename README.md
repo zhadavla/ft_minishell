@@ -32,8 +32,8 @@ $ echo $A
 $ bash 
 $ echo $A
 42
-
 ```
+### export without parameters: makes shell variables environment variables*
 
 # DEADLINE 24.09.2023
 
