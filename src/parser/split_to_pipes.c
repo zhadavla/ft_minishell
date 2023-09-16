@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 19:26:03 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/11 19:29:20 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/16 17:31:30 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ t_cmd	*new_cmd(t_token *till_pipe)
 	t_cmd	*node_cmd;
 
 	init_cmd_node(&node_cmd);
+	if (till_pipe->type == BUILTIN)
+		node_cmd->is_builtin = TRUE;
 	handle_heredoc(&till_pipe, &node_cmd);
 	handle_in_out_files(&till_pipe, &node_cmd);
 	command_to_words(&till_pipe);

@@ -200,11 +200,12 @@ void executor(t_cmd *cmd_node, char **env, t_token *head)
 	if (is_heredoc(cmd_node))
 	{
 		// printf("=============sequence===========\n");
+		fprintf(stderr, C_BLUE "sequence\n" C_RESET);
 		sequential_executor(cmd_node, env);
 	}
 	else{
 		t_pipex pipex = update_pipe_fds(&cmd_node, env);
-		// printf("===========parallel===========\n");
+		fprintf(stderr, C_BLUE "parallel\n" C_RESET);
 		parallel_executor(pipex, &cmd_node, env);
 	} 
 	
@@ -214,16 +215,28 @@ void executor(t_cmd *cmd_node, char **env, t_token *head)
 	free_tokens(head);
 }
 
+void print_env_in_yellow(char **env)
+{
+	int i = 0;
+	fprintf(stderr, C_YELLOW "=================== env ===================\n" C_RESET);
+	while (env[i])
+	{
+		fprintf(stderr, C_YELLOW "%s\n" C_RESET, env[i]);
+		i++;
+	}
+}
+
 int main(int argc, char **argv, char **env)
 {
 	(void)argc;
 	(void)argv;
 	
 	t_env *env_copy = create_env_copy(env);
-	
+	char **our_env = t_env_to_array(env_copy);
 	while (TRUE)
 	{	
 		char *line = readline("minishell$ ");
+		print_env_in_yellow(our_env);
 		// fprintf(stderr,"readed line = %s\n", line);
 		if (!line)
 		{
@@ -233,11 +246,12 @@ int main(int argc, char **argv, char **env)
 		}
 
 		t_token *head = lexer(line);
-	
 		t_cmd *cmd = tokenizer(head, env);
-			print_tokens(head);
+
+		print_tokens(head);
 		print_t_cmd(cmd);
-		executor(cmd, env, head);
+
+		executor(cmd, our_env, head);
 		free(line);
 		// printf("pid = %d\n", getpid());
 	}

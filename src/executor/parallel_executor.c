@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:17:49 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/13 18:43:53 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/16 17:32:06 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,18 @@ static void	do_fork(t_pipex *pipex, t_cmd *node_cmd, char **env)
 	pid = fork();
 	dup_check = 1;
 	if (pid == 0)
-	{
+	{	
+		fprintf(stderr, C_RED "child\n" C_RESET);
 		dup_check = ft_dup2(node_cmd->infile_fd, node_cmd->outfile_fd);
 		close_fd(pipex);
-		ft_execute(node_cmd->cmd_full, env);
+		if (node_cmd->is_builtin)
+		{
+			fprintf(stderr, C_YELLOW "builtin\n" C_RESET);
+			ft_execute_builtin(node_cmd, env);
+		}
+		else 
+			ft_execute(node_cmd->cmd_full, env);
+	
 	}
 	if (dup_check == -1)
 	{
@@ -35,6 +43,7 @@ static void	do_fork(t_pipex *pipex, t_cmd *node_cmd, char **env)
 
 void	parallel_executor(t_pipex pipex, t_cmd **cmd_node, char **env)
 {
+	
 	execute_command(&pipex, *cmd_node, env);
 	if (pipex.cmd_count > 1)
 		free(pipex.fd_pipes);

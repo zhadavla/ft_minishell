@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/16 16:03:49 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/16 16:51:24 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,7 @@ typedef struct s_pipex
 
 typedef struct s_env
 {
-	char					*key;
-	char					*value;
+	char 					*full_env;
 	struct s_env			*next;
 }							t_env;
 
@@ -236,4 +235,6 @@ void						ft_echo(char **cmd_full);
 void						ft_execute_builtin(t_cmd *cmd_node, char **env);
 t_env						*create_env_copy(char **env);
 void						validate_absolute_path(t_token **token);
+char						**t_env_to_array(t_env *env);
+void add_env_variable(t_env **env_list, char *env_text);
 #endif // MINISHELL_H
