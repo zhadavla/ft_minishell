@@ -1,5 +1,23 @@
 # ft_minishell
 
+# Theory 
+
+Environment variables and shell variables are both used to store and manage information in a Unix-like operating system's command-line environment. However, they serve different purposes and have some key distinctions:
+
+### Environment Variables:
+
+- Environment variables are variables that are available to all processes and applications running on the system, including those started by different users.
+- They are typically set in the system's configuration files and are accessible by any program or script.
+- Common environment variables include PATH (to specify directories to search for executable files), HOME (to indicate the user's home directory), and USER (to identify the currently logged-in user).
+- Environment variables are usually written in uppercase letters, e.g., PATH=/usr/bin:/bin.
+
+### Shell Variables:
+
+- Shell variables are specific to the shell session in which they are defined. They are not visible or accessible to other processes or shell sessions.
+- Users can create their own shell variables to store temporary data or customize their shell environment.
+- Common shell variables include PS1 (to set the shell prompt), PS2 (the secondary prompt), and SHELL (to specify the default shell).
+- Shell variables are typically written in uppercase letters as well, but they can be in lowercase too.
+
 # DEADLINE 24.09.2023
 
 # Part I: The Parser
@@ -89,5 +107,5 @@ typedef struct s_cmd
      - we need to tokenize them first as the COMMAND, and then handle a the paths to pass to execve function.
      -  [x] /bin/ls is passed to the execve in this form: execve("/bin/ls", {"/bin/ls", NULL}, NULL);
      - ./minishell: execve("./minishell", {"./minishell", NULL}, NULL);
-     
+     - 
 # DEADLINE 24.09.2023
