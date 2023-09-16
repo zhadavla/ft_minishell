@@ -87,7 +87,7 @@ typedef struct s_cmd
      - e.g. ./minishell should be executed inside ./minishell with a path: /home/user/ft_minishell/minishell
      - or /bin/ls is also works in execve function and should be executed without errors.
      - we need to tokenize them first as the COMMAND, and then handle a the paths to pass to execve function.
-     - /bin/ls is passed to the execve in this form: execve("/bin/ls", {"/bin/ls", NULL}, NULL);
+     -  [x] /bin/ls is passed to the execve in this form: execve("/bin/ls", {"/bin/ls", NULL}, NULL);
      - ./minishell: execve("./minishell", {"./minishell", NULL}, NULL);
      
 # DEADLINE 24.09.2023

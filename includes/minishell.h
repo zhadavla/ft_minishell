@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/16 14:41:11 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/16 16:03:49 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,22 @@ typedef struct s_env
 	char					*key;
 	char					*value;
 	struct s_env			*next;
-}t_env;
+}							t_env;
+
+#define C_RED "\x1b[31m"
+#define C_GREEN "\x1b[32m"
+#define C_YELLOW "\x1b[33m"
+#define C_BLUE "\x1b[34m"
+#define C_RESET "\x1b[0m"
+
+void yellow_msg(char *msg);
+void green_msg(char *msg);
+void blue_msg(char *msg);
+/**
+ * means red
+*/
+void error_msg(char *msg);
+
 
 /*******************int utilits for more readable code********************/
 int							is_outfile(t_token *token);
@@ -219,5 +234,6 @@ int							is_redirection_out(t_token *token);
 void						validate_builtins(t_token **token);
 void						ft_echo(char **cmd_full);
 void						ft_execute_builtin(t_cmd *cmd_node, char **env);
-t_env	*create_env_copy(char **env);
+t_env						*create_env_copy(char **env);
+void						validate_absolute_path(t_token **token);
 #endif // MINISHELL_H

@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 20:50:18 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/15 19:04:45 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/16 16:10:05 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /**
  * Returns array of paths to binaries
-*/
+ */
 char	**get_binaries(char **env)
 {
 	return (ft_split(getenv("PATH"), ':'));
@@ -22,7 +22,7 @@ char	**get_binaries(char **env)
 
 /**
  * Returns TRUE if command is valid, FALSE otherwise
-*/
+ */
 int	ft_exec_validation(char *cmd, char **env)
 {
 	char	**path;
@@ -48,17 +48,24 @@ int	ft_exec_validation(char *cmd, char **env)
 	return (FALSE);
 }
 
-void validate_absolute_path(t_token *head){
-	if (head->text[0] == '/')
+void	validate_absolute_path(t_token **token)
+{
+	t_token	*head;
+	head = *token;
+	while (head)
 	{
-		if (access(head->text, X_OK) == 0)
-			head->type = COMMAND;
-		else
-			head->type = WORD;
+		error_msg("validate_absolute_path");
+		fprintf(stderr, "head->text[0] = %s\n", head->text);
+		if ((head->text[0] == '/' || head->text[0] == '.') && head->type == WORD)
+		{
+			if (access(head->text, X_OK) == 0)
+				head->type = COMMAND;
+			else
+				head->type = WORD;
+		}
+		head = head->next;
 	}
 }
-
-
 
 /**
  * later: don't forget to handle wrong command input

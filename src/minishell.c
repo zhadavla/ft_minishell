@@ -176,6 +176,7 @@ t_cmd *tokenizer(t_token *head, char **env)
 	concate_quotes(&head);
 	merge_redirections_heredoc(&head);
 	concate_leftover_strings(&head);
+	validate_absolute_path(&head);
 	validate_commands(&head, env);
 	remove_whitespaces(&head);
 	remove_quotes(&head);
@@ -218,7 +219,7 @@ int main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	
-	t_env *head = create_env_copy(env);
+	t_env *env_copy = create_env_copy(env);
 	
 	while (TRUE)
 	{	
@@ -232,7 +233,10 @@ int main(int argc, char **argv, char **env)
 		}
 
 		t_token *head = lexer(line);
+	
 		t_cmd *cmd = tokenizer(head, env);
+			print_tokens(head);
+		print_t_cmd(cmd);
 		executor(cmd, env, head);
 		free(line);
 		// printf("pid = %d\n", getpid());

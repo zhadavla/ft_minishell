@@ -6,11 +6,18 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:17:56 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/01 14:17:57 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/16 16:09:12 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int ft_execute_absolute_path(char **full_cmd, char **env)
+{
+	execve(full_cmd[0], full_cmd, env);
+	free_split(full_cmd);
+	return (TRUE);
+}
 
 int	ft_execute(char **full_cmd, char **env)
 {
@@ -18,6 +25,9 @@ int	ft_execute(char **full_cmd, char **env)
 	char	*pathname;
 	int		i;
 
+	if (full_cmd[0][0] == '/' || full_cmd[0][0] == '.')
+		return (ft_execute_absolute_path(full_cmd, env));
+		
 	path = get_binaries(env);
 	i = 0;
 	while (path[i] != NULL)

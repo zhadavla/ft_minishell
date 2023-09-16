@@ -128,3 +128,23 @@ void	print_t_cmd(t_cmd *head)
 	}
 	fprintf(stderr, "\n");
 }
+
+void error_msg(char *msg)
+{
+	fprintf(stderr, "%s%s%s\n", C_RED, msg, C_RESET);
+}
+
+void blue_msg(char *msg)
+{
+	fprintf(stderr, "%s%s%s\n", C_BLUE, msg, C_RESET);
+}
+
+void green_msg(char *msg)
+{
+	fprintf(stderr, "%s%s%s\n", C_GREEN, msg, C_RESET);
+}
+
+void yellow_msg(char *msg)
+{
+	fprintf(stderr, "%s%s%s\n", C_YELLOW, msg, C_RESET);
+}
