@@ -33,10 +33,11 @@ $ echo $A
 $ bash 
 $ echo $A
 42
-
 ```
 # WE DON'T HANDLE WHAT IS WRITTEN ABOVE.
 export with no params will just print env, but in sorted way. 
+### export without parameters: makes shell variables environment variables*
+
 # DEADLINE 24.09.2023
 
 # Part I: The Parser
