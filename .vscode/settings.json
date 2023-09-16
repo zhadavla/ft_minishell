@@ -4,6 +4,7 @@
 		"libft.h": "c",
 		"ft_printf.h": "c",
 		"chrono": "c",
-		"algorithm": "c"
+		"algorithm": "c",
+		"array": "c"
 	}
 }
