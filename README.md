@@ -18,6 +18,23 @@ Environment variables and shell variables are both used to store and manage info
 - Common shell variables include PS1 (to set the shell prompt), PS2 (the secondary prompt), and SHELL (to specify the default shell).
 - Shell variables are typically written in uppercase letters as well, but they can be in lowercase too.
 
+# I hope we'll not handle that: 
+``` Bash
+$ a=5
+$ echo $a
+5
+$ bash
+$ echo $a
+
+$ export A=42
+$ echo $A
+42
+$ bash 
+$ echo $A
+42
+
+```
+
 # DEADLINE 24.09.2023
 
 # Part I: The Parser
