@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 13:54:06 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/16 17:04:54 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/16 20:14:17 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,13 @@ t_env	*create_env_copy(char **env)
  */
 char	**t_env_to_array(t_env *env)
 {
-	char **env_array = NULL;
-	t_env *tmp = env;
-	int i = 0;
+	char	**env_array;
+	t_env	*tmp;
+	int		i;
+
+	env_array = NULL;
+	tmp = env;
+	i = 0;
 	while (tmp)
 	{
 		i++;
@@ -74,14 +78,127 @@ char	**t_env_to_array(t_env *env)
 
 /**
  * Adds new variable to env_list
-*/
-void add_env_variable(t_env **env_list, char *env_text)
+ */
+void	add_env_variable(t_env **env_list, char *env_text)
 {
-	t_env *tmp = *env_list;
+	t_env	*tmp;
+
+	tmp = *env_list;
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = (t_env *)malloc(sizeof(t_env));
 	tmp = tmp->next;
 	tmp->next = NULL;
 	tmp->full_env = ft_strdup(env_text);
+}
+
+void	print_env(char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+	{
+		printf("declare -x %s\n", env[i]);
+		// fprintf(stderr, C_YELLOW "%s\n" C_RESET, env[i]);
+		i++;
+	}
+}
+
+void	ft_swap(char **a, char **b)
+{
+	char	*tmp;
+
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
+}
+
+void	clean_env(char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+	{
+		free(env[i]);
+		i++;
+	}
+	free(env);
+}
+
+/**
+ * Encloses value in quotation marks
+ * split it to key and value
+ * and then join them with equal sign
+ */
+void	quotation_marks_after_equal_sign(char **env, int env_len)
+{
+	int		i;
+	int		j;
+	char	*tmp;
+	char	*key;
+	char	*value;
+
+	i = -1;
+	while (++i < env_len)
+	{
+		j = -1;
+		while (env[i][++j] != '=')
+			;
+		key = ft_substr(env[i], 0, j);
+		value = ft_substr(env[i], j + 1, ft_strlen(env[i]) - j);
+		// fprintf(stderr, C_YELLOW "key = %s\n" C_RESET, key);
+		// fprintf(stderr, C_GREEN "value = %s\n" C_RESET, value);
+		tmp = ft_strjoin(key, "=\"");
+		key = ft_strjoin(tmp, value);
+		free(value);
+		tmp = ft_strjoin(key, "\"");
+		free(env[i]);
+		env[i] = ft_strdup(tmp);
+		free(tmp);
+	}
+}
+/**
+ * Sorts env_list alphabetically by key
+ * using insert sort
+ */
+void	print_env_sorted(char **env, int env_len)
+{
+	char	**sorted_env;
+	int		i;
+	int		j;
+	int		len;
+
+	sorted_env = (char **)malloc(sizeof(char *) * (env_len + 1));
+	i = -1;
+	while (++i < env_len)
+		sorted_env[i] = ft_strdup(env[i]);
+	fprintf(stderr, C_YELLOW "i = %d env_len = %d\n" C_RESET, i, env_len);
+	sorted_env[env_len] = NULL;
+	i = -1;
+	while (++i < env_len)
+	{
+		j = -1;
+		while (++j < i)
+		{
+			len = ft_strlen(sorted_env[i]) > ft_strlen(sorted_env[j]) ? ft_strlen(sorted_env[i]) : ft_strlen(sorted_env[j]);
+			if (ft_strncmp(sorted_env[i], sorted_env[j], len) < 0)
+				ft_swap(&sorted_env[i], &sorted_env[j]);
+		}
+	}
+	sorted_env[env_len] = NULL;
+	quotation_marks_after_equal_sign(sorted_env, env_len);
+	print_env(sorted_env);
+	clean_env(sorted_env);
+}
+
+void	ft_export(char **commands, char **env)
+{
+	int len = 0;
+	while (env[len])
+		len++;
+
+	if (!commands[1])
+		print_env_sorted(env, len);
 }

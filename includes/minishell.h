@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/16 16:51:24 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/16 19:11:07 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,4 +237,5 @@ t_env						*create_env_copy(char **env);
 void						validate_absolute_path(t_token **token);
 char						**t_env_to_array(t_env *env);
 void add_env_variable(t_env **env_list, char *env_text);
+void	ft_export(char **commands, char **env);
 #endif // MINISHELL_H

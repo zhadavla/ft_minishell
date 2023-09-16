@@ -236,7 +236,7 @@ int main(int argc, char **argv, char **env)
 	while (TRUE)
 	{	
 		char *line = readline("minishell$ ");
-		print_env_in_yellow(our_env);
+		// print_env_in_yellow(our_env);
 		// fprintf(stderr,"readed line = %s\n", line);
 		if (!line)
 		{
@@ -248,8 +248,8 @@ int main(int argc, char **argv, char **env)
 		t_token *head = lexer(line);
 		t_cmd *cmd = tokenizer(head, env);
 
-		print_tokens(head);
-		print_t_cmd(cmd);
+		// print_tokens(head);
+		// print_t_cmd(cmd);
 
 		executor(cmd, our_env, head);
 		free(line);
