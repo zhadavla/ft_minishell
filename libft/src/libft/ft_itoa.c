@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 17:34:32 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/01/31 17:05:40 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/16 14:35:27 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
  *	Function get_num_of_digits returns number of digits in the number
 */
-size_t	get_num_of_digits(int n)
+static size_t	get_num_of_digits(int n)
 {
 	size_t	num;
 
@@ -35,10 +35,7 @@ size_t	get_num_of_digits(int n)
 	return (num);
 }
 
-/*
- *	Makes string representation of the number,
- * 	allocates memory for the string and returns it. 
-*/
+
 char	*ft_itoa(int n)
 {	
 	char	*str_num;

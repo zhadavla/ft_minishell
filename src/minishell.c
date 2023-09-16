@@ -218,6 +218,8 @@ int main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	
+	t_env *head = create_env_copy(env);
+	
 	while (TRUE)
 	{	
 		char *line = readline("minishell$ ");

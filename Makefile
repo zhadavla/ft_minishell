@@ -24,7 +24,7 @@ $(NAME): $(OBJECTS)
 $(OBJ_DIR):
 	@mkdir -p $(dir $(OBJECTS))   # Create subdirectories in OBJ_DIR
 
-all: libft $(NAME)
+all: libft42 $(NAME)
 
 clean:
 	@rm -rf $(OBJ_DIR)
@@ -34,7 +34,7 @@ fclean: clean
 
 re: fclean all
 
-libft:
+libft42:
 	make -C libft
 
 .PHONY: all clean fclean re
