@@ -6,11 +6,11 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 17:55:39 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/01/28 14:09:31 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/17 20:04:32 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../../includes/libft.h"
 
 /*
  *	Copies {n} bytes from memory area {src} to memory area {dest}. 

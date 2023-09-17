@@ -6,11 +6,11 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 20:05:40 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/01/28 15:08:44 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/17 20:04:32 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../../includes/libft.h"
 
 /*
  *	Compares up to num characters of the string {s1} to those of the string {s2}.

@@ -6,11 +6,11 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 19:20:32 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/01/28 14:12:59 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/17 20:04:32 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../../includes/libft.h"
 
 /*
  *	Outputs the integer {n} to the given file descriptor {fd}.

@@ -6,11 +6,11 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 20:14:08 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/01/28 14:00:16 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/17 20:04:32 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../../includes/libft.h"
 
 /*
  *	Searches for the first occurrence of the character {c} (an unsigned char) 

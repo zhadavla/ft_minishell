@@ -6,11 +6,11 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 15:04:28 by mnurlybe          #+#    #+#             */
-/*   Updated: 2023/08/11 15:51:48 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/17 20:02:25 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../../../includes/get_next_line.h"
 
 char	*clean_tmp(char *tmp)
 {
@@ -80,7 +80,7 @@ char	*get_tmp(int fd, char *tmp)
 	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buf)
 		return (NULL);
-	while (!is_strchr(tmp, '\n') && read_bytes > 0)
+	while (!ft_strchr(tmp, '\n') && read_bytes > 0)
 	{
 		read_bytes = (int)read(fd, buf, BUFFER_SIZE);
 		if (read_bytes == 0)

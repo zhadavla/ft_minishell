@@ -6,11 +6,11 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 15:07:21 by mnurlybe          #+#    #+#             */
-/*   Updated: 2023/08/11 15:51:47 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/17 20:04:05 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../../../includes/get_next_line.h"
 
 void	ft_bzero(void *s, size_t n)
 {
@@ -47,19 +47,6 @@ size_t	ft_strlen(const char *s)
 	return (count);
 }
 
-int	is_strchr(char *s, char c)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == c)
-			return (1);
-		i++;
-	}
-	return (0);
-}
 
 char	*ft_strjoin(char *tmp, char *buf)
 {

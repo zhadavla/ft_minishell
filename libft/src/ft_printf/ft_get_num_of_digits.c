@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../../../includes/ft_printf.h"
 
 size_t	ft_find_nod(unsigned int num, int system)
 {
