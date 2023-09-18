@@ -6,13 +6,14 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:17:49 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/16 17:32:06 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/17 20:39:34 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	do_fork(t_pipex *pipex, t_cmd *node_cmd, char **env)
+static void	do_fork(t_pipex *pipex, t_cmd *node_cmd, char **env,
+		t_env *env_list)
 {
 	int	pid;
 	int	dup_check;
@@ -21,18 +22,17 @@ static void	do_fork(t_pipex *pipex, t_cmd *node_cmd, char **env)
 	pid = fork();
 	dup_check = 1;
 	if (pid == 0)
-	{	
+	{
 		fprintf(stderr, C_RED "child\n" C_RESET);
 		dup_check = ft_dup2(node_cmd->infile_fd, node_cmd->outfile_fd);
 		close_fd(pipex);
 		if (node_cmd->is_builtin)
 		{
 			fprintf(stderr, C_YELLOW "builtin\n" C_RESET);
-			ft_execute_builtin(node_cmd, env);
+			ft_execute_builtin(node_cmd, env, env_list);
 		}
-		else 
+		else
 			ft_execute(node_cmd->cmd_full, env);
-	
 	}
 	if (dup_check == -1)
 	{
@@ -41,22 +41,23 @@ static void	do_fork(t_pipex *pipex, t_cmd *node_cmd, char **env)
 	}
 }
 
-void	parallel_executor(t_pipex pipex, t_cmd **cmd_node, char **env)
+void	parallel_executor(t_pipex pipex, t_cmd **cmd_node, char **env,
+		t_env *env_list)
 {
-	
-	execute_command(&pipex, *cmd_node, env);
+	execute_command(&pipex, *cmd_node, env, env_list);
 	if (pipex.cmd_count > 1)
 		free(pipex.fd_pipes);
 }
 
-void	execute_command(t_pipex *pipex, t_cmd *node_cmd, char **env)
+void	execute_command(t_pipex *pipex, t_cmd *node_cmd, char **env,
+		t_env *env_list)
 {
 	int	i;
 	int	status;
 
 	while (node_cmd)
 	{
-		do_fork(pipex, node_cmd, env);
+		do_fork(pipex, node_cmd, env, env_list);
 		node_cmd = node_cmd->next;
 	}
 	close_fd(pipex);

@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 13:54:06 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/16 20:14:17 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/18 13:23:55 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,8 +148,6 @@ void	quotation_marks_after_equal_sign(char **env, int env_len)
 			;
 		key = ft_substr(env[i], 0, j);
 		value = ft_substr(env[i], j + 1, ft_strlen(env[i]) - j);
-		// fprintf(stderr, C_YELLOW "key = %s\n" C_RESET, key);
-		// fprintf(stderr, C_GREEN "value = %s\n" C_RESET, value);
 		tmp = ft_strjoin(key, "=\"");
 		key = ft_strjoin(tmp, value);
 		free(value);
@@ -193,12 +191,68 @@ void	print_env_sorted(char **env, int env_len)
 	clean_env(sorted_env);
 }
 
-void	ft_export(char **commands, char **env)
+/**
+ * in each command, starging from 1
+ * should be only NAME=VALUE
+ * name should be only letters, digits and underscores
+ * value should be string, enclosed in quotation marks
+*/
+int check_validity_one(char *full_assignment)
+{
+	int i = 0;
+	if (full_assignment[i] == '=' || ft_isdigit(full_assignment[i]))
+		return (FALSE);
+	while (full_assignment[i] != '=')
+	{
+		if (!ft_isalnum(full_assignment[i]) && full_assignment[i] != '_')
+			return (FALSE);
+		i++;
+	}
+	i++;
+	if (full_assignment[i] != '\"')
+		return (FALSE);
+	i++;
+	while (full_assignment[i] != '\"')
+	{
+		if (!ft_isprint(full_assignment[i]))
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
+
+}
+
+/**
+ * Checks for validity of each command
+*/
+int check_validity(char **commands)
+{
+	int i = 1;
+	while (commands[i])
+	{
+		if (!check_validity_one(commands[i]))
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
+}
+
+void	ft_export(char **commands, char **env, t_env *env_list)
 {
 	int len = 0;
 	while (env[len])
 		len++;
 
 	if (!commands[1])
+	{
 		print_env_sorted(env, len);
+		return;
+	}
+	if (!check_validity(commands))
+	{
+		ft_putstr_fd("minishell: export: `", 2);
+		ft_putstr_fd(commands[1], 2);
+		return;
+	}
+	add_env_variable(&env_list, commands[1]);
 }

@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:16:01 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/15 19:21:45 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/17 20:40:12 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	create_pipe(int *pipex_pipe)
 /**
  * Handles the sequential execution of commands
  */
-void	sequential_executor(t_cmd *node_cmd, char **env)
+void	sequential_executor(t_cmd *node_cmd, char **env, t_env *env_list)
 {
 	int	pipex_pipe[2];
 	int	prev_read_end;
@@ -115,7 +115,7 @@ void	sequential_executor(t_cmd *node_cmd, char **env)
 		{
 			setup_file_descriptors(node_cmd, &prev_read_end, pipex_pipe, hd_fd);
 			if (node_cmd->is_builtin)
-				ft_execute_builtin(node_cmd, env);
+				ft_execute_builtin(node_cmd, env, env_list);
 			else 
 				ft_execute(node_cmd->cmd_full, env);
 			exit(0);

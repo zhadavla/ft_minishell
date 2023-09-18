@@ -191,7 +191,7 @@ t_cmd *tokenizer(t_token *head, char **env)
 	return cmd_node;
 }
 
-void executor(t_cmd *cmd_node, char **env, t_token *head)
+void executor(t_cmd *cmd_node, char **env, t_token *head, t_env *env_list)
 {
 
 	open_files(&cmd_node);
@@ -201,12 +201,12 @@ void executor(t_cmd *cmd_node, char **env, t_token *head)
 	{
 		// printf("=============sequence===========\n");
 		fprintf(stderr, C_BLUE "sequence\n" C_RESET);
-		sequential_executor(cmd_node, env);
+		sequential_executor(cmd_node, env, env_list);
 	}
 	else{
 		t_pipex pipex = update_pipe_fds(&cmd_node, env);
 		fprintf(stderr, C_BLUE "parallel\n" C_RESET);
-		parallel_executor(pipex, &cmd_node, env);
+		parallel_executor(pipex, &cmd_node, env, env_list);
 	} 
 	
 
@@ -238,22 +238,25 @@ int main(int argc, char **argv, char **env)
 		char *line = readline("minishell$ ");
 		// print_env_in_yellow(our_env);
 		// fprintf(stderr,"readed line = %s\n", line);
+		printf("readed line = %s\n", line);
 		if (!line)
 		{
 			free(line);
 			printf("exit\n");
-			exit(EXIT_SUCCESS);
+			return (0);
 		}
 
 		t_token *head = lexer(line);
 		t_cmd *cmd = tokenizer(head, env);
 
-		// print_tokens(head);
-		// print_t_cmd(cmd);
+		print_tokens(head);
+		print_t_cmd(cmd);
 
-		executor(cmd, our_env, head);
+		executor(cmd, our_env, head, env_copy);
 		free(line);
-		// printf("pid = %d\n", getpid());
+		our_env = t_env_to_array(env_copy);
+		env_copy = create_env_copy(env);
+		printf("pid = %d\n", getpid());
 	}
 	// test_parser_tokeniser(env);
 

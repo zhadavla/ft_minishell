@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 20:18:04 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/08/05 19:14:34 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/09/17 19:55:30 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,5 @@ int				format_int(va_list args, t_specifiers sp, t_flags flags);
 int				format_hexadecimal(va_list args,
 					t_specifiers sp, t_flags flags);
 int				format_p(va_list args, t_specifiers sp, t_flags flags);
-
+int				ft_printf_fd(int fd, const char *str, ...);
 #endif
