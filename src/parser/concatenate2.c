@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   concatenate2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 20:53:28 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/17 20:45:58 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/18 15:00:34 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,14 @@ void	remove_quotes(t_token **token)
 				|| head->next->type == DOUBLE_QUOTE)
 			&& head->next->quote == QUOTE0)
 		{
+			if (head->next->next && (head->next->next->type == SINGLE_QUOTE
+				|| head->next->next->type == DOUBLE_QUOTE)
+			&& head->next->next->quote == QUOTE0)
+			{
+				prev = head->next;
+				head->next = head->next->next;
+				free_token(prev);
+			}
 			prev = head->next;
 			head->next = head->next->next;
 			free_token(prev);
