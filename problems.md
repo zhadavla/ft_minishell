@@ -15,4 +15,4 @@ minishell$ echo =""
 - [x] echo ""
 - [x] echo " "
 - [x] x="sdfsdf"
-- [ ] hello 
+- [x] hello 
