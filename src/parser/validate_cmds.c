@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_cmds.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 20:50:18 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/16 17:15:31 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/18 14:15:50 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	validate_commands(t_token **token, char **g_env)
 	{
 		if (head->type == WORD && ft_exec_validation(head->text, g_env) == TRUE)
 			head->type = COMMAND;
-		else if (head->type == ENV_VARIBLE)
+		else if (head->type == ENV_VARIBLE || (head->type == WHITE_SPACE && head->quote != QUOTE0))
 			head->type = WORD;
 		head = head->next;
 	}
