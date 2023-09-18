@@ -186,6 +186,13 @@ t_cmd *tokenizer(t_token *head, char **env)
 	validate_dollarsign(&head);
 	validate_commands_two(&head);
 	validate_builtins(&head);
+
+	if (head->type == WORD)
+	{
+		write(2, "syntax error near unexpected token `newline'\n", 46);
+		free_tokens(head);
+		return (0);
+	}
 	// print_tokens(head);
 	t_cmd *cmd_node = split_to_pipes(&head);
 	// print_t_cmd(cmd_node);
@@ -249,6 +256,11 @@ int main(int argc, char **argv, char **env)
 
 		t_token *head = lexer(line);
 		t_cmd *cmd = tokenizer(head, env);
+		if (!cmd)
+		{
+			free(line);
+			continue;
+		}
 
 		print_tokens(head);
 		print_t_cmd(cmd);
