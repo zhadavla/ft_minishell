@@ -164,18 +164,13 @@ t_token *lexer(char *line)
 		write(2, "Unclosed quotes\n", 16);
 		free_tokens(head);
 		
+		return (0);
 	}
 	return head;
 }
 
 t_cmd *tokenizer(t_token *head, char **env)
 {
-	// if (head->text[0] == '\0' || head->text[0] == '\n'
-	// 	|| head->text[0] == ';' || head->text[0] == '"')
-	// {
-	// 	free_tokens(head);
-	// 	return (0);
-	// }
 	merge_envs(&head);
 	expand_env(&head, env);
 	concatenate_minus(&head);
@@ -205,7 +200,6 @@ t_cmd *tokenizer(t_token *head, char **env)
 		free_tokens(head);
 		return (0);
 	}
-	// print_tokens(head);
 	t_cmd *cmd_node = split_to_pipes(&head);
 	// print_t_cmd(cmd_node);
 	return cmd_node;
@@ -267,6 +261,11 @@ int main(int argc, char **argv, char **env)
 		}
 
 		t_token *head = lexer(line);
+		if (!head)
+		{
+			free(line);
+			continue;
+		}
 		t_cmd *cmd = tokenizer(head, env);
 		if (!cmd)
 		{

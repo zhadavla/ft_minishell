@@ -16,3 +16,4 @@ minishell$ echo =""
 - [x] echo " "
 - [x] x="sdfsdf"
 - [x] hello 
+- [x] echo " (unclosed quote in the end of the file)
