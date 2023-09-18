@@ -6,14 +6,14 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:17:49 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/17 20:39:34 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/18 14:21:22 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 static void	do_fork(t_pipex *pipex, t_cmd *node_cmd, char **env,
-		t_env *env_list)
+		t_env **env_list)
 {
 	int	pid;
 	int	dup_check;
@@ -42,7 +42,7 @@ static void	do_fork(t_pipex *pipex, t_cmd *node_cmd, char **env,
 }
 
 void	parallel_executor(t_pipex pipex, t_cmd **cmd_node, char **env,
-		t_env *env_list)
+		t_env **env_list)
 {
 	execute_command(&pipex, *cmd_node, env, env_list);
 	if (pipex.cmd_count > 1)
@@ -50,7 +50,7 @@ void	parallel_executor(t_pipex pipex, t_cmd **cmd_node, char **env,
 }
 
 void	execute_command(t_pipex *pipex, t_cmd *node_cmd, char **env,
-		t_env *env_list)
+		t_env **env_list)
 {
 	int	i;
 	int	status;

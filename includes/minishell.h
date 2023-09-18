@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/17 20:40:34 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/18 14:36:28 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,11 +207,11 @@ t_pipex						update_pipe_fds(t_cmd **cmd_node, char **env);
 
 char						**get_binaries(char **env);
 void						execute_command(t_pipex *pipex, t_cmd *node_cmd,
-								char **env, t_env *env_list);
+								char **env, t_env **env_list);
 void						parallel_executor(t_pipex pipex, t_cmd **cmd_node,
-								char **env, t_env *env_list);
-void						sequential_executor(t_cmd *node_cmd, char **env, t_env *env_list);
-
+								char **env, t_env **env_list);
+void						sequential_executor(t_cmd *node_cmd, char **env, t_env **env_list);
+void print_env_in_yellow(char **env);
 /**************************Executor*******************************/
 
 void						free_split(char **strs);
@@ -232,10 +232,10 @@ int							is_redirection_out(t_token *token);
 /**************************Builtins*******************************/
 void						validate_builtins(t_token **token);
 void						ft_echo(char **cmd_full);
-void						ft_execute_builtin(t_cmd *cmd_node, char **env, t_env *env_list);
+void						ft_execute_builtin(t_cmd *cmd_node, char **env, t_env **env_list);
 t_env						*create_env_copy(char **env);
 void						validate_absolute_path(t_token **token);
 char						**t_env_to_array(t_env *env);
 void add_env_variable(t_env **env_list, char *env_text);
-void	ft_export(char **commands, char **env, t_env *env_list);
+void	ft_export(char **commands, char **env, t_env **env_list);
 #endif // MINISHELL_H

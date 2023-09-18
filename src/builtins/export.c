@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 13:54:06 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/18 14:14:49 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/18 14:36:34 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,7 +238,7 @@ int check_validity(char **commands)
 	return (TRUE);
 }
 
-void	ft_export(char **commands, char **env, t_env *env_list)
+void	ft_export(char **commands, char **env, t_env **env_list)
 {
 	int len = 0;
 	while (env[len])
@@ -259,8 +259,9 @@ void	ft_export(char **commands, char **env, t_env *env_list)
 	int i = 1;
 	while (commands[i])
 	{
-		add_env_variable(&env_list, commands[i]);
+		add_env_variable(env_list, commands[i]);
 		i++;
 	}
-	print_env(t_env_to_array(env_list));
+	env = t_env_to_array(*env_list);
+	print_env_in_yellow(env);
 }

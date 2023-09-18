@@ -191,7 +191,7 @@ t_cmd *tokenizer(t_token *head, char **env)
 	return cmd_node;
 }
 
-void executor(t_cmd *cmd_node, char **env, t_token *head, t_env *env_list)
+void executor(t_cmd *cmd_node, char **env, t_token *head, t_env **env_list)
 {
 
 	open_files(&cmd_node);
@@ -225,7 +225,7 @@ void print_env_in_yellow(char **env)
 		i++;
 	}
 }
-
+void	print_env_sorted(char **env, int env_len);
 int main(int argc, char **argv, char **env)
 {
 	(void)argc;
@@ -252,10 +252,10 @@ int main(int argc, char **argv, char **env)
 		print_tokens(head);
 		print_t_cmd(cmd);
 
-		executor(cmd, our_env, head, env_copy);
+		executor(cmd, our_env, head, &env_copy);
+		
 		free(line);
-		our_env = t_env_to_array(env_copy);
-		env_copy = create_env_copy(env);
+		print_env_in_yellow(t_env_to_array(env_copy));
 		printf("pid = %d\n", getpid());
 	}
 	// test_parser_tokeniser(env);
