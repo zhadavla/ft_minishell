@@ -107,6 +107,13 @@ typedef struct s_cmd
 # Part 3: ADD-ONs
 
 - [ ] built ins
+     - [ ] echo
+     - [ ] cd
+     - [ ] pwd
+     - [ ] export
+     - [ ] unset
+     - [ ] env
+     - [ ] exit 
 - [ ] $?
 - [ ] signals
 - [ ] history
@@ -127,5 +134,14 @@ typedef struct s_cmd
      - we need to tokenize them first as the COMMAND, and then handle a the paths to pass to execve function.
      -  [x] /bin/ls is passed to the execve in this form: execve("/bin/ls", {"/bin/ls", NULL}, NULL);
      - ./minishell: execve("./minishell", {"./minishell", NULL}, NULL);
-     - 
+     
+## Plan for 19.09.2023:
+- [ ] finalize built ins
+      - [ ] export using file
+      - [ ] unset using file
+      - [ ] cd
+- [ ] signals (ask Yulia)
+- [ ] history
+- [ ] $? (if time and moral strength allow)
+
 # DEADLINE 24.09.2023
