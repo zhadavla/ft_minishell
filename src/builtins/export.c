@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 13:54:06 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/18 14:36:34 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/18 16:56:33 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,6 +238,75 @@ int check_validity(char **commands)
 	return (TRUE);
 }
 
+
+void write_env_to_file(char **env, int fd)
+{
+	int i = 0;
+	while (env[i])
+	{
+		ft_putstr_fd(env[i], fd);
+		ft_putstr_fd("\n", fd);
+		i++;
+	}
+}
+
+/**
+ * using read, write, open, close
+*/
+char **get_env_from_file(int fd)
+{
+	char **env;
+	char *line;
+	int i = 0;
+	while (get_next_line(fd))
+	{
+		i++;
+		free(line);
+	}
+	env = (char **)malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	close(fd);
+	fd = open(".env", O_RDONLY);
+	while (TRUE)
+	{
+		line = get_next_line(fd);
+		if (!line)
+			break;
+		env[i] = ft_strdup(line);
+		free(line);
+		i++;
+	}
+	return (env);
+}
+
+/**
+ * Creates file if it doesn't exist
+ * Returns fd
+*/
+int create_file_if_not_exists(void)
+{
+	int fd = open("./tmp/.env", O_RDONLY);
+	if (fd == -1)
+	{
+		fd = open("./tmp/.env", O_CREAT | O_RDWR, 0777);
+		return (fd);
+	}
+	return (fd);
+}
+
+void add_env_to_file(char **commands, char **env, int fd)
+{
+	int i = 1;
+	while (commands[i])
+	{
+		ft_putstr_fd(commands[i], fd);
+		ft_putstr_fd("\n", fd);
+		i++;
+	}
+}
+
+
+
 void	ft_export(char **commands, char **env, t_env **env_list)
 {
 	int len = 0;
@@ -256,12 +325,7 @@ void	ft_export(char **commands, char **env, t_env **env_list)
 		ft_putstr_fd("}: not a valid identifier\n", 2);
 		return;
 	}
-	int i = 1;
-	while (commands[i])
-	{
-		add_env_variable(env_list, commands[i]);
-		i++;
-	}
-	env = t_env_to_array(*env_list);
-	print_env_in_yellow(env);
+	// int fd = create_file_if_not_exists();
+	// add_env_to_file(commands, env, fd);
+	// close(fd);	
 }

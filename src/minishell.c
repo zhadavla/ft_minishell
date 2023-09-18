@@ -163,7 +163,7 @@ t_token *lexer(char *line)
 	{
 		write(2, "Unclosed quotes\n", 16);
 		free_tokens(head);
-		exit(EXIT_SUCCESS);
+		
 	}
 	return head;
 }

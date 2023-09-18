@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 16:55:36 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/02/07 14:07:57 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/18 16:50:21 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ char	*ft_strchr(const char *s, int c);
 char	*cut_unfin_line(char *uf_line);
 char	*get_lefted_str(char *uf_line, char *lefted);
 char	*get_next_line(int fd);
+
 
 #endif
