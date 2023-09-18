@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   concatenate2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 20:53:28 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/18 15:00:34 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/09/18 15:38:37 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	remove_quotes(t_token **token)
 {
 	t_token	*head;
 	t_token	*prev;
-
+	
 	if ((*token) && ((*token)->type == SINGLE_QUOTE
 			|| (*token)->type == DOUBLE_QUOTE) && (*token)->quote == QUOTE0)
 	{

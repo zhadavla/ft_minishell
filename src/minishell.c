@@ -170,6 +170,12 @@ t_token *lexer(char *line)
 
 t_cmd *tokenizer(t_token *head, char **env)
 {
+	// if (head->text[0] == '\0' || head->text[0] == '\n'
+	// 	|| head->text[0] == ';' || head->text[0] == '"')
+	// {
+	// 	free_tokens(head);
+	// 	return (0);
+	// }
 	merge_envs(&head);
 	expand_env(&head, env);
 	concatenate_minus(&head);
@@ -178,6 +184,12 @@ t_cmd *tokenizer(t_token *head, char **env)
 	// it was here: concate_leftover_strings(&head);
 	validate_absolute_path(&head);
 	validate_commands(&head, env);
+	if (!check_quote_error(&head))
+	{
+		write(2, "syntax error near unexpected token `newline'\n", 46);
+		free_tokens(head);
+		return (0);
+	}
 	remove_quotes(&head);
 	concate_leftover_strings(&head);
 	remove_whitespaces(&head);
