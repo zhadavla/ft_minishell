@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 13:54:06 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/18 13:23:55 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/18 14:14:49 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	add_env_variable(t_env **env_list, char *env_text)
 {
 	t_env	*tmp;
 
+	fprintf(stderr, C_YELLOW "env_text = %s\n" C_RESET, env_text);
 	tmp = *env_list;
 	while (tmp->next)
 		tmp = tmp->next;
@@ -200,24 +201,24 @@ void	print_env_sorted(char **env, int env_len)
 int check_validity_one(char *full_assignment)
 {
 	int i = 0;
-	if (full_assignment[i] == '=' || ft_isdigit(full_assignment[i]))
-		return (FALSE);
-	while (full_assignment[i] != '=')
-	{
-		if (!ft_isalnum(full_assignment[i]) && full_assignment[i] != '_')
-			return (FALSE);
-		i++;
-	}
-	i++;
-	if (full_assignment[i] != '\"')
-		return (FALSE);
-	i++;
-	while (full_assignment[i] != '\"')
-	{
-		if (!ft_isprint(full_assignment[i]))
-			return (FALSE);
-		i++;
-	}
+	// if (full_assignment[i] == '=' || ft_isdigit(full_assignment[i]))
+	// 	return (FALSE);
+	// while (full_assignment[i] != '=')
+	// {
+	// 	if (!ft_isalnum(full_assignment[i]) && full_assignment[i] != '_')
+	// 		return (FALSE);
+	// 	i++;
+	// }
+	// i++;
+	// if (full_assignment[i] != '\"')
+	// 	return (FALSE);
+	// i++;
+	// while (full_assignment[i] != '\"')
+	// {
+	// 	if (!ft_isprint(full_assignment[i]))
+	// 		return (FALSE);
+	// 	i++;
+	// }
 	return (TRUE);
 
 }
@@ -250,9 +251,16 @@ void	ft_export(char **commands, char **env, t_env *env_list)
 	}
 	if (!check_validity(commands))
 	{
-		ft_putstr_fd("minishell: export: `", 2);
+		ft_putstr_fd("minishell: export: {", 2);
 		ft_putstr_fd(commands[1], 2);
+		ft_putstr_fd("}: not a valid identifier\n", 2);
 		return;
 	}
-	add_env_variable(&env_list, commands[1]);
+	int i = 1;
+	while (commands[i])
+	{
+		add_env_variable(&env_list, commands[i]);
+		i++;
+	}
+	print_env(t_env_to_array(env_list));
 }
