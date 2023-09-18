@@ -13,7 +13,7 @@ MY_HEADER = ./includes/
 
 OBJ_DIR = obj
 
-all: libft42 $(NAME)
+all:  $(NAME)
 
 OBJECTS = $(addprefix $(OBJ_DIR)/,$(SOURCES:$(SRC_DIR)/%.c=%.o))
 
@@ -27,14 +27,12 @@ $(NAME): $(OBJECTS)
 $(OBJ_DIR):
 	@mkdir -p $(dir $(OBJECTS))   # Create subdirectories in OBJ_DIR
 
-all: libft42 $(NAME)
 
 clean:
 	@rm -rf $(OBJ_DIR)
 
 fclean: clean
 	@rm -f $(NAME)
-	make -C libft fclean
 
 re: fclean all
 
