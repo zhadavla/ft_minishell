@@ -175,11 +175,12 @@ t_cmd *tokenizer(t_token *head, char **env)
 	concatenate_minus(&head);
 	concate_quotes(&head);
 	merge_redirections_heredoc(&head);
-	concate_leftover_strings(&head);
+	// it was here: concate_leftover_strings(&head);
 	validate_absolute_path(&head);
 	validate_commands(&head, env);
-	remove_whitespaces(&head);
 	remove_quotes(&head);
+	concate_leftover_strings(&head);
+	remove_whitespaces(&head);
 	validate_filename(&head);
 	validate_heredoc(&head);
 	validate_dollarsign(&head);
@@ -255,7 +256,7 @@ int main(int argc, char **argv, char **env)
 		executor(cmd, our_env, head, &env_copy);
 		
 		free(line);
-		print_env_in_yellow(t_env_to_array(env_copy));
+		// print_env_in_yellow(t_env_to_array(env_copy));
 		printf("pid = %d\n", getpid());
 	}
 	// test_parser_tokeniser(env);

@@ -12,7 +12,7 @@ minishell$ echo =""
 
 ```
 
-- [ ] echo ""
+- [x] echo ""
 - [x] echo " "
-- [ ] x="sdfsdf"
+- [x] x="sdfsdf"
 - [ ] hello 
