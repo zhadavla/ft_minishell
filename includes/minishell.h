@@ -6,9 +6,10 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/19 19:31:30 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/19 21:14:21 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
@@ -171,7 +172,7 @@ void move_to_first_place_heredoc(t_cmd **cmd_node);
 // t_token						*create_list_of_files(t_token **till_pipe);
 
 /**************************Tokenization*******************************/
-void validate_heredoc(t_token **token);
+int validate_heredoc(t_token **token, t_minishell *minishell);
 void init_cmd_node(t_cmd **cmd_node);
 void free_cmd_node(t_cmd *cmd_node);
 void print_tokens(t_token *head);
