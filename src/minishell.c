@@ -351,8 +351,8 @@ int main(int argc, char **argv, char **env)
 			continue;
 		}
 
-		// print_tokens(minishell->token);
-		// print_t_cmd(minishell->cmd_node);
+		print_tokens(minishell->token);
+		print_t_cmd(minishell->cmd_node);
 
 		executor(minishell);
 		
