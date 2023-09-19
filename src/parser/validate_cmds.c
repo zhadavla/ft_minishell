@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 20:50:18 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/19 16:14:40 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/19 19:18:23 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,15 @@ char	**get_binaries(char **env)
 /**
  * Returns TRUE if command is valid, FALSE otherwise
  */
-int	ft_exec_validation(char *cmd, char **env)
+static int	ft_exec_validation(t_minishell *minishell)
 {
 	char	**path;
 	char	*pathname;
 	int		i;
+	char	*cmd;
 
-	path = get_binaries(env);
+	cmd = minishell->token->text;
+	path = get_binaries(minishell->env);
 	i = 0;
 	while (path[i] != NULL)
 	{
@@ -37,10 +39,14 @@ int	ft_exec_validation(char *cmd, char **env)
 		pathname = ft_strjoin(pathname, cmd);
 		if (access(pathname, F_OK) == 0)
 		{
-			fprintf(stderr, C_RED "command %s found\n" C_RESET, cmd);
-			free_split(path);
-			free(pathname);
-			return (TRUE);
+			if (access(pathname, X_OK) == 0)
+			{
+				free_split(path);
+				free(pathname);
+				return (TRUE);
+			}
+			minishell->exit_status = 126;
+			return (FALSE);
 		}
 		free(pathname);
 		i++;
@@ -52,15 +58,22 @@ int	ft_exec_validation(char *cmd, char **env)
 void	validate_absolute_path(t_token **token)
 {
 	t_token	*head;
+
 	head = *token;
 	while (head)
 	{
 		// error_msg("validate_absolute_path");
 		// fprintf(stderr, "head->text[0] = %s\n", head->text);
-		if ((head->text[0] == '/' || head->text[0] == '.') && head->type == WORD)
+		if ((head->text[0] == '/' || head->text[0] == '.')
+			&& head->type == WORD)
 		{
 			if (access(head->text, F_OK) == 0)
-				head->type = COMMAND;
+			{
+				if (access(head->text, X_OK) == 0)	
+					head->type = COMMAND;
+				else
+					head->type = WORD;
+			}
 			else
 				head->type = WORD;
 		}
@@ -71,16 +84,17 @@ void	validate_absolute_path(t_token **token)
  * later: don't forget to handle wrong command input
  * and return error message: "command not found"
  * */
-void	validate_commands(t_token **token, char **g_env)
+void	validate_commands(t_minishell *minishell)
 {
 	t_token	*head;
 
-	head = *token;
+	head = minishell->token;
 	while (head)
 	{
-		if (head->type == WORD && ft_exec_validation(head->text, g_env) == TRUE)
+		if (head->type == WORD && ft_exec_validation(minishell) == TRUE)
 			head->type = COMMAND;
-		else if (head->type == ENV_VARIBLE || (head->type == WHITE_SPACE && head->quote != QUOTE0))
+		else if (head->type == ENV_VARIBLE || (head->type == WHITE_SPACE
+				&& head->quote != QUOTE0))
 			head->type = WORD;
 		head = head->next;
 	}

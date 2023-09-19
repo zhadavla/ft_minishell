@@ -177,7 +177,7 @@ t_cmd *tokenizer(t_token *head, char **env, t_minishell *minishell)
 	concate_quotes(&head);
 	merge_redirections_heredoc(&head);
 	validate_absolute_path(&head);
-	validate_commands(&head, env);
+	validate_commands(minishell);
 	if (!is_quote_error(&head))
 	{
 		write(2, "syntax error near unexpected token `newline'1\n", 46);
