@@ -155,7 +155,7 @@ void test_parser_tokeniser(char **env)
 	};
 }
 
-t_token *lexer(char *line)
+t_token *lexer(char *line, t_minishell *minishell)
 {
 	t_token *head = apply_lexer(line);
 
@@ -163,26 +163,26 @@ t_token *lexer(char *line)
 	{
 		write(2, "Unclosed quotes\n", 16);
 		free_tokens(head);
-		
+		minishell->exit_status = 2;
 		return (0);
 	}
 	return head;
 }
 
-t_cmd *tokenizer(t_token *head, char **env)
+t_cmd *tokenizer(t_token *head, char **env, t_minishell *minishell)
 {
 	merge_envs(&head);
 	expand_env(&head, env);
 	concatenate_minus(&head);
 	concate_quotes(&head);
 	merge_redirections_heredoc(&head);
-	// it was here: concate_leftover_strings(&head);
 	validate_absolute_path(&head);
 	validate_commands(&head, env);
 	if (!check_quote_error(&head))
 	{
 		write(2, "syntax error near unexpected token `newline'\n", 46);
 		free_tokens(head);
+		minishell->exit_status = 2;
 		return (0);
 	}
 	remove_quotes(&head);
@@ -198,10 +198,10 @@ t_cmd *tokenizer(t_token *head, char **env)
 	{
 		write(2, "syntax error near unexpected token `newline'\n", 46);
 		free_tokens(head);
+		minishell->exit_status = 2;
 		return (0);
 	}
 	t_cmd *cmd_node = split_to_pipes(&head);
-	// print_t_cmd(cmd_node);
 	return cmd_node;
 }
 
@@ -286,6 +286,7 @@ int main(int argc, char **argv, char **env)
 
 	minishell = malloc(sizeof(t_minishell));
 	minishell->env = env;
+	minishell->exit_status = 0;
 
 	signal(SIGINT, ft_newline);
 	signal(SIGQUIT, SIG_IGN);
@@ -310,15 +311,17 @@ int main(int argc, char **argv, char **env)
 			continue;
 		}
 
-		minishell->token = lexer(line);
+		minishell->token = lexer(line, minishell);
 		if (!minishell->token)
 		{
+			fprintf(stderr, "exit_status = %d\n", minishell->exit_status);
 			free(line);
 			continue;
 		}
-		minishell->cmd_node = tokenizer(minishell->token, minishell->env);
+		minishell->cmd_node = tokenizer(minishell->token, minishell->env, minishell);
 		if (!minishell->cmd_node)
 		{
+			fprintf(stderr, "exit_status = %d\n", minishell->exit_status);
 			free(line);
 			continue;
 		}
@@ -329,10 +332,8 @@ int main(int argc, char **argv, char **env)
 		executor(minishell);
 		
 		free(line);
-		// print_env_in_yellow(t_env_to_array(env_copy));
 		printf("pid = %d\n", getpid());
 	}
-	// test_parser_tokeniser(env);
 	return (0);
 }
 

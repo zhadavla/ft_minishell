@@ -136,6 +136,10 @@ typedef struct s_cmd
      - ./minishell: execve("./minishell", {"./minishell", NULL}, NULL);
      
 ## Plan for 19.09.2023:
+- [x] signals (ask Yulia)
+- [ ] $? (if time and moral strength allow)
+
+## Plan for 20.09.2023:
 - [ ] finalize builtins (divide fork and non-fork)
       - [ ] export (non-fork)
       - [ ] unset using file (non-fork)
@@ -147,6 +151,5 @@ typedef struct s_cmd
       - [ ] cd
 - [x] signals (ask Yulia)
 - [ ] history
-- [ ] $? (if time and moral strength allow)
 
 # DEADLINE 24.09.2023
