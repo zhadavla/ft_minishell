@@ -189,7 +189,8 @@ t_cmd *tokenizer(t_token *head, char **env, t_minishell *minishell)
 	concate_leftover_strings(&head);
 	remove_whitespaces(&head);
 	validate_filename(&head);
-	validate_heredoc(&head);
+	if (validate_heredoc(&head, minishell))
+		return (0);
 	validate_dollarsign(&head);
 	validate_commands_two(&head);
 	validate_builtins(&head);
@@ -201,10 +202,6 @@ t_cmd *tokenizer(t_token *head, char **env, t_minishell *minishell)
 		minishell->exit_status = 127;
 		return (0);
 	}
-
-
-
-
 	
 	t_cmd *cmd_node = split_to_pipes(&head);
 	return cmd_node;

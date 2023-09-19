@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 19:34:27 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/11 19:38:48 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/19 20:50:08 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,15 @@ void	error_heredoc(t_token **head, int error_type)
 		free_tokens(*head);
 		ft_putstr_fd("Heredoc has to be followed by a command\n",
 			2);
-		exit(SYNTAX_ERROR_NL);
 	}
 	if (error_type == 2)
 	{
 		free_tokens(*head);
 		ft_putstr_fd("Delimeter has to be specified\n", 2);
-		exit(SYNTAX_ERROR_NL);
 	}
 }
 
-void	validate_heredoc(t_token **token)
+int	validate_heredoc(t_token **token, t_minishell *minishell)
 {
 	t_token	*head;
 	t_token	*prev;
@@ -45,13 +43,22 @@ void	validate_heredoc(t_token **token)
 			{
 				head->next->type = DELIM_H;
 				if (!(head->next->next) || head->next->next->type != COMMAND)
+				{
 					error_heredoc(&head, 1);
+					minishell->exit_status = 333;
+					return (2);
+				}
 			}
 			else
+			{
 				error_heredoc(&head, 2);
+				minishell->exit_status = 333;
+				return (2);
+			}
 		}
 		head = head->next;
 	}
+	return (0);
 }
 
 int	is_heredoc(t_cmd *cmd)

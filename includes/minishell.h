@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/19 19:03:01 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/19 20:45:16 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ void move_to_first_place_heredoc(t_cmd **cmd_node);
 // t_token						*create_list_of_files(t_token **till_pipe);
 
 /**************************Tokenization*******************************/
-void validate_heredoc(t_token **token);
+int validate_heredoc(t_token **token, t_minishell *minishell);
 void init_cmd_node(t_cmd **cmd_node);
 void free_cmd_node(t_cmd *cmd_node);
 void print_tokens(t_token *head);
@@ -184,7 +184,7 @@ t_token *new_token(char *text, size_t len,
 t_quote update_q_s(char c, t_quote quote);
 void merge_envs(t_token **token);
 void print_t_cmd(t_cmd *head);
-void expand_env(t_token **token, char **env);
+void expand_env(t_token **token, char **env, t_minishell *minishell);
 void remove_whitespaces(t_token **token);
 void remove_quotes(t_token **token);
 void concate_leftover_strings(t_token **token);
