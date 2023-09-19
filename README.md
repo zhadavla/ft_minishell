@@ -90,7 +90,7 @@ typedef struct s_cmd
 - [x] **Step 3:** Single quotes do not expand environmental variables (e.g. echo '$USER' will print $USER).
 - [x] **Step 3:** Single and double quotes do not expand wave sign ~ to the user's home directory. (e.g. echo "~/src" will print ~/src).
 - [x] **Step 9:** commands can be executed in single and double quotes when first in pipe; 
-- [ ] Spaces and tabs WITHOUT QUOTES will be printed as ONE space between elements.
+- [x] Spaces and tabs WITHOUT QUOTES will be printed as ONE space between elements.
 
 # Part 2: The Executer
 
@@ -115,7 +115,7 @@ typedef struct s_cmd
      - [ ] env
      - [ ] exit 
 - [ ] $?
-- [ ] signals
+- [x] signals
 - [ ] history
 
 # Status as of 13.09 (what is left):
@@ -124,7 +124,7 @@ typedef struct s_cmd
 - [ ] $?
 - [ ] error handling for invalid input;
 - [ ] error handling (also with $?);
-- [ ] signals
+- [x] signals
 - [x] readline
      - [ ] readline promt: if the line returned contains only spaces and tabs → all you need to do is to display a new prompt, if there is something in the line then you’ll add it to your history.
 - [ ] history
@@ -140,7 +140,7 @@ typedef struct s_cmd
       - [ ] export (non-fork)
       - [ ] unset using file (non-fork)
       - [ ] cd (non-fork)
-- [ ] signals (ask Yulia)
+- [x] signals (ask Yulia)
 - [ ] history
 - [ ] $? (if time and moral strength allow)
 
