@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:16:01 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/18 14:21:24 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/19 15:26:20 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,12 @@ int	create_pipe(int *pipex_pipe)
 	return (0);
 }
 
+static void my_child(int sig)
+{
+	if (sig == SIGINT)
+		exit(130);
+}
+
 /**
  * Handles the sequential execution of commands
  */
@@ -113,6 +119,7 @@ void	sequential_executor(t_cmd *node_cmd, char **env, t_env **env_list)
 			return ;
 		if (fork() == 0)
 		{
+			signal(SIGINT, my_child);
 			setup_file_descriptors(node_cmd, &prev_read_end, pipex_pipe, hd_fd);
 			if (node_cmd->is_builtin)
 				ft_execute_builtin(node_cmd, env, env_list);
@@ -122,11 +129,13 @@ void	sequential_executor(t_cmd *node_cmd, char **env, t_env **env_list)
 		}
 		else
 		{
+			signal(SIGINT, SIG_IGN);
 			close(pipex_pipe[1]);
 			wait(NULL);
 			if (prev_read_end != -1)
 				close(prev_read_end);
 			prev_read_end = pipex_pipe[0];
+			signal(SIGINT, ft_newline);
 		}
 		node_cmd = node_cmd->next;
 	}

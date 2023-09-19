@@ -239,12 +239,30 @@ void print_env_in_yellow(char **env)
 		i++;
 	}
 }
+
+#include <signal.h>
+
+void ft_newline(int sig)
+{
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+}
+
 void	print_env_sorted(char **env, int env_len);
+
 int main(int argc, char **argv, char **env)
 {
 	(void)argc;
 	(void)argv;
 	
+	signal(SIGINT, ft_newline);
+	signal(SIGQUIT, SIG_IGN);
+
 	t_env *env_copy = create_env_copy(env);
 	char **our_env = t_env_to_array(env_copy);
 	while (TRUE)

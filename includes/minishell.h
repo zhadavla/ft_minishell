@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/18 16:51:36 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/19 14:36:35 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,4 +240,5 @@ void add_env_variable(t_env **env_list, char *env_text);
 void ft_export(char **commands, char **env, t_env **env_list);
 void write_env_to_file(char **env, int fd);
 char **get_env_from_file(int fd);
+void ft_newline(int sig);
 #endif // MINISHELL_H
