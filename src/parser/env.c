@@ -6,13 +6,13 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:43:02 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/11 19:19:27 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/19 19:41:27 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char	*get_env_value(char *text, char **env);
+static char	*get_env_value(char *text, char **env, t_minishell *minishell);
 
 /**
  * Merge env variables with words
@@ -50,7 +50,7 @@ void	merge_envs(t_token **token)
 /**
  * Replace $ENV with value from env in each token
  */
-void	expand_env(t_token **token, char **env)
+void	expand_env(t_token **token, char **env, t_minishell *minishell)
 {
 	t_token	*head;
 	char	*env_value;
@@ -61,7 +61,7 @@ void	expand_env(t_token **token, char **env)
 		if (head->type == ENV_VARIBLE && head->quote != IN_QUOTE1
 			&& !is_special_character(head->text[1]))
 		{
-			env_value = get_env_value(head->text, env);
+			env_value = get_env_value(head->text, env, minishell);
 			free(head->text);
 			if (env_value)
 				head->text = ft_strdup(env_value);
@@ -80,14 +80,21 @@ void	expand_env(t_token **token, char **env)
  * It should compare length of text and env variable
  * and only if they are equal compare the strings
  */
-static char	*get_env_value(char *text, char **env)
+static char	*get_env_value(char *text, char **efnv, t_minishell *minishell)
 {
 	int		i;
 	char	*env_found;
-
+	char **env = minishell->env;
 	i = 0;
 	while (env[++i])
 	{
+		fprintf(stderr, C_BLUE "text = %s\n" C_RESET, text);
+		if (*(text+1) == '?')
+		{
+			fprintf(stderr, C_YELLOW "exit status = %d\n" C_RESET,
+					minishell->exit_status);
+			return (ft_itoa(minishell->exit_status));
+		}
 		env_found = ft_strnstr(env[i], text + 1, ft_strlen(text));
 		if (env_found && is_length_match(env_found, text + 1))
 			return (env_found + ft_strlen(text));

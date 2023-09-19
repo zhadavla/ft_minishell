@@ -172,7 +172,7 @@ t_token *lexer(char *line, t_minishell *minishell)
 t_cmd *tokenizer(t_token *head, char **env, t_minishell *minishell)
 {
 	merge_envs(&head);
-	expand_env(&head, env);
+	expand_env(&head, env, minishell);
 	concatenate_minus(&head);
 	concate_quotes(&head);
 	merge_redirections_heredoc(&head);
@@ -313,6 +313,7 @@ int main(int argc, char **argv, char **env)
 	while (TRUE)
 	{	
 		char *line = readline("minishell$ ");
+		
 		// print_env_in_yellow(our_env);
 		// fprintf(stderr,"readed line = %s\n", line);
 		printf("readed line = {%s}\n", line);
@@ -350,13 +351,14 @@ int main(int argc, char **argv, char **env)
 			continue;
 		}
 
-		print_tokens(minishell->token);
-		print_t_cmd(minishell->cmd_node);
+		// print_tokens(minishell->token);
+		// print_t_cmd(minishell->cmd_node);
 
 		executor(minishell);
 		
 		free(line);
 		printf("pid = %d\n", getpid());
+		minishell->exit_status = 0;
 	}
 	return (0);
 }
