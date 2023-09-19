@@ -205,28 +205,29 @@ t_cmd *tokenizer(t_token *head, char **env)
 	return cmd_node;
 }
 
-void executor(t_cmd *cmd_node, char **env, t_token *head, t_env **env_list)
+// void executor(t_cmd *cmd_node, char **env, t_token *head, t_env **env_list)
+void executor(t_minishell *minishell)
 {
+	t_env **env_list = NULL;
+	open_files(&minishell->cmd_node);
+	first_last_cmd(&minishell->cmd_node);
 
-	open_files(&cmd_node);
-	first_last_cmd(&cmd_node);
-
-	if (is_heredoc(cmd_node))
+	if (is_heredoc(minishell->cmd_node))
 	{
 		// printf("=============sequence===========\n");
 		fprintf(stderr, C_BLUE "sequence\n" C_RESET);
-		sequential_executor(cmd_node, env, env_list);
+		sequential_executor(minishell);
 	}
 	else{
-		t_pipex pipex = update_pipe_fds(&cmd_node, env);
+		t_pipex pipex = update_pipe_fds(&minishell->cmd_node, minishell->env);
+		minishell->pipex = &pipex;
 		fprintf(stderr, C_BLUE "parallel\n" C_RESET);
-		parallel_executor(pipex, &cmd_node, env, env_list);
+		parallel_executor(minishell);
 	} 
-	
-
-	free_cmd_nodes(&cmd_node);
-	free(cmd_node);
-	free_tokens(head);
+	free_minishell(minishell);
+	// free_cmd_nodes(&minishell->cmd_node);
+	// free(minishell->cmd_node);
+	// free_tokens(minishell->token);
 }
 
 void print_env_in_yellow(char **env)
@@ -255,11 +256,22 @@ void ft_newline(int sig)
 
 void	print_env_sorted(char **env, int env_len);
 
+void free_minishell(t_minishell *minishell)
+{
+	free_tokens(minishell->token);
+	free_cmd_nodes(&minishell->cmd_node);
+	free(minishell->cmd_node);
+}
+
 int main(int argc, char **argv, char **env)
 {
 	(void)argc;
 	(void)argv;
-	
+	t_minishell *minishell;
+
+	minishell = malloc(sizeof(t_minishell));
+	minishell->env = env;
+
 	signal(SIGINT, ft_newline);
 	signal(SIGQUIT, SIG_IGN);
 
@@ -278,29 +290,28 @@ int main(int argc, char **argv, char **env)
 			return (0);
 		}
 
-		t_token *head = lexer(line);
-		if (!head)
+		minishell->token = lexer(line);
+		if (!minishell->token)
 		{
 			free(line);
 			continue;
 		}
-		t_cmd *cmd = tokenizer(head, env);
-		if (!cmd)
+		minishell->cmd_node = tokenizer(minishell->token, minishell->env);
+		if (!minishell->cmd_node)
 		{
 			free(line);
 			continue;
 		}
 
-		print_tokens(head);
-		print_t_cmd(cmd);
+		print_tokens(minishell->token);
+		print_t_cmd(minishell->cmd_node);
 
-		executor(cmd, our_env, head, &env_copy);
+		executor(minishell);
 		
 		free(line);
 		// print_env_in_yellow(t_env_to_array(env_copy));
 		printf("pid = %d\n", getpid());
 	}
 	// test_parser_tokeniser(env);
-
 	return (0);
 }

@@ -6,26 +6,22 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:17:49 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/19 15:24:58 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/19 17:49:11 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-
-static void my_child(int sig)
+static void	my_child(int sig)
 {
 	if (sig == SIGINT)
 	{
 		fprintf(stderr, C_RED "child exit\n" C_RESET);
 		exit(130);
-		
 	}
-	
 }
 
-static void	do_fork(t_pipex *pipex, t_cmd *node_cmd, char **env,
-		t_env **env_list)
+static void	do_fork(t_pipex *pipex, t_cmd *node_cmd, char **env)
 {
 	int	pid;
 	int	dup_check;
@@ -47,40 +43,40 @@ static void	do_fork(t_pipex *pipex, t_cmd *node_cmd, char **env,
 		if (node_cmd->is_builtin)
 		{
 			fprintf(stderr, C_YELLOW "builtin\n" C_RESET);
-			ft_execute_builtin(node_cmd, env, env_list);
+			ft_execute_builtin(node_cmd, env);
 		}
-		else
-			ft_execute(node_cmd->cmd_full, env);
+		else if (!ft_execute(node_cmd->cmd_full, env))
+			exit(42);
 	}
 	signal(SIGINT, SIG_IGN);
-	
 	fprintf(stderr, C_GREEN "after exit\n" C_RESET);
 }
 
-void	parallel_executor(t_pipex pipex, t_cmd **cmd_node, char **env,
-		t_env **env_list)
+void	parallel_executor(t_minishell *minishell)
 {
-	execute_command(&pipex, *cmd_node, env, env_list);
-	if (pipex.cmd_count > 1)
-		free(pipex.fd_pipes);
+	execute_command(minishell->pipex, minishell->cmd_node, minishell->env);
+	if (minishell->pipex->cmd_count > 1)
+		free(minishell->pipex->fd_pipes);
 }
 
-void	execute_command(t_pipex *pipex, t_cmd *node_cmd, char **env,
-		t_env **env_list)
+void	execute_command(t_pipex *pipex, t_cmd *node_cmd, char **env)
 {
 	int	i;
 	int	status;
 
 	while (node_cmd)
 	{
-		do_fork(pipex, node_cmd, env, env_list);
-		
+		do_fork(pipex, node_cmd, env);
 		node_cmd = node_cmd->next;
 	}
 	i = -1;
 	close_fd(pipex);
-	while (++i < pipex->cmd_count){
+	while (++i < pipex->cmd_count)
+	{
 		wait(&status);
+		if (WIFEXITED(status) == 1)
+			fprintf(stderr, C_YELLOW "status = %d\n" C_RESET,
+				WEXITSTATUS(status));
 	}
 	signal(SIGINT, ft_newline);
 }

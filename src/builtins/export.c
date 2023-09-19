@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 13:54:06 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/18 16:56:33 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/19 17:40:36 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,7 +307,7 @@ void add_env_to_file(char **commands, char **env, int fd)
 
 
 
-void	ft_export(char **commands, char **env, t_env **env_list)
+void	ft_export(char **commands, char **env)
 {
 	int len = 0;
 	while (env[len])

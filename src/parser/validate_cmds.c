@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_cmds.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 20:50:18 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/18 14:15:50 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/09/19 16:14:40 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@ int	ft_exec_validation(char *cmd, char **env)
 	{
 		pathname = ft_join(path[i], "/");
 		pathname = ft_strjoin(pathname, cmd);
-		if (access(pathname, X_OK) == 0)
+		if (access(pathname, F_OK) == 0)
 		{
+			fprintf(stderr, C_RED "command %s found\n" C_RESET, cmd);
 			free_split(path);
 			free(pathname);
 			return (TRUE);
@@ -58,7 +59,7 @@ void	validate_absolute_path(t_token **token)
 		// fprintf(stderr, "head->text[0] = %s\n", head->text);
 		if ((head->text[0] == '/' || head->text[0] == '.') && head->type == WORD)
 		{
-			if (access(head->text, X_OK) == 0)
+			if (access(head->text, F_OK) == 0)
 				head->type = COMMAND;
 			else
 				head->type = WORD;

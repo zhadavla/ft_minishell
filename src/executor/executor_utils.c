@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:17:56 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/16 16:09:12 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/19 16:02:05 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ int	ft_execute(char **full_cmd, char **env)
 		if (access(pathname, X_OK) == 0)
 		{
 			free_split(path);
-			execve(pathname, full_cmd, env);
+			if (execve(pathname, full_cmd, env) == -1)
+				return (FALSE);
 		}
 		free(pathname);
 		i++;

@@ -7,7 +7,7 @@ BONUS_DIR = bonus
 SOURCES = $(shell find $(SRC_DIR) -name '*.c')
 
 # CFLAGS = -Wall -Wextra -Werror
-# FSANITIZE = -g3 -fsanitize=address
+FSANITIZE = -g3 -fsanitize=address
 LIBFLAGS = -L./libft -lft -lm -lreadline $(FSANITIZE)
 MY_HEADER = ./includes/
 

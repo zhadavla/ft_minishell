@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:16:01 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/19 15:26:20 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/19 17:48:38 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,25 +106,25 @@ static void my_child(int sig)
 /**
  * Handles the sequential execution of commands
  */
-void	sequential_executor(t_cmd *node_cmd, char **env, t_env **env_list)
+void	sequential_executor(t_minishell *minishell)
 {
 	int	pipex_pipe[2];
 	int	prev_read_end;
 	int	hd_fd;
 
 	prev_read_end = -1;
-	while (node_cmd)
+	while (minishell->cmd_node)
 	{
 		if (create_pipe(pipex_pipe) == -1)
 			return ;
 		if (fork() == 0)
 		{
 			signal(SIGINT, my_child);
-			setup_file_descriptors(node_cmd, &prev_read_end, pipex_pipe, hd_fd);
-			if (node_cmd->is_builtin)
-				ft_execute_builtin(node_cmd, env, env_list);
+			setup_file_descriptors(minishell->cmd_node, &prev_read_end, pipex_pipe, hd_fd);
+			if (minishell->cmd_node->is_builtin)
+				ft_execute_builtin(minishell->cmd_node, minishell->env);
 			else 
-				ft_execute(node_cmd->cmd_full, env);
+				ft_execute(minishell->cmd_node->cmd_full, minishell->env);
 			exit(0);
 		}
 		else
@@ -137,6 +137,6 @@ void	sequential_executor(t_cmd *node_cmd, char **env, t_env **env_list)
 			prev_read_end = pipex_pipe[0];
 			signal(SIGINT, ft_newline);
 		}
-		node_cmd = node_cmd->next;
+		minishell->cmd_node = minishell->cmd_node->next;
 	}
 }

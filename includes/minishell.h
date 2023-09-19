@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/19 14:36:35 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/19 17:51:41 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,16 @@ typedef enum e_quote t_quote;
 typedef struct s_cmd t_cmd;
 typedef struct token t_token;
 typedef struct s_pipex t_pipex;
+
+typedef struct minishell
+{
+	char **env;
+	t_token *token;
+	t_cmd *cmd_node;
+	t_pipex *pipex;
+	int exit_status;
+} t_minishell;
+
 
 typedef enum e_token_type
 {
@@ -199,6 +209,7 @@ void create_full_command(t_token **token,
 void free_cmd_nodes(t_cmd **head);
 
 void open_files(t_cmd **cmd_node);
+void free_minishell(t_minishell *minishell);
 
 /**************************Pipes*******************************/
 
@@ -207,10 +218,9 @@ t_pipex update_pipe_fds(t_cmd **cmd_node, char **env);
 
 char **get_binaries(char **env);
 void execute_command(t_pipex *pipex, t_cmd *node_cmd,
-					 char **env, t_env **env_list);
-void parallel_executor(t_pipex pipex, t_cmd **cmd_node,
-					   char **env, t_env **env_list);
-void sequential_executor(t_cmd *node_cmd, char **env, t_env **env_list);
+					 char **env);
+void	parallel_executor(t_minishell *minishell);
+void sequential_executor(t_minishell *minishell);
 void print_env_in_yellow(char **env);
 /**************************Executor*******************************/
 
@@ -232,12 +242,12 @@ int is_redirection_out(t_token *token);
 /**************************Builtins*******************************/
 void validate_builtins(t_token **token);
 void ft_echo(char **cmd_full);
-void ft_execute_builtin(t_cmd *cmd_node, char **env, t_env **env_list);
+void ft_execute_builtin(t_cmd *cmd_node, char **env);
 t_env *create_env_copy(char **env);
 void validate_absolute_path(t_token **token);
 char **t_env_to_array(t_env *env);
 void add_env_variable(t_env **env_list, char *env_text);
-void ft_export(char **commands, char **env, t_env **env_list);
+void ft_export(char **commands, char **env);
 void write_env_to_file(char **env, int fd);
 char **get_env_from_file(int fd);
 void ft_newline(int sig);
