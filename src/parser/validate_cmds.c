@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 20:50:18 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/19 19:18:23 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/19 19:27:33 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,14 @@ static int	ft_exec_validation(t_minishell *minishell)
 		{
 			if (access(pathname, X_OK) == 0)
 			{
+				fprintf(stderr, "command found 6666 {%s}\n", pathname);
 				free_split(path);
 				free(pathname);
 				return (TRUE);
 			}
-			minishell->exit_status = 126;
-			return (FALSE);
+			fprintf(stderr, "minishell: %s: Permission denied\n", cmd);
+			// minishell->exit_status = 126;
+			// return (FALSE);
 		}
 		free(pathname);
 		i++;
@@ -92,11 +94,15 @@ void	validate_commands(t_minishell *minishell)
 	while (head)
 	{
 		if (head->type == WORD && ft_exec_validation(minishell) == TRUE)
+		{
+			fprintf(stderr, "command found {%s}\n", head->text);	
 			head->type = COMMAND;
+		}
 		else if (head->type == ENV_VARIBLE || (head->type == WHITE_SPACE
 				&& head->quote != QUOTE0))
 			head->type = WORD;
 		head = head->next;
+		minishell->token = head;
 	}
 }
 
