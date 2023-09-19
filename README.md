@@ -151,5 +151,6 @@ typedef struct s_cmd
       - [ ] cd
 - [x] signals (ask Yulia)
 - [ ] history
+- [ ] handle redirections without file (exit code)
 
 # DEADLINE 24.09.2023
