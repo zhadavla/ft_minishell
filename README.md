@@ -140,6 +140,11 @@ typedef struct s_cmd
       - [ ] export (non-fork)
       - [ ] unset using file (non-fork)
       - [ ] cd (non-fork)
+- [ ] signals (ask Yulia)
+- [ ] finalize built ins
+      - [ ] export using file
+      - [ ] unset using file
+      - [ ] cd
 - [x] signals (ask Yulia)
 - [ ] history
 - [ ] $? (if time and moral strength allow)

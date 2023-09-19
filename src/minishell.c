@@ -263,6 +263,21 @@ void free_minishell(t_minishell *minishell)
 	free(minishell->cmd_node);
 }
 
+int is_only_spaces(char *line)
+{
+	int i = 0;
+	if (!*line)
+		return (1);
+	while (line[i])
+	{
+		if (line[i] != ' ' && line[i] != '\t' && line[i] != '\n'
+			&& line[i] != '\v' && line[i] != '\f' && line[i] != '\r')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int main(int argc, char **argv, char **env)
 {
 	(void)argc;
@@ -282,12 +297,17 @@ int main(int argc, char **argv, char **env)
 		char *line = readline("minishell$ ");
 		// print_env_in_yellow(our_env);
 		// fprintf(stderr,"readed line = %s\n", line);
-		printf("readed line = %s\n", line);
+		printf("readed line = {%s}\n", line);
 		if (!line)
 		{
 			free(line);
 			printf("exit\n");
 			return (0);
+		}
+		if (is_only_spaces(line))
+		{
+			free(line);
+			continue;
 		}
 
 		minishell->token = lexer(line);
@@ -315,3 +335,4 @@ int main(int argc, char **argv, char **env)
 	// test_parser_tokeniser(env);
 	return (0);
 }
+
