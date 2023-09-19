@@ -178,9 +178,9 @@ t_cmd *tokenizer(t_token *head, char **env, t_minishell *minishell)
 	merge_redirections_heredoc(&head);
 	validate_absolute_path(&head);
 	validate_commands(&head, env);
-	if (!check_quote_error(&head))
+	if (!is_quote_error(&head))
 	{
-		write(2, "syntax error near unexpected token `newline'\n", 46);
+		write(2, "syntax error near unexpected token `newline'1\n", 46);
 		free_tokens(head);
 		minishell->exit_status = 2;
 		return (0);
@@ -196,11 +196,16 @@ t_cmd *tokenizer(t_token *head, char **env, t_minishell *minishell)
 
 	if (head->type == WORD)
 	{
-		write(2, "syntax error near unexpected token `newline'\n", 46);
+		write(2, "syntax error near unexpected token `newline'2\n", 46);
 		free_tokens(head);
-		minishell->exit_status = 2;
+		minishell->exit_status = 127;
 		return (0);
 	}
+
+
+
+
+	
 	t_cmd *cmd_node = split_to_pipes(&head);
 	return cmd_node;
 }
@@ -252,6 +257,18 @@ void ft_newline(int sig)
 		rl_on_new_line();
 		rl_redisplay();
 	}
+}
+
+int is_command_in_every_pipe(t_cmd *cmd_node)
+{
+	t_cmd *head = cmd_node;
+	while (head)
+	{
+		if (head->cmd_full[0] == NULL)
+			return (0);
+		head = head->next;
+	}
+	return (1);
 }
 
 void	print_env_sorted(char **env, int env_len);
@@ -321,6 +338,13 @@ int main(int argc, char **argv, char **env)
 		minishell->cmd_node = tokenizer(minishell->token, minishell->env, minishell);
 		if (!minishell->cmd_node)
 		{
+			fprintf(stderr, "exit_status = %d\n", minishell->exit_status);
+			free(line);
+			continue;
+		}
+		if (!is_command_in_every_pipe(minishell->cmd_node))
+		{
+			minishell->exit_status = 127;
 			fprintf(stderr, "exit_status = %d\n", minishell->exit_status);
 			free(line);
 			continue;

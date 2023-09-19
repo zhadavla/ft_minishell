@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/19 17:51:41 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/19 18:45:08 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ int is_outfile(t_token *token);
 int is_infile(t_token *token);
 int is_file(t_token *token);
 int is_unclosed_quotes(t_token **token);
-int check_quote_error(t_token **token);
+int is_quote_error(t_token **token);
 int is_special_character(char c);
 int is_in_quotes(t_token *head);
 /**
