@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/20 19:17:12 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/20 19:31:43 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,11 @@ typedef enum e_quote t_quote;
 typedef struct s_cmd t_cmd;
 typedef struct token t_token;
 typedef struct s_pipex t_pipex;
+typedef struct s_env t_env;
 
 typedef struct minishell
 {
+	t_env *env_list;
 	char **env;
 	t_token *token;
 	t_cmd *cmd_node;
@@ -243,12 +245,12 @@ int is_redirection_out(t_token *token);
 /**************************Builtins*******************************/
 void validate_builtins(t_token **token);
 void ft_echo(char **cmd_full);
-void ft_execute_builtin(t_cmd *cmd_node, char **env);
+void ft_execute_builtin(t_minishell * minishell);
 t_env *create_env_copy(char **env);
 void validate_absolute_path(t_token **token);
 char **t_env_to_array(t_env *env);
 void add_env_variable(t_env **env_list, char *env_text);
-void ft_export(char **commands, char **env);
+void ft_export(t_minishell *minishell);
 void write_env_to_file(char **env, int fd);
 char **get_env_from_file(int fd);
 void ft_newline(int sig);

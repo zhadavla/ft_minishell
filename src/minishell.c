@@ -210,6 +210,7 @@ t_cmd *tokenizer(t_token *head, char **env, t_minishell *minishell)
 // void executor(t_cmd *cmd_node, char **env, t_token *head, t_env **env_list)
 int executor(t_minishell *minishell)
 {
+
 	t_env **env_list = NULL;
 	open_files(&minishell->cmd_node);
 
@@ -297,7 +298,10 @@ int main(int argc, char **argv, char **env)
 	minishell = malloc(sizeof(t_minishell));
 	minishell->env = env;
 	minishell->exit_status = 0;
-
+	minishell->token = NULL;
+	minishell->cmd_node = NULL;
+	minishell->env_list = NULL;
+	minishell->pipex = NULL;
 	signal(SIGINT, ft_newline);
 	signal(SIGQUIT, SIG_IGN);
 

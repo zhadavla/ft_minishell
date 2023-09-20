@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:17:49 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/20 19:20:08 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/20 19:39:00 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,15 @@ static void	my_child(int sig)
 	}
 }
 
-static void	do_fork(t_pipex *pipex, t_cmd *node_cmd, char **env)
+static void	do_fork(t_minishell *minishell)
 {
 	int	pid;
 	int	dup_check;
 	int	x;
+	t_cmd	*node_cmd = minishell->cmd_node;
+	t_pipex	*pipex = minishell->pipex;
+	char	**env = minishell->env;
+	
 
 	pid = fork();
 	dup_check = 1;
@@ -45,7 +49,7 @@ static void	do_fork(t_pipex *pipex, t_cmd *node_cmd, char **env)
 		if (node_cmd->is_builtin)
 		{
 			fprintf(stderr, C_YELLOW "builtin\n" C_RESET);
-			ft_execute_builtin(node_cmd, env);
+			ft_execute_builtin(minishell);
 		}
 		else if (!ft_execute(node_cmd->cmd_full, env))
 			exit(42);
@@ -56,7 +60,8 @@ static void	do_fork(t_pipex *pipex, t_cmd *node_cmd, char **env)
 
 int	parallel_executor(t_minishell *minishell)
 {
-	int exit;
+	int	exit;
+
 	exit = execute_command(minishell);
 	if (minishell->pipex->cmd_count > 1)
 		free(minishell->pipex->fd_pipes);
@@ -70,46 +75,47 @@ int	is_builtin_without_output(t_cmd *node_cmd)
 	if (node_cmd->is_builtin)
 	{
 		cmd = node_cmd->cmd_full[0];
-		return (!ft_strncmp(cmd, "cd", 5)
-			|| !ft_strncmp(cmd, "export", 7)
-			|| !ft_strncmp(cmd, "unset", 6)
+		return (!ft_strncmp(cmd, "cd", 5) || 
+			!ft_strncmp(cmd, "export", 7)
+			|| !ft_strncmp(cmd, "unset", 6) 
 			|| !ft_strncmp(cmd, "exit", 5));
 	}
 	return (FALSE);
 }
 
-void execute_builtin_without_output(t_minishell *minishell)
+void	execute_builtin_without_output(t_minishell *minishell)
 {
-	t_cmd *cmd_node = minishell->cmd_node;
+	t_cmd	*cmd_node;
+
+	cmd_node = minishell->cmd_node;
 	// if (!ft_strncmp(cmd_node->cmd_full[0], "cd", 5))
 	// 	ft_cd(cmd_node, env);
-	// else if (!ft_strncmp(cmd_node->cmd_full[0], "export", 7))
-	// 	ft_export(cmd_node, env);
+	 if (!ft_strncmp(cmd_node->cmd_full[0], "export", 7))
+		ft_export(minishell);
 	// else if (!ft_strncmp(cmd_node->cmd_full[0], "unset", 6))
 	// 	ft_unset(cmd_node, env);
-	if (!ft_strncmp(cmd_node->cmd_full[0], "exit", 5))
+	else if (!ft_strncmp(cmd_node->cmd_full[0], "exit", 5))
 		ft_exit(minishell);
 }
 
 int	execute_command(t_minishell *minishell)
 {
-	int	i;
-	int	status;
-	int	exit_status;
-	t_cmd *node_cmd = minishell->cmd_node;
-	t_pipex *pipex = minishell->pipex;
-	char **env = minishell->env;
-	
+	int		i;
+	int		status;
+	int		exit_status;
+	t_cmd	*node_cmd;
+	t_pipex	*pipex;
+	char	**env;
+
+	node_cmd = minishell->cmd_node;
+	pipex = minishell->pipex;
+	env = minishell->env;
 	while (node_cmd)
 	{
 		if (is_builtin_without_output(node_cmd))
-		{
 			execute_builtin_without_output(minishell);
-			
-		}
-		
 		else
-			do_fork(pipex, node_cmd, env);
+			do_fork(minishell);
 		node_cmd = node_cmd->next;
 	}
 	i = -1;

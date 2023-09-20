@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sequantial_executor.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:16:01 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/20 15:48:09 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/09/20 19:32:57 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ int	sequential_executor(t_minishell *minishell)
 			signal(SIGINT, my_child);
 			setup_file_descriptors(minishell->cmd_node, &prev_read_end, pipex_pipe, hd_fd);
 			if (minishell->cmd_node->is_builtin)
-				ft_execute_builtin(minishell->cmd_node, minishell->env);
+				ft_execute_builtin(minishell);
 			else 
 				ft_execute(minishell->cmd_node->cmd_full, minishell->env);
 			exit(0);
