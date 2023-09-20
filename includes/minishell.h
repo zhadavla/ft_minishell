@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/20 15:53:39 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/09/20 19:17:12 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,8 +219,7 @@ void first_last_cmd(t_cmd **cmd_node);
 t_pipex update_pipe_fds(t_cmd **cmd_node, char **env);
 
 char **get_binaries(char **env);
-int execute_command(t_pipex *pipex, t_cmd *node_cmd,
-					 char **env);
+int execute_command(t_minishell * minishell);
 int	parallel_executor(t_minishell *minishell);
 int sequential_executor(t_minishell *minishell);
 void print_env_in_yellow(char **env);
@@ -254,4 +253,5 @@ void write_env_to_file(char **env, int fd);
 char **get_env_from_file(int fd);
 void ft_newline(int sig);
 int	ft_exit(t_minishell *minishell);
+
 #endif // MINISHELL_H

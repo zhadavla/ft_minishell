@@ -6,11 +6,11 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:17:49 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/20 17:38:48 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/20 19:20:08 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static void	my_child(int sig)
 {
@@ -57,7 +57,7 @@ static void	do_fork(t_pipex *pipex, t_cmd *node_cmd, char **env)
 int	parallel_executor(t_minishell *minishell)
 {
 	int exit;
-	exit = execute_command(minishell->pipex, minishell->cmd_node, minishell->env);
+	exit = execute_command(minishell);
 	if (minishell->pipex->cmd_count > 1)
 		free(minishell->pipex->fd_pipes);
 	return (exit);
@@ -78,27 +78,36 @@ int	is_builtin_without_output(t_cmd *node_cmd)
 	return (FALSE);
 }
 
-void execute_builtin_without_output(t_cmd *cmd_node, char **env)
+void execute_builtin_without_output(t_minishell *minishell)
 {
+	t_cmd *cmd_node = minishell->cmd_node;
 	// if (!ft_strncmp(cmd_node->cmd_full[0], "cd", 5))
 	// 	ft_cd(cmd_node, env);
 	// else if (!ft_strncmp(cmd_node->cmd_full[0], "export", 7))
 	// 	ft_export(cmd_node, env);
 	// else if (!ft_strncmp(cmd_node->cmd_full[0], "unset", 6))
 	// 	ft_unset(cmd_node, env);
-	// if (!ft_strncmp(cmd_node->cmd_full[0], "exit", 5))
-	// 	ft_exit(cmd_node);
+	if (!ft_strncmp(cmd_node->cmd_full[0], "exit", 5))
+		ft_exit(minishell);
 }
 
-int	execute_command(t_pipex *pipex, t_cmd *node_cmd, char **env)
+int	execute_command(t_minishell *minishell)
 {
 	int	i;
 	int	status;
-
+	int	exit_status;
+	t_cmd *node_cmd = minishell->cmd_node;
+	t_pipex *pipex = minishell->pipex;
+	char **env = minishell->env;
+	
 	while (node_cmd)
 	{
 		if (is_builtin_without_output(node_cmd))
-			execute_builtin_without_output(node_cmd, env);
+		{
+			execute_builtin_without_output(minishell);
+			
+		}
+		
 		else
 			do_fork(pipex, node_cmd, env);
 		node_cmd = node_cmd->next;
@@ -110,10 +119,11 @@ int	execute_command(t_pipex *pipex, t_cmd *node_cmd, char **env)
 		wait(&status);
 		if (WIFEXITED(status) == 1)
 		{
+			exit_status = WEXITSTATUS(status);
 			fprintf(stderr, C_YELLOW "parallel wait status = %d\n" C_RESET,
 				(WEXITSTATUS(status)));
 		}
 	}
 	signal(SIGINT, ft_newline);
-	return (WEXITSTATUS(status));
+	return (exit_status);
 }
