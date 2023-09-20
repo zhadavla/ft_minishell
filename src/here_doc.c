@@ -6,7 +6,7 @@
 /*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 19:34:27 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/19 20:50:08 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/09/20 15:34:02 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@ int	validate_heredoc(t_token **token, t_minishell *minishell)
 				if (!(head->next->next) || head->next->next->type != COMMAND)
 				{
 					error_heredoc(&head, 1);
-					minishell->exit_status = 333;
+					minishell->exit_status = 2;
 					return (2);
 				}
 			}
 			else
 			{
 				error_heredoc(&head, 2);
-				minishell->exit_status = 333;
+				minishell->exit_status = 2;
 				return (2);
 			}
 		}

@@ -208,11 +208,10 @@ t_cmd *tokenizer(t_token *head, char **env, t_minishell *minishell)
 }
 
 // void executor(t_cmd *cmd_node, char **env, t_token *head, t_env **env_list)
-void executor(t_minishell *minishell)
+int executor(t_minishell *minishell)
 {
 	t_env **env_list = NULL;
 	open_files(&minishell->cmd_node);
-	
 
 	if (is_heredoc(minishell->cmd_node))
 	{
@@ -225,9 +224,8 @@ void executor(t_minishell *minishell)
 		t_pipex pipex = update_pipe_fds(&minishell->cmd_node, minishell->env);
 		minishell->pipex = &pipex;
 		fprintf(stderr, C_BLUE "parallel\n" C_RESET);
-		parallel_executor(minishell);
+		return (parallel_executor(minishell));
 	}
-	fprintf(stderr, C_BLUE "cmd node: %s\n" C_RESET, minishell->cmd_node->cmd_full[0]);
 }
 
 void print_env_in_yellow(char **env)
@@ -327,14 +325,14 @@ int main(int argc, char **argv, char **env)
 		minishell->token = lexer(line, minishell);
 		if (!minishell->token)
 		{
-			fprintf(stderr, "exit_status = %d\n", minishell->exit_status);
+			fprintf(stderr, C_GREEN "exit_status = %d\n" C_RESET, minishell->exit_status);
 			free(line);
 			continue;
 		}
 		minishell->cmd_node = tokenizer(minishell->token, minishell->env, minishell);
 		if (!minishell->cmd_node)
 		{
-			fprintf(stderr, "exit_status = %d\n", minishell->exit_status);
+			fprintf(stderr, C_GREEN "exit_status = %d\n" C_RESET, minishell->exit_status);
 			free(line);
 			continue;
 		}
@@ -342,17 +340,11 @@ int main(int argc, char **argv, char **env)
 		first_last_cmd(&(minishell->cmd_node));
 		print_tokens(minishell->token);
 		print_t_cmd(minishell->cmd_node);
-		executor(minishell);
-		
-		while(minishell->cmd_node)
-		{
-			if (minishell->cmd_node->is_last)
-				minishell->exit_status = minishell->cmd_node->exit_status;
-			minishell->cmd_node = minishell->cmd_node->next;
-		}
+		minishell->exit_status = executor(minishell);
+
 		fprintf(stderr, C_GREEN "final_exit_status = %d\n" C_RESET, minishell->exit_status);
 		free(line);
-		printf("pid = %d\n", getpid());
+		// printf("pid = %d\n", getpid());
 		free_minishell(minishell);
 	}
 	return (0);
