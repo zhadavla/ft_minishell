@@ -212,7 +212,7 @@ void executor(t_minishell *minishell)
 {
 	t_env **env_list = NULL;
 	open_files(&minishell->cmd_node);
-	first_last_cmd(&minishell->cmd_node);
+	
 
 	if (is_heredoc(minishell->cmd_node))
 	{
@@ -220,16 +220,14 @@ void executor(t_minishell *minishell)
 		fprintf(stderr, C_BLUE "sequence\n" C_RESET);
 		sequential_executor(minishell);
 	}
-	else{
+	else
+	{
 		t_pipex pipex = update_pipe_fds(&minishell->cmd_node, minishell->env);
 		minishell->pipex = &pipex;
 		fprintf(stderr, C_BLUE "parallel\n" C_RESET);
 		parallel_executor(minishell);
-	} 
-	free_minishell(minishell);
-	// free_cmd_nodes(&minishell->cmd_node);
-	// free(minishell->cmd_node);
-	// free_tokens(minishell->token);
+	}
+	fprintf(stderr, C_BLUE "cmd node: %s\n" C_RESET, minishell->cmd_node->cmd_full[0]);
 }
 
 void print_env_in_yellow(char **env)
@@ -256,16 +254,16 @@ void ft_newline(int sig)
 	}
 }
 
-int is_command_in_every_pipe(t_cmd *cmd_node)
+void is_command_in_every_pipe(t_cmd **cmd_node)
 {
-	t_cmd *head = cmd_node;
+	t_cmd *head;
+	head = *cmd_node;
 	while (head)
 	{
 		if (head->cmd_full[0] == NULL)
-			return (0);
+			head->exit_status = 127;
 		head = head->next;
 	}
-	return (1);
 }
 
 void	print_env_sorted(char **env, int env_len);
@@ -340,22 +338,22 @@ int main(int argc, char **argv, char **env)
 			free(line);
 			continue;
 		}
-		if (!is_command_in_every_pipe(minishell->cmd_node))
-		{
-			minishell->exit_status = 127;
-			fprintf(stderr, "exit_status = %d\n", minishell->exit_status);
-			free(line);
-			continue;
-		}
-
+		is_command_in_every_pipe(&minishell->cmd_node);
+		first_last_cmd(&(minishell->cmd_node));
 		print_tokens(minishell->token);
 		print_t_cmd(minishell->cmd_node);
-
 		executor(minishell);
 		
+		while(minishell->cmd_node)
+		{
+			if (minishell->cmd_node->is_last)
+				minishell->exit_status = minishell->cmd_node->exit_status;
+			minishell->cmd_node = minishell->cmd_node->next;
+		}
+		fprintf(stderr, C_GREEN "final_exit_status = %d\n" C_RESET, minishell->exit_status);
 		free(line);
 		printf("pid = %d\n", getpid());
-		minishell->exit_status = 0;
+		free_minishell(minishell);
 	}
 	return (0);
 }

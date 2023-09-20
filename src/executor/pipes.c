@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 19:51:48 by mnurlybe          #+#    #+#             */
-/*   Updated: 2023/09/19 17:51:56 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/20 14:36:33 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,14 +100,17 @@ t_pipex	update_pipe_fds(t_cmd **cmd_node, char **env)
 void	first_last_cmd(t_cmd **cmd_node)
 {
 	t_cmd	*head;
-
+	
 	head = *cmd_node;
 	head->is_first = 1;
 	head = head->next;
 	while (head)
 	{
 		if (head->next == NULL)
+		{
+			fprintf(stderr, C_RED "last cmd\n" C_RESET);
 			head->is_last = 1;
+		}
 		head = head->next;
 	}
 }

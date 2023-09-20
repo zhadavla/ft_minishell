@@ -123,6 +123,7 @@ void	print_t_cmd(t_cmd *head)
 		}
 		fprintf(stderr, "is_first: %d\n", head->is_first);
 		fprintf(stderr, "is_last: %d\n", head->is_last);
+		fprintf(stderr, "exit_status: %d\n", head->exit_status);
 		number_of_pipe++;
 		head = head->next;
 	}

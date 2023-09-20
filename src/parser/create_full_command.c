@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_full_command.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 19:03:39 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/15 21:31:13 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/20 14:00:46 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,5 +123,6 @@ void	init_cmd_node(t_cmd **cmd_node)
 	(*cmd_node)->cmd_path = NULL;
 	(*cmd_node)->is_last = FALSE;
 	(*cmd_node)->is_first = FALSE;
+	(*cmd_node)->exit_status = 0;
 	(*cmd_node)->next = NULL;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parallel_executor.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:17:49 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/19 17:49:11 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/20 15:11:48 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@ static void	do_fork(t_pipex *pipex, t_cmd *node_cmd, char **env)
 		signal(SIGINT, my_child);
 		fprintf(stderr, C_RED "child\n" C_RESET);
 		dup_check = ft_dup2(node_cmd->infile_fd, node_cmd->outfile_fd);
+		if (node_cmd->exit_status != 0)
+		{
+			fprintf(stderr, C_RED "555\n" C_RESET);
+			exit(555);
+		}
 		if (dup_check == -1)
 		{
 			write(2, "dup2 error\n", 11);
@@ -75,8 +80,8 @@ void	execute_command(t_pipex *pipex, t_cmd *node_cmd, char **env)
 	{
 		wait(&status);
 		if (WIFEXITED(status) == 1)
-			fprintf(stderr, C_YELLOW "status = %d\n" C_RESET,
-				WEXITSTATUS(status));
+			fprintf(stderr, C_YELLOW "wait status = %d\n" C_RESET,
+				(WEXITSTATUS(status) % 256));
 	}
 	signal(SIGINT, ft_newline);
 }
