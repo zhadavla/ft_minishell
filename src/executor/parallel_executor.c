@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parallel_executor.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:17:49 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/20 15:52:59 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/09/20 17:38:48 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,11 @@ void execute_builtin_without_output(t_cmd *cmd_node, char **env)
 	// 	ft_export(cmd_node, env);
 	// else if (!ft_strncmp(cmd_node->cmd_full[0], "unset", 6))
 	// 	ft_unset(cmd_node, env);
-	if (!ft_strncmp(cmd_node->cmd_full[0], "exit", 5))
-		ft_exit(cmd_node);
+	// if (!ft_strncmp(cmd_node->cmd_full[0], "exit", 5))
+	// 	ft_exit(cmd_node);
 }
 
-void	execute_command(t_pipex *pipex, t_cmd *node_cmd, char **env)
+int	execute_command(t_pipex *pipex, t_cmd *node_cmd, char **env)
 {
 	int	i;
 	int	status;
