@@ -6,7 +6,7 @@
 /*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/20 15:26:51 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/09/20 15:46:18 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,7 @@ char **get_binaries(char **env);
 int execute_command(t_pipex *pipex, t_cmd *node_cmd,
 					 char **env);
 int	parallel_executor(t_minishell *minishell);
-void sequential_executor(t_minishell *minishell);
+int sequential_executor(t_minishell *minishell);
 void print_env_in_yellow(char **env);
 /**************************Executor*******************************/
 

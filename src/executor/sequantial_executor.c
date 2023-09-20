@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sequantial_executor.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:16:01 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/19 17:48:38 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/20 15:48:09 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,19 +106,23 @@ static void my_child(int sig)
 /**
  * Handles the sequential execution of commands
  */
-void	sequential_executor(t_minishell *minishell)
+int	sequential_executor(t_minishell *minishell)
 {
 	int	pipex_pipe[2];
 	int	prev_read_end;
 	int	hd_fd;
+	int exit_status;
+	int status;
 
 	prev_read_end = -1;
 	while (minishell->cmd_node)
 	{
 		if (create_pipe(pipex_pipe) == -1)
-			return ;
+			return (-1);
 		if (fork() == 0)
 		{
+			if (minishell->cmd_node->exit_status != 0)
+				exit(127);
 			signal(SIGINT, my_child);
 			setup_file_descriptors(minishell->cmd_node, &prev_read_end, pipex_pipe, hd_fd);
 			if (minishell->cmd_node->is_builtin)
@@ -131,7 +135,13 @@ void	sequential_executor(t_minishell *minishell)
 		{
 			signal(SIGINT, SIG_IGN);
 			close(pipex_pipe[1]);
-			wait(NULL);
+			wait(&status);
+			if (WIFEXITED(status) == 1)
+			{
+				fprintf(stderr, C_YELLOW "sequence wait status = %d\n" C_RESET,
+					(WEXITSTATUS(status)));
+					exit_status = WEXITSTATUS(status);
+			}
 			if (prev_read_end != -1)
 				close(prev_read_end);
 			prev_read_end = pipex_pipe[0];
@@ -139,4 +149,6 @@ void	sequential_executor(t_minishell *minishell)
 		}
 		minishell->cmd_node = minishell->cmd_node->next;
 	}
+	// fprintf(stderr, C_YELLOW "final sequence exit status = %d\n" C_RESET, exit_status);
+	return(exit_status);
 }

@@ -217,7 +217,7 @@ int executor(t_minishell *minishell)
 	{
 		// printf("=============sequence===========\n");
 		fprintf(stderr, C_BLUE "sequence\n" C_RESET);
-		sequential_executor(minishell);
+		return (sequential_executor(minishell));
 	}
 	else
 	{

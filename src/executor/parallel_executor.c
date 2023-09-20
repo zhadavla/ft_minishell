@@ -6,7 +6,7 @@
 /*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:17:49 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/20 15:29:32 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/09/20 15:39:46 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	execute_command(t_pipex *pipex, t_cmd *node_cmd, char **env)
 		wait(&status);
 		if (WIFEXITED(status) == 1)
 		{
-			fprintf(stderr, C_YELLOW "wait status = %d\n" C_RESET,
+			fprintf(stderr, C_YELLOW "parallel wait status = %d\n" C_RESET,
 				(WEXITSTATUS(status)));
 		}
 	}
