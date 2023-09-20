@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/20 15:32:09 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/20 15:39:48 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,9 +219,9 @@ void first_last_cmd(t_cmd **cmd_node);
 t_pipex update_pipe_fds(t_cmd **cmd_node, char **env);
 
 char **get_binaries(char **env);
-void execute_command(t_pipex *pipex, t_cmd *node_cmd,
+int execute_command(t_pipex *pipex, t_cmd *node_cmd,
 					 char **env);
-void	parallel_executor(t_minishell *minishell);
+int	parallel_executor(t_minishell *minishell);
 void sequential_executor(t_minishell *minishell);
 void print_env_in_yellow(char **env);
 /**************************Executor*******************************/

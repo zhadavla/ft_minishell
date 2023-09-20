@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:17:49 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/20 15:38:50 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/20 15:39:37 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,7 @@ static void	do_fork(t_pipex *pipex, t_cmd *node_cmd, char **env)
 		fprintf(stderr, C_RED "child\n" C_RESET);
 		dup_check = ft_dup2(node_cmd->infile_fd, node_cmd->outfile_fd);
 		if (node_cmd->exit_status != 0)
-		{
-			fprintf(stderr, C_RED "555\n" C_RESET);
-			exit(555);
-		}
+			exit(127);
 		if (dup_check == -1)
 		{
 			write(2, "dup2 error\n", 11);
@@ -57,11 +54,13 @@ static void	do_fork(t_pipex *pipex, t_cmd *node_cmd, char **env)
 	fprintf(stderr, C_GREEN "after exit\n" C_RESET);
 }
 
-void	parallel_executor(t_minishell *minishell)
+int	parallel_executor(t_minishell *minishell)
 {
-	execute_command(minishell->pipex, minishell->cmd_node, minishell->env);
+	int exit;
+	exit = execute_command(minishell->pipex, minishell->cmd_node, minishell->env);
 	if (minishell->pipex->cmd_count > 1)
 		free(minishell->pipex->fd_pipes);
+	return (exit);
 }
 
 int	is_builtin_without_output(t_cmd *node_cmd)
@@ -110,8 +109,11 @@ void	execute_command(t_pipex *pipex, t_cmd *node_cmd, char **env)
 	{
 		wait(&status);
 		if (WIFEXITED(status) == 1)
+		{
 			fprintf(stderr, C_YELLOW "wait status = %d\n" C_RESET,
-				(WEXITSTATUS(status) % 256));
+				(WEXITSTATUS(status)));
+		}
 	}
 	signal(SIGINT, ft_newline);
+	return (WEXITSTATUS(status));
 }
