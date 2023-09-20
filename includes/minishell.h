@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/20 19:31:43 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/20 19:59:50 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,5 +255,6 @@ void write_env_to_file(char **env, int fd);
 char **get_env_from_file(int fd);
 void ft_newline(int sig);
 int	ft_exit(t_minishell *minishell);
+void ft_unset(t_minishell *minishell);
 
 #endif // MINISHELL_H
