@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/20 14:57:20 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/09/20 15:32:09 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,4 +253,5 @@ void ft_export(char **commands, char **env);
 void write_env_to_file(char **env, int fd);
 char **get_env_from_file(int fd);
 void ft_newline(int sig);
+int	ft_exit(t_minishell *minishell);
 #endif // MINISHELL_H

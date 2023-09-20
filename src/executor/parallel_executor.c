@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parallel_executor.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:17:49 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/20 15:11:48 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/09/20 15:38:50 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,33 @@ void	parallel_executor(t_minishell *minishell)
 		free(minishell->pipex->fd_pipes);
 }
 
+int	is_builtin_without_output(t_cmd *node_cmd)
+{
+	char	*cmd;
+
+	if (node_cmd->is_builtin)
+	{
+		cmd = node_cmd->cmd_full[0];
+		return (!ft_strncmp(cmd, "cd", 5)
+			|| !ft_strncmp(cmd, "export", 7)
+			|| !ft_strncmp(cmd, "unset", 6)
+			|| !ft_strncmp(cmd, "exit", 5));
+	}
+	return (FALSE);
+}
+
+void execute_builtin_without_output(t_cmd *cmd_node, char **env)
+{
+	// if (!ft_strncmp(cmd_node->cmd_full[0], "cd", 5))
+	// 	ft_cd(cmd_node, env);
+	// else if (!ft_strncmp(cmd_node->cmd_full[0], "export", 7))
+	// 	ft_export(cmd_node, env);
+	// else if (!ft_strncmp(cmd_node->cmd_full[0], "unset", 6))
+	// 	ft_unset(cmd_node, env);
+	if (!ft_strncmp(cmd_node->cmd_full[0], "exit", 5))
+		ft_exit(cmd_node);
+}
+
 void	execute_command(t_pipex *pipex, t_cmd *node_cmd, char **env)
 {
 	int	i;
@@ -71,7 +98,10 @@ void	execute_command(t_pipex *pipex, t_cmd *node_cmd, char **env)
 
 	while (node_cmd)
 	{
-		do_fork(pipex, node_cmd, env);
+		if (is_builtin_without_output(node_cmd))
+			execute_builtin_without_output(node_cmd, env);
+		else
+			do_fork(pipex, node_cmd, env);
 		node_cmd = node_cmd->next;
 	}
 	i = -1;
