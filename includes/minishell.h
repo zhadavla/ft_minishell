@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/20 20:33:34 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/20 20:46:24 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,5 +257,7 @@ void ft_newline(int sig);
 int	ft_exit(t_minishell *minishell);
 void ft_unset(t_minishell *minishell);
 void ft_env(t_minishell *minishell);
+void ft_pwd(t_minishell *minishell);
+void ft_cd(t_minishell *minishell);
 
 #endif // MINISHELL_H

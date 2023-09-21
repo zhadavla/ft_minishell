@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:17:49 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/20 20:38:36 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/20 20:46:12 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	is_builtin_without_output(t_cmd *node_cmd)
 	{
 		
 		cmd = node_cmd->cmd_full[0];
-		return (!ft_strncmp(cmd, "cd", 5) || 
+		return (!ft_strncmp(cmd, "cd", 3) || 
 			!ft_strncmp(cmd, "export", 7)
 			|| !ft_strncmp(cmd, "unset", 6) 
 			|| !ft_strncmp(cmd, "exit", 5)
@@ -90,8 +90,8 @@ void	execute_builtin_without_output(t_minishell *minishell)
 	t_cmd	*cmd_node;
 
 	cmd_node = minishell->cmd_node;
-	// if (!ft_strncmp(cmd_node->cmd_full[0], "cd", 5))
-	// 	ft_cd(cmd_node, env);
+	if (!ft_strncmp(cmd_node->cmd_full[0], "cd", 3))
+		ft_cd(minishell);
 	 if (!ft_strncmp(cmd_node->cmd_full[0], "export", 7))
 		ft_export(minishell);
 	else if (!ft_strncmp(cmd_node->cmd_full[0], "env", 4))
