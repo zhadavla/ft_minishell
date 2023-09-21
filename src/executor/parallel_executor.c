@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:17:49 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/20 20:46:12 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/21 20:26:52 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,13 @@ static void	my_child(int sig)
 	}
 }
 
-static void	do_fork(t_minishell *minishell)
+static void	do_fork(t_minishell *minishell, t_cmd *node_cmd)
 {
 	int	pid;
 	int	dup_check;
 	int	x;
-	t_cmd	*node_cmd = minishell->cmd_node;
 	t_pipex	*pipex = minishell->pipex;
 	char	**env = minishell->env;
-	
 
 	pid = fork();
 	dup_check = 1;
@@ -51,8 +49,13 @@ static void	do_fork(t_minishell *minishell)
 			fprintf(stderr, C_YELLOW "builtin\n" C_RESET);
 			ft_execute_builtin(minishell);
 		}
-		else if (!ft_execute(node_cmd->cmd_full, env))
-			exit(42);
+		else
+		{
+			fprintf(stderr, C_YELLOW "inside fork: {%s}\n" C_RESET, node_cmd->cmd_full[0]);
+			ft_execute(node_cmd->cmd_full, env);
+		}
+		// else if (!ft_execute(node_cmd->cmd_full, env))
+		// 	exit(42);
 	}
 	signal(SIGINT, SIG_IGN);
 	fprintf(stderr, C_GREEN "after exit\n" C_RESET);
@@ -95,10 +98,7 @@ void	execute_builtin_without_output(t_minishell *minishell)
 	 if (!ft_strncmp(cmd_node->cmd_full[0], "export", 7))
 		ft_export(minishell);
 	else if (!ft_strncmp(cmd_node->cmd_full[0], "env", 4))
-	{
-		
 		ft_env(minishell);
-	}
 	else if (!ft_strncmp(cmd_node->cmd_full[0], "unset", 6))
 		ft_unset(minishell);
 	else if (!ft_strncmp(cmd_node->cmd_full[0], "exit", 5))
@@ -122,7 +122,8 @@ int	execute_command(t_minishell *minishell)
 		if (is_builtin_without_output(node_cmd))
 			execute_builtin_without_output(minishell);
 		else
-			do_fork(minishell);
+			do_fork(minishell, node_cmd);
+		fprintf(stderr, C_YELLOW "{%s}\n" C_RESET, node_cmd->cmd_full[0]);
 		node_cmd = node_cmd->next;
 	}
 	i = -1;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 19:51:48 by mnurlybe          #+#    #+#             */
-/*   Updated: 2023/09/20 14:36:33 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/09/21 19:17:40 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	first_last_cmd(t_cmd **cmd_node)
 	{
 		if (head->next == NULL)
 		{
-			fprintf(stderr, C_RED "last cmd\n" C_RESET);
+			// fprintf(stderr, C_RED "last cmd\n" C_RESET);
 			head->is_last = 1;
 		}
 		head = head->next;
