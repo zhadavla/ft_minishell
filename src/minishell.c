@@ -310,6 +310,7 @@ int main(int argc, char **argv, char **env)
 	while (TRUE)
 	{	
 		char *line = readline("minishell$ ");
+		add_history(line);
 		
 		// print_env_in_yellow(our_env);
 		// fprintf(stderr,"readed line = %s\n", line);
