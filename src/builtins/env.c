@@ -6,5 +6,9 @@ void ft_env(t_minishell *minishell)
 	char	**env = minishell->env;
 	int len = -1;
 	while (env[++len])
+	{
 		printf("%s\n", env[len]);
+		free(env[len]);
+	}
+	free(env);
 }
