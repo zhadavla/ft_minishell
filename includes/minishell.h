@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/22 22:04:18 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/22 22:27:29 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,7 @@ void create_full_command(t_token **token,
 						 t_cmd **cmd_node);
 void free_cmd_nodes(t_cmd **head);
 
-void open_files(t_cmd **cmd_node);
+int open_files(t_cmd **cmd_node);
 void free_minishell(t_minishell *minishell);
 
 /**************************Pipes*******************************/

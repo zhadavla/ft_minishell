@@ -214,7 +214,12 @@ int executor(t_minishell *minishell)
 {
 
 	t_env **env_list = NULL;
-	open_files(&minishell->cmd_node);
+
+	if (open_files(&minishell->cmd_node))
+	{
+		fprintf(stderr, C_RED "No such file or directory" C_RESET);
+		return (1);
+	}
 
 	if (is_heredoc(minishell->cmd_node))
 	{
@@ -328,58 +333,60 @@ int main(int argc, char **argv, char **env)
 	signal(SIGQUIT, SIG_IGN);
 	
 	char *lines[] = {
-		// "ls | ls -la > outfile | cat -e | wc -l > outfile",
-		// "wc -l < infile | grep m < infile",
-		// "ls",
-		// "wc -l < infile",
-		// "ls | cat | grep m | wc -l",
-		// "ls - la | wc",
+		"ls | ls -la > outfile | cat -e | wc -l > outfile",
+		"wc -l < infile | grep m < infile",
+		"wc -l < invalidfile",
+		"ls",
+		"wc -l < infile",
+		"ls | cat | grep m | wc -l",
+		"ls - la | wc",
 		// "<< stop cat | wc -l" ,
 		// "<< stop cat",
-		// "       ",
-		// "echo hello",
-		// "sdfsdf",
-		// "echo $?",
-		// "echo $USER",
-		// "echo $HOME",
-		// "echo $TEXT",
-		// "$USER",
-		// "pwd",
-		// "env"
-		// "pwd | wc -l",
-		// "cd ..", 
-		// "cd", 
-		// "cd -",
-		// "cd src",
-		// "cd sskfls",
-		// // "pwd",
-		// "cd | wc -l | grep 1", 
-		// "echo \"hello 42\"",
-		// "echo \"hello 42\" | wc -l",
-		// "env",
-		// "env | wc -l",
-		// "echo USER | grep USER",
-		// "env > out1",
-		// " env | grep x | wc -l",
+		"       ",
+		"echo hello",
+		"sdfsdf",
+		"echo $?",
+		"echo $USER",
+		"echo $HOME",
+		"echo $TEXT",
+		"$USER",
+		"pwd",
+		"env",
+		"pwd | wc -l",
+		"cd ..", 
+		"cd", 
+		"cd -",
+		"cd src",
+		"cd sskfls",
+		"pwd",
+		"cd | wc -l | grep 1", 
+		"echo \"hello 42\"",
+		"echo \"hello 42\" | wc -l",
+		"env",
+		"env | wc -l",
+		"echo USER | grep USER",
+		"env > out1",
+		" env | grep x | wc -l",
 		// check builtins with heredoc,
 		"export x=4", 
 		"export a=42",
-		// "env"
-		// "export",
-		// "export USER2=4",
-		// "unset",
-		// "env",
+		"env"
+		"export",
+		"export USER2=4",
+		"unset",
+		"env",
 		"unset x",
 		"env",
 		"unset a",
 		"env",
-		// "unset PATH",
-		// "echo $USER", 
-		// "ls",
-		// "env | grep x=4",
-		// "env",
-		// "exit",
-		// "exit 25"
+		"unset PATH",
+		"ls",
+		"echo $USER", 
+		"ls",
+		"env | grep x=4",
+		"env",
+		"exit",
+		"exit 25"
 		};
 	
 	int i = 0;
