@@ -34,7 +34,6 @@ int ft_unset(t_minishell *minishell)
 		fprintf(stderr, C_RED "unset: here should be an error message\n" C_RESET);
 		return (0);
 	}
-	fprintf(stderr, C_YELLOW "ft_unset\n" C_RESET);
 	minishell->env_list = create_env_copy(minishell->env);
 	tmp = minishell->env_list;
 	prev = NULL;
@@ -47,9 +46,11 @@ int ft_unset(t_minishell *minishell)
 			break ;
 		}
 		prev = tmp;
+		fprintf(stderr, C_YELLOW "%s\n" C_RESET, tmp->full_env);
 		tmp = tmp->next;
 	}
 	minishell->env = t_env_to_array(minishell->env_list);
+		// fprintf(stderr, C_YELLOW "ft_unset\n" C_RESET);
 	free_env(minishell->env_list);
 	return (0);
 }

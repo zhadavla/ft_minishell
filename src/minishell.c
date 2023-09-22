@@ -273,7 +273,7 @@ void free_minishell(t_minishell *minishell)
 {
 	free_tokens(minishell->token);
 	free_cmd_nodes(&minishell->cmd_node);
-	int i = -1;
+
 	
 }
 
@@ -362,15 +362,24 @@ int main(int argc, char **argv, char **env)
 		// "env > out1",
 		// " env | grep x | wc -l",
 		// check builtins with heredoc,
-		// "export x=4 a=3", 
+		// "export x=4", 
+		// "export a=42",
 		// "env"
 		// "export",
-		"export x=4",
+		// "export USER2=4",
 		// "unset",
-		"env",
-		"unset x",
+		// "env",
+		// "unset x",
+		// "env",
+		// "unset a",
+		// "env",
+		// "unset PATH",
+		// "echo $USER", 
+		// "ls",
 		// "env | grep x=4",
 		// "env",
+		// "exit",
+		// "exit 25"
 		};
 	
 	int i = 0;
@@ -419,7 +428,7 @@ int main(int argc, char **argv, char **env)
 		free_minishell(minishell);
 	}
 	i = -1;
-
+	
 	if (minishell->env)
 	{
 		while (minishell->env[++i]) 

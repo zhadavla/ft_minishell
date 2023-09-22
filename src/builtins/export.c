@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 13:54:06 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/22 20:54:04 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/09/22 21:37:10 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -338,7 +338,7 @@ int	ft_export(t_minishell *minishell)
 			add_env_variable(&minishell->env_list, commands[i]);
 
 		minishell->env = t_env_to_array(minishell->env_list);
-		print_env_in_yellow(minishell->env);
+		// print_env_in_yellow(minishell->env);
 		free_env(minishell->env_list);
 		return 0;
 	}
