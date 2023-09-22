@@ -215,19 +215,19 @@ int executor(t_minishell *minishell)
 	t_env **env_list = NULL;
 	open_files(&minishell->cmd_node);
 
-	if (is_heredoc(minishell->cmd_node))
-	{
+	// if (is_heredoc(minishell->cmd_node))
+	// {
 		// printf("=============sequence===========\n");
-		fprintf(stderr, C_BLUE "sequence\n" C_RESET);
-		return (sequential_executor(minishell));
-	}
-	else
-	{
+		// fprintf(stderr, C_BLUE "sequence\n" C_RESET);
+		// return (sequential_executor(minishell));
+	// }
+	// else
+	// {
 		t_pipex pipex = update_pipe_fds(&minishell->cmd_node, minishell->env);
 		minishell->pipex = &pipex;
 		fprintf(stderr, C_BLUE "parallel\n" C_RESET);
 		return (parallel_executor(minishell));
-	}
+	// }
 }
 
 void print_env_in_yellow(char **env)
@@ -272,8 +272,6 @@ void free_minishell(t_minishell *minishell)
 {
 	free_tokens(minishell->token);
 	free_cmd_nodes(&minishell->cmd_node);
-
-
 }
 
 int is_only_spaces(char *line)
@@ -310,9 +308,9 @@ int main(int argc, char **argv, char **env)
 	char *lines[] = {
 		// "ls",
 		"ls",
-		"ls | cat | grep m | wc -l",
+		// "ls | cat | grep m | wc -l",
 		// "cat",
-
+		// "<< stop cat | wc -l" ,
 		};
 	
 

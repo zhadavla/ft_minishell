@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:16:01 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/20 19:32:57 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/21 21:01:08 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	sequential_executor(t_minishell *minishell)
 	int	hd_fd;
 	int exit_status;
 	int status;
-
+	t_cmd *tmp_cmd = minishell->cmd_node;
 	prev_read_end = -1;
 	while (minishell->cmd_node)
 	{
@@ -128,8 +128,14 @@ int	sequential_executor(t_minishell *minishell)
 			if (minishell->cmd_node->is_builtin)
 				ft_execute_builtin(minishell);
 			else 
-				ft_execute(minishell->cmd_node->cmd_full, minishell->env);
+			{
+				char **cmd_full = minishell->cmd_node->cmd_full;
+				
+				ft_execute(cmd_full, minishell->env);
+			}
+			
 			exit(0);
+			
 		}
 		else
 		{
@@ -147,8 +153,11 @@ int	sequential_executor(t_minishell *minishell)
 			prev_read_end = pipex_pipe[0];
 			signal(SIGINT, ft_newline);
 		}
+		t_cmd *tmp = minishell->cmd_node;
 		minishell->cmd_node = minishell->cmd_node->next;
+		free_cmd_node(tmp);
 	}
+	// free_cmd_node(minishell->cmd_node);
 	// fprintf(stderr, C_YELLOW "final sequence exit status = %d\n" C_RESET, exit_status);
 	return(exit_status);
 }
