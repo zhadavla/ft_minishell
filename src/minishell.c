@@ -356,15 +356,21 @@ int main(int argc, char **argv, char **env)
 		// "cd | wc -l | grep 1", 
 		// "echo \"hello 42\"",
 		// "echo \"hello 42\" | wc -l",
-		"env",
+		// "env",
 		// "env | wc -l",
 		// "echo USER | grep USER",
 		// "env > out1",
 		// " env | grep x | wc -l",
 		// check builtins with heredoc,
-		"export x=4 a=3", 
-		"env"
-		// "export"
+		// "export x=4 a=3", 
+		// "env"
+		// "export",
+		"export x=4",
+		// "unset",
+		"env",
+		"unset x",
+		// "env | grep x=4",
+		// "env",
 		};
 	
 	int i = 0;
@@ -413,6 +419,7 @@ int main(int argc, char **argv, char **env)
 		free_minishell(minishell);
 	}
 	i = -1;
+
 	if (minishell->env)
 	{
 		while (minishell->env[++i]) 

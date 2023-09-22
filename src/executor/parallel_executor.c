@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parallel_executor.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:17:49 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/22 19:03:12 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/22 20:36:27 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	execute_builtin_without_output(t_minishell *minishell)
 	 if (!ft_strncmp(cmd_node->cmd_full[0], "export", 7))
 		return (ft_export(minishell));
 	else if (!ft_strncmp(cmd_node->cmd_full[0], "unset", 6))
-		ft_unset(minishell);
+		return (ft_unset(minishell));
 	else if (!ft_strncmp(cmd_node->cmd_full[0], "exit", 5))
 		ft_exit(minishell);
 	return (0);
