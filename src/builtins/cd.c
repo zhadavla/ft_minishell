@@ -12,38 +12,43 @@
 
 int ft_cd(t_minishell *minishell)
 {
-    static char *oldpwd;
-    char *tmp;
+
     
-    if (oldpwd == NULL)
-        oldpwd = getcwd(NULL, 0);
+    char *tmp = NULL;
+    
+    if (minishell->oldpwd == NULL)
+        minishell->oldpwd = getcwd(NULL, 0);
     if (minishell->cmd_node->cmd_full[1] == NULL)
     {
-        oldpwd = getcwd(NULL, 0);
+        free(minishell->oldpwd); 
+        minishell->oldpwd = getcwd(NULL, 0);
         if (chdir(getenv("HOME")) == -1)
             return (4);
+    
     }
     else
     {  
         if (!ft_strncmp(minishell->cmd_node->cmd_full[1], "-", 2))
         {
             tmp = getcwd(NULL, 0);
-            if (chdir(oldpwd) == -1)
+            if (chdir(minishell->oldpwd) == -1)
                 return (4);
-            oldpwd = tmp;
+            free(minishell->oldpwd); 
+            minishell->oldpwd = tmp;
         }
         else
         {
-            oldpwd = getcwd(NULL, 0);
+            free(minishell->oldpwd); 
+            minishell->oldpwd = getcwd(NULL, 0);
             if (chdir(minishell->cmd_node->cmd_full[1]) == -1)
             {
                 return (4);
-                fprintf(stderr, C_RED "cd: %s: No such file or directory\n" C_RESET, minishell->cmd_node->cmd_full[1]);
+                // fprintf(stderr, C_RED "cd: %s: No such file or directory\n" C_RESET, minishell->cmd_node->cmd_full[1]);
             }
         }
     }
-    fprintf(stderr, C_GREEN "old pwd: %s\n" C_RESET, oldpwd);
-    fprintf(stderr, C_GREEN "new pwd: %s\n" C_RESET, getcwd(NULL, 0));
+    // fprintf(stderr, C_GREEN "old pwd: %s\n" C_RESET, minishell->oldpwd);
+    // fprintf(stderr, C_GREEN "new pwd: %s\n" C_RESET, getcwd(NULL, 0));
     return (0);
 }
 

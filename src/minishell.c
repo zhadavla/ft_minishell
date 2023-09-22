@@ -303,6 +303,7 @@ int main(int argc, char **argv, char **env)
 	minishell->token = NULL;
 	minishell->cmd_node = NULL;
 	minishell->pipex = NULL;
+	minishell->oldpwd = NULL;
 	signal(SIGINT, ft_newline);
 	signal(SIGQUIT, SIG_IGN);
 	
@@ -325,13 +326,13 @@ int main(int argc, char **argv, char **env)
 		// "$USER",
 		// "pwd",
 		// "pwd | wc -l",
-		// "cd ..", //MEM LEAK
+		"cd ..", //MEM LEAK
 		"cd", //MEM LEAK
-		// "cd -",
-		// "cd src",
-		// "cd sskfls",
+		"cd -",
+		"cd src",
+		"cd sskfls",
 		// "pwd",
-		// "cd | wc -l | grep 1", //MEM LEAK
+		"cd | wc -l | grep 1", //MEM LEAK
 		// "echo \"hello 42\"",
 		// "echo \"hello 42\" | wc -l",
 		// "env",
@@ -387,6 +388,7 @@ int main(int argc, char **argv, char **env)
 
 		free_minishell(minishell);
 	}
+	free(minishell->oldpwd);
 	free(minishell);
 	return (0);
 }
