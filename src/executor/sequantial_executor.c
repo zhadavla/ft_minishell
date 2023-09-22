@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sequantial_executor.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:16:01 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/21 21:01:08 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/22 14:18:24 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,23 +113,24 @@ int	sequential_executor(t_minishell *minishell)
 	int	hd_fd;
 	int exit_status;
 	int status;
-	t_cmd *tmp_cmd = minishell->cmd_node;
+	t_cmd *node_cmd = minishell->cmd_node;
+
 	prev_read_end = -1;
-	while (minishell->cmd_node)
+	while (node_cmd)
 	{
 		if (create_pipe(pipex_pipe) == -1)
 			return (-1);
 		if (fork() == 0)
 		{
-			if (minishell->cmd_node->exit_status != 0)
+			if (node_cmd->exit_status != 0)
 				exit(127);
 			signal(SIGINT, my_child);
-			setup_file_descriptors(minishell->cmd_node, &prev_read_end, pipex_pipe, hd_fd);
-			if (minishell->cmd_node->is_builtin)
+			setup_file_descriptors(node_cmd, &prev_read_end, pipex_pipe, hd_fd);
+			if (node_cmd->is_builtin)
 				ft_execute_builtin(minishell);
 			else 
 			{
-				char **cmd_full = minishell->cmd_node->cmd_full;
+				char **cmd_full = node_cmd->cmd_full;
 				
 				ft_execute(cmd_full, minishell->env);
 			}
@@ -153,9 +154,9 @@ int	sequential_executor(t_minishell *minishell)
 			prev_read_end = pipex_pipe[0];
 			signal(SIGINT, ft_newline);
 		}
-		t_cmd *tmp = minishell->cmd_node;
-		minishell->cmd_node = minishell->cmd_node->next;
-		free_cmd_node(tmp);
+		// t_cmd *tmp = minishell->cmd_node;
+		node_cmd = node_cmd->next;
+		// free_cmd_node(tmp);
 	}
 	// free_cmd_node(minishell->cmd_node);
 	// fprintf(stderr, C_YELLOW "final sequence exit status = %d\n" C_RESET, exit_status);

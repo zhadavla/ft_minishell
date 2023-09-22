@@ -29,6 +29,7 @@ void ft_cd(t_minishell *minishell)
             tmp = getcwd(NULL, 0);
             chdir(oldpwd);
             oldpwd = tmp;
+            // free(tmp);
         }
         else
         {
@@ -37,6 +38,8 @@ void ft_cd(t_minishell *minishell)
                 fprintf(stderr, C_RED "cd: %s: No such file or directory\n" C_RESET, minishell->cmd_node->cmd_full[1]);
         }
     }
+    // free(oldpwd);
+    // free(tmp);
     fprintf(stderr, C_GREEN "new pwd: %s\n" C_RESET, getcwd(NULL, 0));
 }
 

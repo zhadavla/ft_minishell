@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:43:02 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/19 19:41:27 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/22 16:01:25 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	expand_env(t_token **token, char **env, t_minishell *minishell)
 {
 	t_token	*head;
 	char	*env_value;
+	char	*text_tmp;
 
 	head = *token;
 	while (head)
@@ -62,11 +63,17 @@ void	expand_env(t_token **token, char **env, t_minishell *minishell)
 			&& !is_special_character(head->text[1]))
 		{
 			env_value = get_env_value(head->text, env, minishell);
+			text_tmp = ft_strdup(head->text);
 			free(head->text);
 			if (env_value)
+			{
 				head->text = ft_strdup(env_value);
+				if (*(text_tmp + 1) == '?')
+					free(env_value);
+			}
 			else
 				head->text = ft_strdup("");
+			free(text_tmp);
 			head->len = ft_strlen(head->text);
 		}
 		head = head->next;
@@ -88,7 +95,6 @@ static char	*get_env_value(char *text, char **efnv, t_minishell *minishell)
 	i = 0;
 	while (env[++i])
 	{
-		fprintf(stderr, C_BLUE "text = %s\n" C_RESET, text);
 		if (*(text+1) == '?')
 		{
 			fprintf(stderr, C_YELLOW "exit status = %d\n" C_RESET,

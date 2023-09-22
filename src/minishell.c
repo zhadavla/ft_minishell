@@ -202,6 +202,7 @@ t_cmd *tokenizer(t_token *head, char **env, t_minishell *minishell)
 		minishell->exit_status = 127;
 		return (0);
 	}
+	print_tokens(head);
 	
 	t_cmd *cmd_node = split_to_pipes(&head);
 	free_tokens(head);
@@ -215,19 +216,19 @@ int executor(t_minishell *minishell)
 	t_env **env_list = NULL;
 	open_files(&minishell->cmd_node);
 
-	// if (is_heredoc(minishell->cmd_node))
-	// {
-		// printf("=============sequence===========\n");
-		// fprintf(stderr, C_BLUE "sequence\n" C_RESET);
-		// return (sequential_executor(minishell));
-	// }
-	// else
-	// {
+	if (is_heredoc(minishell->cmd_node))
+	{
+		printf("=============sequence===========\n");
+		fprintf(stderr, C_BLUE "sequence\n" C_RESET);
+		return (sequential_executor(minishell));
+	}
+	else
+	{
 		t_pipex pipex = update_pipe_fds(&minishell->cmd_node, minishell->env);
 		minishell->pipex = &pipex;
 		fprintf(stderr, C_BLUE "parallel\n" C_RESET);
 		return (parallel_executor(minishell));
-	// }
+	}
 }
 
 void print_env_in_yellow(char **env)
@@ -302,15 +303,38 @@ int main(int argc, char **argv, char **env)
 	minishell->token = NULL;
 	minishell->cmd_node = NULL;
 	minishell->pipex = NULL;
+	minishell->exit_status_str = NULL;
 	signal(SIGINT, ft_newline);
 	signal(SIGQUIT, SIG_IGN);
 	
 	char *lines[] = {
+		// "ls | ls -la > outfile | cat -e | wc -l > outfile",
+		// "wc -l < infile | grep m < infile",
 		// "ls",
-		"ls",
+		// "wc -l < infile",
 		// "ls | cat | grep m | wc -l",
-		// "cat",
+		// "ls - la | wc",
 		// "<< stop cat | wc -l" ,
+		// "<< stop cat",
+		// "       ",
+		// "echo hello",
+		// "sdfsdf",
+		// "echo $?",
+		// "echo $USER",
+		// "echo $HOME",
+		// "echo $TEXT",
+		// "$USER",
+		"pwd",
+		"pwd | wc -l",
+		// "cd ..", //MEM LEAK
+		// "cd", //MEM LEAK
+		"echo \"hello 42\"",
+		"echo \"hello 42\" | wc -l",
+		"env",
+		"env | wc -l",
+		"echo USER | grep USER",
+		"env > out1",
+		" env | grep x | wc -l",
 		};
 	
 
@@ -324,42 +348,39 @@ int main(int argc, char **argv, char **env)
 		// fprintf(stderr,"readed line = %s\n", line);
 		printf("readed line = {%s}\n", line);
 
-		// if (is_only_spaces(line))
-		// {
-		// 	free_minishell(minishell);
-		// 	free(line);
-		// 	continue;
-		// }
+		if (is_only_spaces(line))
+		{
+			free_minishell(minishell);
+			// free(line);
+			continue;
+		}
 
 		minishell->token = lexer(line, minishell);
 		if (!minishell->token)
 		{
 			fprintf(stderr, C_GREEN "exit_status = %d\n" C_RESET, minishell->exit_status);
-			free(line);
+			// free(line);
 			continue;
 		}
 		minishell->cmd_node = tokenizer(minishell->token, minishell->env, minishell);
 		if (!minishell->cmd_node)
 		{
 			fprintf(stderr, C_GREEN "exit_status = %d\n" C_RESET, minishell->exit_status);
-			free(line);
+			// free(line);
 			continue;
 		}
+		// print_tokens(minishell->token);
+		
 		is_command_in_every_pipe(&minishell->cmd_node);
 		first_last_cmd(&(minishell->cmd_node));
 
-		print_tokens(minishell->token);
-		print_t_cmd(minishell->cmd_node);
-
-
-
 		minishell->exit_status = executor(minishell);
+		// print_t_cmd(minishell->cmd_node);
 
 		// fprintf(stderr, C_GREEN "final_exit_status = %d\n" C_RESET, minishell->exit_status);
 		// free(line);
 		// printf("pid = %d\n", getpid());
 
-		
 		free_minishell(minishell);
 	}
 	free(minishell);

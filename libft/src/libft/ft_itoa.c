@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 17:34:32 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/17 20:04:32 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/22 15:00:47 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ char	*ft_itoa(int n)
 		return (NULL);
 	str_num[num_of_digits--] = 0;
 	if (n == 0)
+	{
+		free(str_num);
 		return (ft_strdup("0"));
+	}
 	if (n < 0)
 	{
 		str_num[0] = '-';

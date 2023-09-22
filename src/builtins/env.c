@@ -7,5 +7,4 @@ void ft_env(t_minishell *minishell)
 	int len = -1;
 	while (env[++len])
 		printf("%s\n", env[len]);
-	
 }

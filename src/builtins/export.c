@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 13:54:06 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/20 19:52:51 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/22 15:25:44 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	add_env_variable(t_env **env_list, char *env_text)
 {
 	t_env	*tmp;
 
-	fprintf(stderr, C_YELLOW "env_text = %s\n" C_RESET, env_text);
+	// fprintf(stderr, C_YELLOW "env_text = %s\n" C_RESET, env_text);
 	tmp = *env_list;
 	while (tmp->next)
 		tmp = tmp->next;
