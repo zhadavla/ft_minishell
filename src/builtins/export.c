@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 13:54:06 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/22 15:25:44 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/09/22 19:29:03 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ t_env	*create_env_copy(char **env)
 		{
 			head = (t_env *)malloc(sizeof(t_env));
 			head->next = NULL;
+		
 			head->full_env = ft_strdup(env[i]);
+			free(env[i]);
 			// fprintf(stderr, C_YELLOW "%s\n" C_RESET, head->full_env);
 			// fprintf(stderr, "\e[32mkey: %s\e[0m\n", head->key);
 			// fprintf(stderr, "\e[31mvalue: %s\e[0m\n", head->value);
@@ -39,11 +41,13 @@ t_env	*create_env_copy(char **env)
 			tmp = tmp->next;
 			tmp->next = NULL;
 			tmp->full_env = ft_strdup(env[i]);
+			free(env[i]);
 			// fprintf(stderr, C_YELLOW "%s\n" C_RESET, tmp->full_env);
 			// fprintf(stderr, "\e[32mkey: %s\e[0m\n", tmp->key);
 			// fprintf(stderr, "\e[31mvalue: %s\e[0m\n", tmp->value);
 		}
 	}
+	free(env);
 	return (head);
 }
 
@@ -189,8 +193,7 @@ void	print_env_sorted(char **env, int env_len)
 		}
 	}
 	sorted_env[env_len] = NULL;
-	quotation_marks_after_equal_sign(sorted_env, env_len);
-	fprintf(stderr, C_YELLOW "i = %d env_len = %d\n" C_RESET, i, env_len);
+	// fprintf(stderr, C_YELLOW "i = %d env_len = %d\n" C_RESET, i, env_len);
 	print_env(sorted_env);
 	clean_env(sorted_env);
 }
@@ -288,45 +291,28 @@ char	**get_env_from_file(int fd)
 	return (env);
 }
 
-/**
- * Creates file if it doesn't exist
- * Returns fd
- */
-int	create_file_if_not_exists(void)
+void free_env(t_env *env)
 {
-	int	fd;
+	t_env *tmp;
 
-	fd = open("./tmp/.env", O_RDONLY);
-	if (fd == -1)
+	while (env)
 	{
-		fd = open("./tmp/.env", O_CREAT | O_RDWR, 0777);
-		return (fd);
-	}
-	return (fd);
-}
-
-void	add_env_to_file(char **commands, char **env, int fd)
-{
-	int	i;
-
-	i = 1;
-	while (commands[i])
-	{
-		ft_putstr_fd(commands[i], fd);
-		ft_putstr_fd("\n", fd);
-		i++;
+		tmp = env;
+		env = env->next;
+		free(tmp->full_env);
+		free(tmp);
 	}
 }
 
-void	ft_export(t_minishell *minishell)
+int	ft_export(t_minishell *minishell)
 {
 	int len = 0;
-	char **env = minishell->env;
+	minishell->env;
 	char **commands = minishell->cmd_node->cmd_full;
-
-	while (env[len])
+	
+	while (minishell->env[len])
 	{
-		fprintf(stderr, C_BLUE "%s\n" C_RESET, env[len]);
+		fprintf(stderr, C_BLUE "%s\n" C_RESET, minishell->env[len]);
 		len++;
 	}
 
@@ -334,24 +320,26 @@ void	ft_export(t_minishell *minishell)
 		fprintf(stderr, "export: not enough arguments\n");
 	if (!commands[1])
 	{
-		print_env_sorted(env, len);
-		return ;
+		print_env_sorted(minishell->env, len);
+		return 0;
 	}
 	if (!check_validity(commands))
 	{
 		ft_putstr_fd("minishell: export: {", 2);
 		ft_putstr_fd(commands[1], 2);
 		ft_putstr_fd("}: not a valid identifier\n", 2);
-		return ;
+		return 0;
 	}
 	else
 	{
-		minishell->env_list = create_env_copy(env);
-		int i = -1;
+		minishell->env_list = create_env_copy(minishell->env);
+		int i = 0;
 		while (commands[++i])
 			add_env_variable(&minishell->env_list, commands[i]);
+
 		minishell->env = t_env_to_array(minishell->env_list);
 		print_env_in_yellow(minishell->env);
-		return;
+		free_env(minishell->env_list);
+		return 0;
 	}
 }

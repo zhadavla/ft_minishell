@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:17:49 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/22 18:37:04 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/22 19:03:12 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	execute_builtin_without_output(t_minishell *minishell)
 	if (!ft_strncmp(cmd_node->cmd_full[0], "cd", 3))
 		return (ft_cd(minishell));
 	 if (!ft_strncmp(cmd_node->cmd_full[0], "export", 7))
-		ft_export(minishell);
+		return (ft_export(minishell));
 	else if (!ft_strncmp(cmd_node->cmd_full[0], "unset", 6))
 		ft_unset(minishell);
 	else if (!ft_strncmp(cmd_node->cmd_full[0], "exit", 5))

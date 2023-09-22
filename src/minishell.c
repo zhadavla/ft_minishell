@@ -273,6 +273,8 @@ void free_minishell(t_minishell *minishell)
 {
 	free_tokens(minishell->token);
 	free_cmd_nodes(&minishell->cmd_node);
+	int i = -1;
+	
 }
 
 int is_only_spaces(char *line)
@@ -290,6 +292,24 @@ int is_only_spaces(char *line)
 	return (1);
 }
 
+char **ft_dup_env(char **env)
+{
+	int i = 0;
+	char **new_env;
+
+	while (env[i])
+		i++;
+	new_env = malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	while (env[i])
+	{
+		new_env[i] = ft_strdup(env[i]);
+		i++;
+	}
+	new_env[i] = NULL;
+	return (new_env);
+}
+
 
 int main(int argc, char **argv, char **env)
 {
@@ -298,7 +318,7 @@ int main(int argc, char **argv, char **env)
 	t_minishell *minishell;
 
 	minishell = malloc(sizeof(t_minishell));
-	minishell->env = env;
+	minishell->env = ft_dup_env(env);
 	minishell->exit_status = 0;
 	minishell->token = NULL;
 	minishell->cmd_node = NULL;
@@ -325,14 +345,15 @@ int main(int argc, char **argv, char **env)
 		// "echo $TEXT",
 		// "$USER",
 		// "pwd",
+		// "env"
 		// "pwd | wc -l",
-		"cd ..", //MEM LEAK
-		"cd", //MEM LEAK
-		"cd -",
-		"cd src",
-		"cd sskfls",
-		// "pwd",
-		"cd | wc -l | grep 1", //MEM LEAK
+		// "cd ..", 
+		// "cd", 
+		// "cd -",
+		// "cd src",
+		// "cd sskfls",
+		// // "pwd",
+		// "cd | wc -l | grep 1", 
 		// "echo \"hello 42\"",
 		// "echo \"hello 42\" | wc -l",
 		// "env",
@@ -340,9 +361,11 @@ int main(int argc, char **argv, char **env)
 		// "echo USER | grep USER",
 		// "env > out1",
 		// " env | grep x | wc -l",
+		// check builtins with heredoc,
+		"export x=4 a=3", 
+		// "export"
 		};
 	
-
 	int i = 0;
 	while (i < sizeof(lines) / sizeof(char *))
 	{	
@@ -387,6 +410,13 @@ int main(int argc, char **argv, char **env)
 		// printf("pid = %d\n", getpid());
 
 		free_minishell(minishell);
+	}
+	i = -1;
+	if (minishell->env)
+	{
+		while (minishell->env[++i]) 
+			free(minishell->env[i]);
+		free(minishell->env);
 	}
 	free(minishell->oldpwd);
 	free(minishell);

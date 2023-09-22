@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/22 18:53:12 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/22 19:19:47 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct minishell
 	t_cmd *cmd_node;
 	t_pipex *pipex;
 	char *oldpwd;
+	int is_first_env;
 	int exit_status;
 } t_minishell;
 
@@ -252,7 +253,7 @@ t_env *create_env_copy(char **env);
 void validate_absolute_path(t_token **token);
 char **t_env_to_array(t_env *env);
 void add_env_variable(t_env **env_list, char *env_text);
-void ft_export(t_minishell *minishell);
+int ft_export(t_minishell *minishell);
 void write_env_to_file(char **env, int fd);
 char **get_env_from_file(int fd);
 void ft_newline(int sig);
@@ -261,5 +262,5 @@ void ft_unset(t_minishell *minishell);
 void ft_env(t_minishell *minishell);
 void ft_pwd(t_minishell *minishell);
 int ft_cd(t_minishell *minishell);
-
+void free_env(t_env *env);
 #endif // MINISHELL_H
