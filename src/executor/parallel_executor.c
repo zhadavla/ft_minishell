@@ -6,7 +6,7 @@
 /*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:17:49 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/22 16:38:00 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/09/22 18:08:08 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,22 +83,20 @@ int	is_builtin_without_output(t_cmd *node_cmd)
 	return (FALSE);
 }
 
-void	execute_builtin_without_output(t_minishell *minishell)
+int	execute_builtin_without_output(t_minishell *minishell)
 {
 	t_cmd	*cmd_node;
 
 	cmd_node = minishell->cmd_node;
-	// ft_dup2(node_cmd->infile_fd, node_cmd->outfile_fd);
 	if (!ft_strncmp(cmd_node->cmd_full[0], "cd", 3))
-		ft_cd(minishell);
+		return (ft_cd(minishell));
 	 if (!ft_strncmp(cmd_node->cmd_full[0], "export", 7))
 		ft_export(minishell);
-	// else if (!ft_strncmp(cmd_node->cmd_full[0], "env", 4))
-	// 	ft_env(minishell);
 	else if (!ft_strncmp(cmd_node->cmd_full[0], "unset", 6))
 		ft_unset(minishell);
 	else if (!ft_strncmp(cmd_node->cmd_full[0], "exit", 5))
 		ft_exit(minishell);
+	return (0);
 }
 
 int	execute_command(t_minishell *minishell)
@@ -116,19 +114,26 @@ int	execute_command(t_minishell *minishell)
 	while (node_cmd)
 	{
 		if (is_builtin_without_output(node_cmd))
-			execute_builtin_without_output(minishell);
+		{
+			fprintf(stderr, C_GREEN "this is fine\n" C_RESET);
+			exit_status = execute_builtin_without_output(minishell);
+		}
 		else
 			do_fork(minishell, node_cmd);
 		node_cmd = node_cmd->next;
 	}
 	i = -1;
 	close_fd(pipex);
-	while (++i < pipex->cmd_count)
+	if (!is_builtin_without_output(minishell->cmd_node))
 	{
-		wait(&status);
-		if (WIFEXITED(status) == 1)
-			exit_status = WEXITSTATUS(status);
+		fprintf(stderr, C_GREEN "it shouldn't be printed\n" C_RESET);
+		while (++i < pipex->cmd_count)
+		{
+			wait(&status);
+			if (WIFEXITED(status) == 1)
+				exit_status = WEXITSTATUS(status);
+		}
 	}
-	signal(SIGINT, ft_newline);
+	signal(SIGINT, ft_newline);	
 	return (exit_status);
 }

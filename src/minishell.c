@@ -202,7 +202,7 @@ t_cmd *tokenizer(t_token *head, char **env, t_minishell *minishell)
 		minishell->exit_status = 127;
 		return (0);
 	}
-	print_tokens(head);
+	// print_tokens(head);
 	
 	t_cmd *cmd_node = split_to_pipes(&head);
 	free_tokens(head);
@@ -303,7 +303,6 @@ int main(int argc, char **argv, char **env)
 	minishell->token = NULL;
 	minishell->cmd_node = NULL;
 	minishell->pipex = NULL;
-	minishell->exit_status_str = NULL;
 	signal(SIGINT, ft_newline);
 	signal(SIGQUIT, SIG_IGN);
 	
@@ -324,17 +323,22 @@ int main(int argc, char **argv, char **env)
 		// "echo $HOME",
 		// "echo $TEXT",
 		// "$USER",
-		"pwd",
-		"pwd | wc -l",
+		// "pwd",
+		// "pwd | wc -l",
 		// "cd ..", //MEM LEAK
-		// "cd", //MEM LEAK
-		"echo \"hello 42\"",
-		"echo \"hello 42\" | wc -l",
-		"env",
-		"env | wc -l",
-		"echo USER | grep USER",
-		"env > out1",
-		" env | grep x | wc -l",
+		"cd", //MEM LEAK
+		// "cd -",
+		// "cd src",
+		// "cd sskfls",
+		// "pwd",
+		// "cd | wc -l | grep 1", //MEM LEAK
+		// "echo \"hello 42\"",
+		// "echo \"hello 42\" | wc -l",
+		// "env",
+		// "env | wc -l",
+		// "echo USER | grep USER",
+		// "env > out1",
+		// " env | grep x | wc -l",
 		};
 	
 
@@ -377,7 +381,7 @@ int main(int argc, char **argv, char **env)
 		minishell->exit_status = executor(minishell);
 		// print_t_cmd(minishell->cmd_node);
 
-		// fprintf(stderr, C_GREEN "final_exit_status = %d\n" C_RESET, minishell->exit_status);
+		fprintf(stderr, C_GREEN "final_exit_status = %d\n" C_RESET, minishell->exit_status);
 		// free(line);
 		// printf("pid = %d\n", getpid());
 

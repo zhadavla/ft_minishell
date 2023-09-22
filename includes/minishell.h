@@ -6,7 +6,7 @@
 /*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/22 16:27:02 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/09/22 18:30:25 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ typedef struct minishell
 	t_cmd *cmd_node;
 	t_pipex *pipex;
 	int exit_status;
-	char *exit_status_str;
 } t_minishell;
 
 
@@ -260,6 +259,6 @@ int	ft_exit(t_minishell *minishell);
 void ft_unset(t_minishell *minishell);
 void ft_env(t_minishell *minishell);
 void ft_pwd(t_minishell *minishell);
-void ft_cd(t_minishell *minishell);
+int ft_cd(t_minishell *minishell);
 
 #endif // MINISHELL_H

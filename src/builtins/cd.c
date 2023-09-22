@@ -10,7 +10,7 @@
  * implementation of cd command
 */
 
-void ft_cd(t_minishell *minishell)
+int ft_cd(t_minishell *minishell)
 {
     static char *oldpwd;
     char *tmp;
@@ -20,27 +20,31 @@ void ft_cd(t_minishell *minishell)
     if (minishell->cmd_node->cmd_full[1] == NULL)
     {
         oldpwd = getcwd(NULL, 0);
-        chdir(getenv("HOME"));
+        if (chdir(getenv("HOME")) == -1)
+            return (4);
     }
     else
     {  
         if (!ft_strncmp(minishell->cmd_node->cmd_full[1], "-", 2))
         {
             tmp = getcwd(NULL, 0);
-            chdir(oldpwd);
+            if (chdir(oldpwd) == -1)
+                return (4);
             oldpwd = tmp;
-            // free(tmp);
         }
         else
         {
             oldpwd = getcwd(NULL, 0);
             if (chdir(minishell->cmd_node->cmd_full[1]) == -1)
+            {
+                return (4);
                 fprintf(stderr, C_RED "cd: %s: No such file or directory\n" C_RESET, minishell->cmd_node->cmd_full[1]);
+            }
         }
     }
-    // free(oldpwd);
-    // free(tmp);
+    fprintf(stderr, C_GREEN "old pwd: %s\n" C_RESET, oldpwd);
     fprintf(stderr, C_GREEN "new pwd: %s\n" C_RESET, getcwd(NULL, 0));
+    return (0);
 }
 
 // typedef struct s_path
