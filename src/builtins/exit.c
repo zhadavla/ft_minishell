@@ -6,17 +6,18 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 19:21:34 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/22 22:07:10 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/23 19:17:22 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"	
+#include "../../includes/minishell.h"
 
-int is_valid_argument(t_minishell *minishell)
+int	is_valid_argument(t_minishell *minishell)
 {
-	int i;
-	char *str = minishell->cmd_node->cmd_full[1];
+	int		i;
+	char	*str;
 
+	str = minishell->cmd_node->cmd_full[1];
 	if (!str)
 		return (FALSE);
 	i = 0;
@@ -38,9 +39,12 @@ int is_valid_argument(t_minishell *minishell)
 	return (TRUE);
 }
 
-void ft_exit(t_minishell *minishell)
+void	ft_exit(t_minishell *minishell)
 {
-	int exit_status = 0;
+	int	i;
+	int	exit_status;
+
+	exit_status = 0;
 	if (is_valid_argument(minishell))
 	{
 		if (minishell->cmd_node->cmd_full[1])
@@ -49,10 +53,10 @@ void ft_exit(t_minishell *minishell)
 			exit_status = 0;
 	}
 	ft_putstr_fd("exit\n", 2);
-	int i = -1;
+	i = -1;
 	if (minishell->env)
 	{
-		while (minishell->env[++i]) 
+		while (minishell->env[++i])
 			free(minishell->env[i]);
 		free(minishell->env);
 	}
