@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sequantial_executor.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:16:01 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/22 14:18:24 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/09/23 14:01:01 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,8 +145,8 @@ int	sequential_executor(t_minishell *minishell)
 			wait(&status);
 			if (WIFEXITED(status) == 1)
 			{
-				fprintf(stderr, C_YELLOW "sequence wait status = %d\n" C_RESET,
-					(WEXITSTATUS(status)));
+				// fprintf(stderr, C_YELLOW "sequence wait status = %d\n" C_RESET,
+					// (WEXITSTATUS(status)));
 					exit_status = WEXITSTATUS(status);
 			}
 			if (prev_read_end != -1)
@@ -159,6 +159,6 @@ int	sequential_executor(t_minishell *minishell)
 		// free_cmd_node(tmp);
 	}
 	// free_cmd_node(minishell->cmd_node);
-	// fprintf(stderr, C_YELLOW "final sequence exit status = %d\n" C_RESET, exit_status);
+	// // fprintf(stderr, C_YELLOW "final sequence exit status = %d\n" C_RESET, exit_status);
 	return(exit_status);
 }

@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 19:04:58 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/16 13:54:24 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/23 14:00:44 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	validate_builtins(t_token **token)
 	{
 		if (is_command_builtin(head->text))
 		{
-			// fprintf(stderr, "builtin: %s\n", head->text);
+			// // fprintf(stderr, "builtin: %s\n", head->text);
 			head->type = BUILTIN;
 		}
 		head = head->next;

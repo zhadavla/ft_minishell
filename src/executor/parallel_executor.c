@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:17:49 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/22 22:35:21 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/23 14:00:44 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	my_child(int sig)
 {
 	if (sig == SIGINT)
 	{
-		fprintf(stderr, C_RED "child exit\n" C_RESET);
+		// fprintf(stderr, C_RED "child exit\n" C_RESET);
 		exit(130);
 	}
 }
@@ -35,7 +35,7 @@ static void	do_fork(t_minishell *minishell, t_cmd	*node_cmd)
 	if (pid == 0)
 	{
 		signal(SIGINT, my_child);
-		fprintf(stderr, C_RED "child\n" C_RESET);
+		// fprintf(stderr, C_RED "child\n" C_RESET);
 		dup_check = ft_dup2(node_cmd->infile_fd, node_cmd->outfile_fd);
 		if (node_cmd->exit_status != 0)
 			exit(127);
@@ -47,14 +47,14 @@ static void	do_fork(t_minishell *minishell, t_cmd	*node_cmd)
 		close_fd(pipex);
 		if (node_cmd->is_builtin)
 		{
-			fprintf(stderr, C_YELLOW "builtin\n" C_RESET);
+			// fprintf(stderr, C_YELLOW "builtin\n" C_RESET);
 			ft_execute_builtin(minishell);
 		}
 		else if (!ft_execute(node_cmd->cmd_full, env))
 			exit(42);
 	}
 	signal(SIGINT, SIG_IGN);
-	fprintf(stderr, C_GREEN "after exit\n" C_RESET);
+	// fprintf(stderr, C_GREEN "after exit\n" C_RESET);
 }
 
 int	parallel_executor(t_minishell *minishell)
@@ -115,7 +115,7 @@ int	execute_command(t_minishell *minishell)
 	{
 		if (is_builtin_without_output(node_cmd))
 		{
-			fprintf(stderr, C_GREEN "this is fine\n" C_RESET);
+			// fprintf(stderr, C_GREEN "this is fine\n" C_RESET);
 			exit_status = execute_builtin_without_output(minishell);
 		}
 		else
@@ -126,7 +126,7 @@ int	execute_command(t_minishell *minishell)
 	close_fd(pipex);
 	if (!is_builtin_without_output(minishell->cmd_node))
 	{
-		fprintf(stderr, C_GREEN "it shouldn't be printed\n" C_RESET);
+		// fprintf(stderr, C_GREEN "it shouldn't be printed\n" C_RESET);
 		while (++i < pipex->cmd_count)
 		{
 			wait(&status);

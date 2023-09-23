@@ -223,15 +223,15 @@ int executor(t_minishell *minishell)
 
 	if (is_heredoc(minishell->cmd_node))
 	{
-		printf("=============sequence===========\n");
-		fprintf(stderr, C_BLUE "sequence\n" C_RESET);
+		// printf("=============sequence===========\n");
+		// fprintf(stderr, C_BLUE "sequence\n" C_RESET);
 		return (sequential_executor(minishell));
 	}
 	else
 	{
 		t_pipex pipex = update_pipe_fds(&minishell->cmd_node, minishell->env);
 		minishell->pipex = &pipex;
-		fprintf(stderr, C_BLUE "parallel\n" C_RESET);
+		// fprintf(stderr, C_BLUE "parallel\n" C_RESET);
 		return (parallel_executor(minishell));
 	}
 }
@@ -239,10 +239,10 @@ int executor(t_minishell *minishell)
 void print_env_in_yellow(char **env)
 {
 	int i = 0;
-	fprintf(stderr, C_YELLOW "=================== env ===================\n" C_RESET);
+	// fprintf(stderr, C_YELLOW "=================== env ===================\n" C_RESET);
 	while (env[i])
 	{
-		fprintf(stderr, C_YELLOW "%s\n" C_RESET, env[i]);
+		// fprintf(stderr, C_YELLOW "%s\n" C_RESET, env[i]);
 		i++;
 	}
 }
@@ -390,34 +390,42 @@ int main(int argc, char **argv, char **env)
 		};
 	
 	int i = 0;
-	while (i < sizeof(lines) / sizeof(char *))
+	while (TRUE)
 	{	
-		// char *line = readline("minishell$ ");
+		char *line = readline("minishell$ ");
 		// add_history(line);
-		char *line = lines[i++];
+		// char *line = lines[i++];
+		if (!line)
+		{
+			free_minishell(minishell);
+			free(line);
+			printf("exit\n");
+			break;
+		}
+
 		// print_env_in_yellow(our_env);
-		// fprintf(stderr,"readed line = %s\n", line);
-		printf("readed line = {%s}\n", line);
+		// // fprintf(stderr,"readed line = %s\n", line);
+		// printf("readed line = {%s}\n", line);
 
 		if (is_only_spaces(line))
 		{
 			free_minishell(minishell);
-			// free(line);
+			free(line);
 			continue;
 		}
 
 		minishell->token = lexer(line, minishell);
 		if (!minishell->token)
 		{
-			fprintf(stderr, C_GREEN "exit_status = %d\n" C_RESET, minishell->exit_status);
-			// free(line);
+			// // fprintf(stderr, C_GREEN "exit_status = %d\n" C_RESET, minishell->exit_status);
+			free(line);
 			continue;
 		}
 		minishell->cmd_node = tokenizer(minishell->token, minishell->env, minishell);
 		if (!minishell->cmd_node)
 		{
-			fprintf(stderr, C_GREEN "exit_status = %d\n" C_RESET, minishell->exit_status);
-			// free(line);
+			// // fprintf(stderr, C_GREEN "exit_status = %d\n" C_RESET, minishell->exit_status);
+			free(line);
 			continue;
 		}
 		// print_tokens(minishell->token);
@@ -428,8 +436,8 @@ int main(int argc, char **argv, char **env)
 		minishell->exit_status = executor(minishell);
 		// print_t_cmd(minishell->cmd_node);
 
-		fprintf(stderr, C_GREEN "final_exit_status = %d\n" C_RESET, minishell->exit_status);
-		// free(line);
+		// // fprintf(stderr, C_GREEN "final_exit_status = %d\n" C_RESET, minishell->exit_status);
+		free(line);
 		// printf("pid = %d\n", getpid());
 
 		free_minishell(minishell);
@@ -471,7 +479,7 @@ int main(int argc, char **argv, char **env)
 // 		add_history(line);
 		
 // 		// print_env_in_yellow(our_env);
-// 		// fprintf(stderr,"readed line = %s\n", line);
+// 		// // fprintf(stderr,"readed line = %s\n", line);
 // 		printf("readed line = {%s}\n", line);
 // 		if (!line)
 // 		{
@@ -492,14 +500,14 @@ int main(int argc, char **argv, char **env)
 // 		minishell->token = lexer(line, minishell);
 // 		// if (!minishell->token)
 // 		// {
-// 		// 	fprintf(stderr, C_GREEN "exit_status = %d\n" C_RESET, minishell->exit_status);
+// 		// 	// fprintf(stderr, C_GREEN "exit_status = %d\n" C_RESET, minishell->exit_status);
 // 		// 	free(line);
 // 		// 	continue;
 // 		// }
 // 		// minishell->cmd_node = tokenizer(minishell->token, minishell->env, minishell);
 // 		// if (!minishell->cmd_node)
 // 		// {
-// 		// 	fprintf(stderr, C_GREEN "exit_status = %d\n" C_RESET, minishell->exit_status);
+// 		// 	// fprintf(stderr, C_GREEN "exit_status = %d\n" C_RESET, minishell->exit_status);
 // 		// 	free(line);
 // 		// 	continue;
 // 		// }
@@ -513,7 +521,7 @@ int main(int argc, char **argv, char **env)
 
 // 		// minishell->exit_status = executor(minishell);
 
-// 		// fprintf(stderr, C_GREEN "final_exit_status = %d\n" C_RESET, minishell->exit_status);
+// 		// // fprintf(stderr, C_GREEN "final_exit_status = %d\n" C_RESET, minishell->exit_status);
 // 		// free(line);
 // 		// printf("pid = %d\n", getpid());
 // 		// free_tokens(minishell->token);

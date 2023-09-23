@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_cmds.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 20:50:18 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/19 20:54:35 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/09/23 14:00:44 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	ft_exec_validation(t_minishell *minishell)
 				free(pathname);
 				return (TRUE);
 			}
-			fprintf(stderr, "minishell: %s: Permission denied\n", cmd);
+			// fprintf(stderr, "minishell: %s: Permission denied\n", cmd);
 			// minishell->exit_status = 126;
 			// return (FALSE);
 		}
@@ -64,7 +64,7 @@ void	validate_absolute_path(t_token **token)
 	while (head)
 	{
 		// error_msg("validate_absolute_path");
-		// fprintf(stderr, "head->text[0] = %s\n", head->text);
+		// // fprintf(stderr, "head->text[0] = %s\n", head->text);
 		if ((head->text[0] == '/' || head->text[0] == '.')
 			&& head->type == WORD)
 		{
@@ -94,7 +94,7 @@ void	validate_commands(t_minishell *minishell)
 	{
 		if (head->type == WORD && ft_exec_validation(minishell) == TRUE)
 		{
-			// fprintf(stderr, "command found {%s}\n", head->text);	
+			// // fprintf(stderr, "command found {%s}\n", head->text);	
 			head->type = COMMAND;
 		}
 		else if (head->type == ENV_VARIBLE || (head->type == WHITE_SPACE

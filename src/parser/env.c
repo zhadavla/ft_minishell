@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:43:02 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/22 16:01:25 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/09/23 14:02:40 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ static char	*get_env_value(char *text, char **efnv, t_minishell *minishell)
 	{
 		if (*(text+1) == '?')
 		{
-			fprintf(stderr, C_YELLOW "exit status = %d\n" C_RESET,
-					minishell->exit_status);
+			// fprintf(stderr, C_YELLOW "exit status = %d\n" C_RESET,
+					// minishell->exit_status);
 			return (ft_itoa(minishell->exit_status));
 		}
 		env_found = ft_strnstr(env[i], text + 1, ft_strlen(text));

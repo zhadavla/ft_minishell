@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 12:47:30 by mnurlybe          #+#    #+#             */
-/*   Updated: 2023/09/22 22:31:29 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/23 14:07:02 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ static int	open_infile(char **file_names, t_cmd **cmd_node)
 		}
 		i++;
 	}
-	if ((*cmd_node)->infile_name)
-		printf("infile name: %s fd: %d\n", (*cmd_node)->infile_name, fd);
+	// if ((*cmd_node)->infile_name)
+	// 	printf("infile name: %s fd: %d\n", (*cmd_node)->infile_name, fd);
 	(*cmd_node)->infile_fd = fd;
 	return (0);
 }
