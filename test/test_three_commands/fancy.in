@@ -1,0 +1,4 @@
+echo "Hello, world!" | tr '[:lower:]' '[:upper:]'
+find /usr/bin -name "zip" -type f -print0 | xargs -0 ls -l
+cat /etc/passwd | cut -d: -f1 | sort | uniq | wc -l
+date -d "2022-01-01" +%A

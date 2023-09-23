@@ -10,6 +10,7 @@ void ft_pwd(t_minishell *minishell)
         cmd_node->exit_status = 69;
         return;
     }
+    printf("%s\n", cwd);
     // fprintf(stderr, C_RED "%s\n" C_RESET, cwd);
     free(cwd);
 }

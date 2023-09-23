@@ -393,6 +393,7 @@ int main(int argc, char **argv, char **env)
 	while (TRUE)
 	{	
 		char *line = readline("minishell$ ");
+		add_history(line);
 		// add_history(line);
 		// char *line = lines[i++];
 		if (!line)

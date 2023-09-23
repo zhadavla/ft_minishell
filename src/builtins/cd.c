@@ -6,10 +6,21 @@
 // cd . - go to current directory
 // cd ../path/to/dir
 
+int is_str_in_strs(char **strs, char *str)
+{
+    int i = 0;
+    while (strs[i])
+    {
+        if (ft_strncmp(strs[i], str, ft_strlen(str)) == 0)
+            return (1);
+        i++;
+    }
+    return (0);
+}
+
 /**
  * implementation of cd command
 */
-
 int ft_cd(t_minishell *minishell)
 {
 
@@ -30,7 +41,16 @@ int ft_cd(t_minishell *minishell)
     {  
         if (!ft_strncmp(minishell->cmd_node->cmd_full[1], "-", 2))
         {
-            chdir(getenv("OLDPWD"));
+            tmp = getcwd(NULL, 0);
+            if (is_str_in_strs(minishell->env, "OLDPWD") == 0)
+            {
+                ft_putstr_fd(C_RED "cd: OLDPWD not set\n" C_RESET, 2);
+                return (4);
+            }
+            if (chdir(minishell->oldpwd) == -1)
+                return (4);
+            free(minishell->oldpwd); 
+            minishell->oldpwd = tmp;
         }
         else
         {
@@ -39,12 +59,12 @@ int ft_cd(t_minishell *minishell)
             if (chdir(minishell->cmd_node->cmd_full[1]) == -1)
             {
                 return (4);
-                // // fprintf(stderr, C_RED "cd: %s: No such file or directory\n" C_RESET, minishell->cmd_node->cmd_full[1]);
+                // fprintf(stderr, C_RED "cd: %s: No such file or directory\n" C_RESET, minishell->cmd_node->cmd_full[1]);
             }
         }
     }
-    // // fprintf(stderr, C_GREEN "old pwd: %s\n" C_RESET, minishell->oldpwd);
-    // // fprintf(stderr, C_GREEN "new pwd: %s\n" C_RESET, getcwd(NULL, 0));
+    // fprintf(stderr, C_GREEN "old pwd: %s\n" C_RESET, minishell->oldpwd);
+    // fprintf(stderr, C_GREEN "new pwd: %s\n" C_RESET, getcwd(NULL, 0));
     return (0);
 }
 
@@ -116,7 +136,7 @@ int ft_cd(t_minishell *minishell)
     
 //     if (minishell->cmd_node->cmd_full[1] == NULL)
 //     {
-//         // fprintf(stderr, C_RED "cd: PATH not set going to home directory\n" C_RESET);
+//         fprintf(stderr, C_RED "cd: PATH not set going to home directory\n" C_RESET);
 //         final_path = ft_strdup(home_dir);
 //     }
     
@@ -132,14 +152,14 @@ int ft_cd(t_minishell *minishell)
     //     // int i = 0;
     //     // while(p)
     //     // {
-    //     //     // fprintf(stderr, "split_cwd[%d]: %s\n", i, split_cwd[i]);
-    //     //     // fprintf(stderr, "p->path[%d]: %s\n", i, p->path);
+    //     //     fprintf(stderr, "split_cwd[%d]: %s\n", i, split_cwd[i]);
+    //     //     fprintf(stderr, "p->path[%d]: %s\n", i, p->path);
     //     //     i++;
     //     //     p = p->next;
     //     // }
     //     // for (int i = 0; split_path[i]; i++)
     //     // {
-    //     //     // fprintf(stderr, "split_path[%d]: %s\n", i, split_path[i]);
+    //     //     fprintf(stderr, "split_path[%d]: %s\n", i, split_path[i]);
     //     // }
     //     int i = 0;
     //     while (split_path[i])
@@ -156,23 +176,23 @@ int ft_cd(t_minishell *minishell)
     //     {
     //         p->path = ft_strjoin(p->path, "/");
     //         final_path = ft_strjoin(final_path, p->path);
-    //         // fprintf(stderr, "p->path[%d]: %s\n", i, p->path);
+    //         fprintf(stderr, "p->path[%d]: %s\n", i, p->path);
     //         i++;
     //         p = p->next;
     //     }
-    //     // fprintf(stderr, C_GREEN "final_path: %s\n" C_RESET, final_path);
+    //     fprintf(stderr, C_GREEN "final_path: %s\n" C_RESET, final_path);
     // }
     // else
     // {
     //     final_path = ft_strdup(minishell->cmd_node->cmd_full[1]);
-    //     // fprintf(stderr, C_RED "HELLO\n" C_RESET);
-    //     // fprintf(stderr, C_GREEN "final_path: %s\n" C_RESET, final_path);
+    //     fprintf(stderr, C_RED "HELLO\n" C_RESET);
+    //     fprintf(stderr, C_GREEN "final_path: %s\n" C_RESET, final_path);
     // }
 
     // if (chdir(minishell->cmd_node->cmd_full[1]) == -1)
-    //     // fprintf(stderr, C_RED "cd: %s: No such file or directory\n" C_RESET, final_path);
+    //     fprintf(stderr, C_RED "cd: %s: No such file or directory\n" C_RESET, final_path);
     // else 
-    //     // fprintf(stderr, C_GREEN "new pwd: %s\n" C_RESET, getcwd(NULL, 0));
+    //     fprintf(stderr, C_GREEN "new pwd: %s\n" C_RESET, getcwd(NULL, 0));
 // }
 
 // cwd: current directory /nfs/homes/mnurlybe/42Cursus/minishell/minishell2009_last

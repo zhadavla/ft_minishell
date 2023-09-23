@@ -1,3 +1,0 @@
-minishell$ ls ~ -l -a | grep s | wc -l 
-65
-minishell$ exit

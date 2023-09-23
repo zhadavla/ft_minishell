@@ -16,13 +16,13 @@ infiles=$(find . -name "*.in")
 for file in $infiles
 do
     echo -en "\e[33mTesting: \e[35m$file\e[33m: \e[0m"
-    ../minishell < $file > tmp
+    ../minishell < $file > tmp 2>&1
     if cmp -s tmp "${file%.in}.out"
     then
         echo -e "\e[32mOK\e[0m"
     else
         echo
-		diff --color=auto tmp "${file%.in}.out"
+        diff --color=auto tmp "${file%.in}.out"
         echo -e "\e[31mKO\e[0m"
     fi
 done

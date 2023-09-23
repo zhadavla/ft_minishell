@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 13:54:06 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/23 14:00:44 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/23 16:46:48 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,9 +206,9 @@ void	print_env_sorted(char **env, int env_len)
  */
 int	check_validity_one(char *full_assignment)
 {
-	int	i;
+	// int	i;
 
-	i = 0;
+	// i = 0;
 	// if (full_assignment[i] == '=' || ft_isdigit(full_assignment[i]))
 	// 	return (FALSE);
 	// while (full_assignment[i] != '=')

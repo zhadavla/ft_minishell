@@ -1,0 +1,9 @@
+minishell$ echo "Hello, world!" | tr '[:lower:]' '[:upper:]'
+HELLO, WORLD!
+minishell$ find /usr/bin -name "zip" -type f -print0 | xargs -0 ls -l
+-rwxr-xr-x 1 root root 203768 Mar 25  2022 /usr/bin/zip
+minishell$ cat /etc/passwd | cut -d: -f1 | sort | uniq | wc -l
+53
+minishell$ date -d "2022-01-01" +%A
+Saturday
+minishell$ exit
