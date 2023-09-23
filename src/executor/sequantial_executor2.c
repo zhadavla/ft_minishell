@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sequantial_executor2.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/23 18:54:28 by vzhadan           #+#    #+#             */
+/*   Updated: 2023/09/23 19:02:56 by vzhadan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	handle_delimiter(int fd[2], char *line, char *joined_line);
+int		handle_delimiter(int fd[2], char *line, char *joined_line);
 
 /**
  * Reads from input untill the delimiter is found
@@ -38,8 +49,11 @@ int	here_doc(char *delimiter)
  * Handles setting up file descriptors
  */
 void	setup_file_descriptors(t_cmd *node_cmd, int *prev_read_end,
-		int *pipex_pipe, int hd_fd)
+		int *pipex_pipe)
 {
+	int	hd_fd;
+
+	hd_fd = 42;
 	if (node_cmd->is_heredoc)
 	{
 		hd_fd = here_doc(node_cmd->delim);
@@ -58,4 +72,17 @@ void	setup_file_descriptors(t_cmd *node_cmd, int *prev_read_end,
 		dup2(node_cmd->infile_fd, STDIN_FILENO);
 	if (node_cmd->outfile_fd != 1)
 		dup2(node_cmd->outfile_fd, STDOUT_FILENO);
+}
+
+/**
+ * Creates a pipe
+ */
+int	create_pipe(int *pipex_pipe)
+{
+	if (pipe(pipex_pipe) == -1)
+	{
+		perror("Pipe creation failed");
+		return (-1);
+	}
+	return (0);
 }

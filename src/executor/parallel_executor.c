@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:17:49 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/23 18:04:59 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/23 18:47:48 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,10 @@
 static void	my_child(int sig)
 {
 	if (sig == SIGINT)
-	{
-		// fprintf(stderr, C_RED "child exit\n" C_RESET);
 		exit(130);
-	}
 }
 
-static void	do_fork(t_minishell *minishell, t_cmd *node_cmd)
+void	do_fork(t_minishell *minishell, t_cmd *node_cmd)
 {
 	int		pid;
 	t_pipex	*pipex;
@@ -86,41 +83,4 @@ int	execute_builtin_without_output(t_minishell *minishell)
 	else if (!ft_strncmp(cmd_node->cmd_full[0], "exit", 5))
 		ft_exit(minishell);
 	return (0);
-}
-
-int	execute_command(t_minishell *minishell)
-{
-	int		i;
-	int		status;
-	int		exit_status;
-	t_cmd	*node_cmd;
-	t_pipex	*pipex;
-
-	node_cmd = minishell->cmd_node;
-	pipex = minishell->pipex;
-	while (node_cmd)
-	{
-		if (is_builtin_without_output(node_cmd))
-		{
-			// fprintf(stderr, C_GREEN "this is fine\n" C_RESET);
-			exit_status = execute_builtin_without_output(minishell);
-		}
-		else
-			do_fork(minishell, node_cmd);
-		node_cmd = node_cmd->next;
-	}
-	i = -1;
-	close_fd(pipex);
-	if (!is_builtin_without_output(minishell->cmd_node))
-	{
-		// fprintf(stderr, C_GREEN "it shouldn't be printed\n" C_RESET);
-		while (++i < pipex->cmd_count)
-		{
-			wait(&status);
-			if (WIFEXITED(status) == 1)
-				exit_status = WEXITSTATUS(status);
-		}
-	}
-	signal(SIGINT, ft_newline);
-	return (exit_status);
 }
