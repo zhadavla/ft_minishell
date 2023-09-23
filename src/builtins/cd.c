@@ -30,11 +30,7 @@ int ft_cd(t_minishell *minishell)
     {  
         if (!ft_strncmp(minishell->cmd_node->cmd_full[1], "-", 2))
         {
-            tmp = getcwd(NULL, 0);
-            if (chdir(minishell->oldpwd) == -1)
-                return (4);
-            free(minishell->oldpwd); 
-            minishell->oldpwd = tmp;
+            chdir(getenv("OLDPWD"));
         }
         else
         {
