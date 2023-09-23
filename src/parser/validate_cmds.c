@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 20:50:18 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/23 18:34:28 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/23 19:59:42 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,26 +26,13 @@ char	**get_binaries(char **env)
 	return (NULL);
 }
 
-/**
- * Returns TRUE if command is valid, FALSE otherwise
- */
-static int	ft_exec_validation(t_minishell *minishell)
+int	check_paths(char **path, char *cmd, t_minishell *minishell)
 {
-	char	**path;
 	char	*pathname;
 	int		i;
-	char	*cmd;
 
-	cmd = minishell->token->text;
-	path = get_binaries(minishell->env);
-	if (!path)
-	{
-		ft_putstr_fd("minishell: command not found\n", 2);
-		minishell->exit_status = 127;
-		return (FALSE);
-	}
-	i = 0;
-	while (path[i] != NULL)
+	i = -1;
+	while (path[++i] != NULL)
 	{
 		pathname = ft_join(path[i], "/");
 		pathname = ft_strjoin(pathname, cmd);
@@ -57,13 +44,35 @@ static int	ft_exec_validation(t_minishell *minishell)
 				free(pathname);
 				return (TRUE);
 			}
-			// fprintf(stderr, "minishell: %s: Permission denied\n", cmd);
-			// minishell->exit_status = 126;
-			// return (FALSE);
+			ft_putstr_fd(C_RED "minishell: %s: Permission denied\n" C_RESET, 2);
+			minishell->exit_status = 126;
+			free_split(path);
+			free(pathname);
+			return (FALSE);
 		}
 		free(pathname);
-		i++;
 	}
+	return (FALSE);
+}
+
+/**
+ * Returns TRUE if command is valid, FALSE otherwise
+ */
+int	ft_exec_validation(t_minishell *minishell)
+{
+	char	**path;
+	char	*cmd;
+
+	cmd = minishell->token->text;
+	path = get_binaries(minishell->env);
+	if (!path)
+	{
+		ft_putstr_fd("minishell: command not found\n", 2);
+		minishell->exit_status = 127;
+		return (FALSE);
+	}
+	if (check_paths(path, cmd, minishell))
+		return (TRUE);
 	free_split(path);
 	return (FALSE);
 }
@@ -75,8 +84,6 @@ void	validate_absolute_path(t_token **token)
 	head = *token;
 	while (head)
 	{
-		// error_msg("validate_absolute_path");
-		// // fprintf(stderr, "head->text[0] = %s\n", head->text);
 		if ((head->text[0] == '/' || head->text[0] == '.')
 			&& head->type == WORD)
 		{
@@ -90,63 +97,6 @@ void	validate_absolute_path(t_token **token)
 			else
 				head->type = WORD;
 		}
-		head = head->next;
-	}
-}
-/**
- * later: don't forget to handle wrong command input
- * and return error message: "command not found"
- * */
-void	validate_commands(t_minishell *minishell)
-{
-	t_token	*head;
-
-	head = minishell->token;
-	while (head)
-	{
-		if (head->type == WORD && ft_exec_validation(minishell) == TRUE)
-		{
-			// // fprintf(stderr, "command found {%s}\n", head->text);
-			head->type = COMMAND;
-		}
-		else if (head->type == ENV_VARIBLE || (head->type == WHITE_SPACE
-				&& head->quote != QUOTE0))
-			head->type = WORD;
-		head = head->next;
-		minishell->token = head;
-	}
-}
-
-void	validate_filename(t_token **token)
-{
-	t_token	*head;
-
-	head = *token;
-	while (head)
-	{
-		if (head->next && (head->next->type == WORD
-				|| head->next->type == COMMAND))
-		{
-			if (head->type == REDIR_APPEND)
-				head->next->type = OUTFILE_AP;
-			else if (head->type == REDIR_OUT)
-				head->next->type = OUTFILE;
-			else if (head->type == REDIR_IN)
-				head->next->type = INFILE;
-		}
-		head = head->next;
-	}
-}
-
-void	validate_commands_two(t_token **token)
-{
-	t_token	*head;
-
-	head = *token;
-	while (head)
-	{
-		if (head->next && head->type == COMMAND && head->next->type == COMMAND)
-			head->next->type = WORD;
 		head = head->next;
 	}
 }

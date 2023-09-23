@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 19:26:03 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/19 18:45:56 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/23 20:00:19 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_cmd	*split_to_pipes(t_token **token)
 	t_token	*till_pipe;
 	t_cmd	*cmd_head;
 	t_cmd	*tmp_cmd;
- 
+
 	head = *token;
 	till_pipe = NULL;
 	cmd_head = NULL;

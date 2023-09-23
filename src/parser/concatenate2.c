@@ -6,13 +6,14 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 20:53:28 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/18 15:38:37 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/23 20:05:01 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 static void	remove_whitespace(t_token **prev, t_token **tmp, t_token **token);
+int			is_quote(t_token *head);
 
 /**
  * Removeing one whitespace from the token,
@@ -90,6 +91,16 @@ void	concate_leftover_strings(t_token **token)
 	}
 }
 
+void	check_first_node(t_token **token, t_token **prev)
+{
+	if ((*token) && (is_quote(*token)) && (*token)->quote == QUOTE0)
+	{
+		*prev = *token;
+		*token = (*token)->next;
+		free_token(*prev);
+	}
+}
+
 /**
  * Remove quotes from tokens,
  * because we don't need them anymore
@@ -98,24 +109,15 @@ void	remove_quotes(t_token **token)
 {
 	t_token	*head;
 	t_token	*prev;
-	
-	if ((*token) && ((*token)->type == SINGLE_QUOTE
-			|| (*token)->type == DOUBLE_QUOTE) && (*token)->quote == QUOTE0)
-	{
-		prev = *token;
-		*token = (*token)->next;
-		free_token(prev);
-	}
+
+	check_first_node(token, &prev);
 	head = *token;
 	while (head)
 	{
-		if (head->next && (head->next->type == SINGLE_QUOTE
-				|| head->next->type == DOUBLE_QUOTE)
-			&& head->next->quote == QUOTE0)
+		if (head->next && (is_quote(head->next)) && head->next->quote == QUOTE0)
 		{
-			if (head->next->next && (head->next->next->type == SINGLE_QUOTE
-				|| head->next->next->type == DOUBLE_QUOTE)
-			&& head->next->next->quote == QUOTE0)
+			if (head->next->next && is_quote(head->next->next)
+				&& head->next->next->quote == QUOTE0)
 			{
 				prev = head->next;
 				head->next = head->next->next;
@@ -128,4 +130,3 @@ void	remove_quotes(t_token **token)
 		head = head->next;
 	}
 }
-

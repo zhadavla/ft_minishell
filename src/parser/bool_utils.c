@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 19:27:05 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/11 19:41:52 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/23 20:05:45 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,9 @@ int	is_in_quotes(t_token *head)
 {
 	return ((head->quote == IN_QUOTE1 && head->next->quote == IN_QUOTE1)
 		|| (head->quote == IN_QUOTE2 && head->next->quote == IN_QUOTE2));
+}
+
+int	is_quote(t_token *head)
+{
+	return (head->type == SINGLE_QUOTE || head->type == DOUBLE_QUOTE);
 }

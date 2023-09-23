@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:43:02 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/23 18:21:28 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/23 19:45:34 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,12 @@ void	merge_envs(t_token **token)
 	}
 }
 
+int	is_need_to_expand(t_token *head)
+{
+	return (head->type == ENV_VARIBLE && head->quote != IN_QUOTE1
+		&& !is_special_character(head->text[1]));
+}
+
 /**
  * Replace $ENV with value from env in each token
  */
@@ -59,8 +65,7 @@ void	expand_env(t_token **token, t_minishell *minishell)
 	head = *token;
 	while (head)
 	{
-		if (head->type == ENV_VARIBLE && head->quote != IN_QUOTE1
-			&& !is_special_character(head->text[1]))
+		if (is_need_to_expand(head))
 		{
 			env_value = get_env_value(head->text, minishell);
 			text_tmp = ft_strdup(head->text);
@@ -91,14 +96,16 @@ static char	*get_env_value(char *text, t_minishell *minishell)
 {
 	int		i;
 	char	*env_found;
-	char **env = minishell->env;
+	char	**env;
+
+	env = minishell->env;
 	i = 0;
 	while (env[++i])
 	{
-		if (*(text+1) == '?')
+		if (*(text + 1) == '?')
 		{
 			fprintf(stderr, C_YELLOW "exit status = %d\n" C_RESET,
-					minishell->exit_status);
+				minishell->exit_status);
 			return (ft_itoa(minishell->exit_status));
 		}
 		env_found = ft_strnstr(env[i], text + 1, ft_strlen(text));
