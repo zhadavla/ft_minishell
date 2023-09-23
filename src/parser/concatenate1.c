@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 18:45:46 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/11 18:55:02 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/23 18:18:59 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	concatenate_minus(t_token **token);
 void	merge_redirections_heredoc(t_token **token)
 {
 	t_token	*head;
-	t_token	*tmp;
 	t_token	*prev;
 
 	head = *token;
@@ -77,7 +76,6 @@ void	concate_quotes(t_token **token)
 void	concatenate_minus(t_token **token)
 {
 	t_token	*head;
-	t_token	*tmp;
 	t_token	*prev;
 
 	head = *token;

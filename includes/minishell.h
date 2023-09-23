@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/22 22:27:29 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/23 18:30:32 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,7 @@ t_token *new_token(char *text, size_t len,
 t_quote update_q_s(char c, t_quote quote);
 void merge_envs(t_token **token);
 void print_t_cmd(t_cmd *head);
-void expand_env(t_token **token, char **env, t_minishell *minishell);
+void expand_env(t_token **token,t_minishell *minishell);
 void remove_whitespaces(t_token **token);
 void remove_quotes(t_token **token);
 void concate_leftover_strings(t_token **token);
@@ -221,7 +221,7 @@ void free_minishell(t_minishell *minishell);
 /**************************Pipes*******************************/
 
 void first_last_cmd(t_cmd **cmd_node);
-t_pipex update_pipe_fds(t_cmd **cmd_node, char **env);
+t_pipex update_pipe_fds(t_cmd **cmd_node);
 
 char **get_binaries(char **env);
 int execute_command(t_minishell * minishell);

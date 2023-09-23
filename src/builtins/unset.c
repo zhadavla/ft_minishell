@@ -29,7 +29,6 @@ int ft_unset(t_minishell *minishell)
 	t_cmd	*cmd_node = minishell->cmd_node;
 	char	*key = NULL;
 	t_env	*tmp;
-	t_env	*prev;
 
 	if (!cmd_node->cmd_full[1])
 	{
@@ -38,11 +37,9 @@ int ft_unset(t_minishell *minishell)
 	}
 	minishell->env_list = create_env_copy(minishell->env);
 	tmp = minishell->env_list;
-	prev = NULL;
 	key = cmd_node->cmd_full[1];
 	while (tmp)
 	{
-		prev = tmp;
 		// frpintf(stderr, C_YELLOW "prev {%s}\n" C_RESET, tmp->full_env);
 		if (!ft_strncmp(key, tmp->full_env, ft_strlen(key)))
 		{

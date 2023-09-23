@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 19:22:30 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/22 22:47:22 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/23 18:11:43 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	ft_execute_builtin(t_minishell *minishell)
 {
 	t_cmd	*cmd_node = minishell->cmd_node;
-	char	**env = minishell->env;
 	
 	if (!ft_strncmp(cmd_node->cmd_full[0], "pwd", 3))
 		ft_pwd(minishell);

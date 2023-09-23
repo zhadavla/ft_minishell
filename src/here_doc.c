@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 19:34:27 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/20 15:34:02 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/09/23 18:18:35 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	error_heredoc(t_token **head, int error_type)
 int	validate_heredoc(t_token **token, t_minishell *minishell)
 {
 	t_token	*head;
-	t_token	*prev;
 
 	head = *token;
 	while (head)

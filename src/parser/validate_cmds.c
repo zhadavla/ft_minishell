@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 20:50:18 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/23 14:00:44 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/23 18:34:28 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,13 @@
  */
 char	**get_binaries(char **env)
 {
-	return (ft_split(getenv("PATH"), ':'));
+	int	i;
+
+	i = -1;
+	while (env[++i])
+		if (ft_strnstr(env[i], "PATH=", 5) != NULL)
+			return (ft_split(ft_strnstr(env[i], "PATH=", 5), ':'));
+	return (NULL);
 }
 
 /**
@@ -32,6 +38,12 @@ static int	ft_exec_validation(t_minishell *minishell)
 
 	cmd = minishell->token->text;
 	path = get_binaries(minishell->env);
+	if (!path)
+	{
+		ft_putstr_fd("minishell: command not found\n", 2);
+		minishell->exit_status = 127;
+		return (FALSE);
+	}
 	i = 0;
 	while (path[i] != NULL)
 	{
@@ -70,7 +82,7 @@ void	validate_absolute_path(t_token **token)
 		{
 			if (access(head->text, F_OK) == 0)
 			{
-				if (access(head->text, X_OK) == 0)	
+				if (access(head->text, X_OK) == 0)
 					head->type = COMMAND;
 				else
 					head->type = WORD;
@@ -94,7 +106,7 @@ void	validate_commands(t_minishell *minishell)
 	{
 		if (head->type == WORD && ft_exec_validation(minishell) == TRUE)
 		{
-			// // fprintf(stderr, "command found {%s}\n", head->text);	
+			// // fprintf(stderr, "command found {%s}\n", head->text);
 			head->type = COMMAND;
 		}
 		else if (head->type == ENV_VARIBLE || (head->type == WHITE_SPACE

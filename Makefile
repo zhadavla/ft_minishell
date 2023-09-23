@@ -6,7 +6,7 @@ BONUS_DIR = bonus
 # Recursively find all .c files in SRC_DIR and its subdirectories
 SOURCES = $(shell find $(SRC_DIR) -name '*.c')
 
-# CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 FSANITIZE = -g3 -fsanitize=address
 LIBFLAGS = -L./libft -lft -lm -lreadline $(FSANITIZE)
 MY_HEADER = ./includes/

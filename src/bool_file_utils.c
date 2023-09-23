@@ -34,7 +34,7 @@ int	is_length_match(char *env_i, char *text)
 	i = -1;
 	while (env_i[++i] != '=')
 		;
-	return (i == ft_strlen(text));
+	return (i == (int)ft_strlen(text));
 }
 
 int	is_unclosed_quotes(t_token **token)

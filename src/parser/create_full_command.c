@@ -6,13 +6,12 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 19:03:39 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/23 14:00:44 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/23 18:35:39 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	redirections_switch(t_token *token, t_cmd **cmd_node);
 static int	count_parameters(t_token *token);
 
 /**

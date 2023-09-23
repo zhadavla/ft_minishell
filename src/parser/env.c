@@ -6,13 +6,13 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:43:02 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/23 14:02:40 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/23 18:21:28 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char	*get_env_value(char *text, char **env, t_minishell *minishell);
+static char	*get_env_value(char *text, t_minishell *minishell);
 
 /**
  * Merge env variables with words
@@ -50,7 +50,7 @@ void	merge_envs(t_token **token)
 /**
  * Replace $ENV with value from env in each token
  */
-void	expand_env(t_token **token, char **env, t_minishell *minishell)
+void	expand_env(t_token **token, t_minishell *minishell)
 {
 	t_token	*head;
 	char	*env_value;
@@ -62,7 +62,7 @@ void	expand_env(t_token **token, char **env, t_minishell *minishell)
 		if (head->type == ENV_VARIBLE && head->quote != IN_QUOTE1
 			&& !is_special_character(head->text[1]))
 		{
-			env_value = get_env_value(head->text, env, minishell);
+			env_value = get_env_value(head->text, minishell);
 			text_tmp = ft_strdup(head->text);
 			free(head->text);
 			if (env_value)
@@ -87,7 +87,7 @@ void	expand_env(t_token **token, char **env, t_minishell *minishell)
  * It should compare length of text and env variable
  * and only if they are equal compare the strings
  */
-static char	*get_env_value(char *text, char **efnv, t_minishell *minishell)
+static char	*get_env_value(char *text, t_minishell *minishell)
 {
 	int		i;
 	char	*env_found;
@@ -97,8 +97,8 @@ static char	*get_env_value(char *text, char **efnv, t_minishell *minishell)
 	{
 		if (*(text+1) == '?')
 		{
-			// fprintf(stderr, C_YELLOW "exit status = %d\n" C_RESET,
-					// minishell->exit_status);
+			fprintf(stderr, C_YELLOW "exit status = %d\n" C_RESET,
+					minishell->exit_status);
 			return (ft_itoa(minishell->exit_status));
 		}
 		env_found = ft_strnstr(env[i], text + 1, ft_strlen(text));

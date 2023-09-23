@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 13:54:06 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/23 16:46:48 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/09/23 18:17:39 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ t_env	*create_env_copy(char **env)
 		{
 			head = (t_env *)malloc(sizeof(t_env));
 			head->next = NULL;
-		
 			head->full_env = ft_strdup(env[i]);
 			free(env[i]);
 			// // fprintf(stderr, C_YELLOW "%s\n" C_RESET, head->full_env);
@@ -133,39 +132,6 @@ void	clean_env(char **env)
 }
 
 /**
- * Encloses value in quotation marks
- * split it to key and value
- * and then join them with equal sign
- */
-void	quotation_marks_after_equal_sign(char **env, int env_len)
-{
-	return;
-	// int		i;
-	// int		j;
-	// char	*tmp;
-	// char	*key;
-	// char	*value;
-
-	// key = NULL, value = NULL, tmp = NULL;
-	// i = -1;
-	// while (++i < env_len)
-	// {
-	// 	j = -1;
-	// 	while (env[i][++j] != '=')
-	// 		;
-	// 	// fprintf(stderr, C_YELLOW "j = %d\n" C_RESET, j);
-	// 	key = ft_substr(env[i], 0, j);
-	// 	value = ft_substr(env[i], j + 1, ft_strlen(env[i]) - j);
-	// 	tmp = ft_strjoin(key, "=\"");
-	// 	key = ft_strjoin(tmp, value);
-	// 	free(value);
-	// 	tmp = ft_strjoin(key, "\"");
-	// 	free(env[i]);
-	// 	env[i] = ft_strdup(tmp);
-	// 	free(tmp);
-	// }
-}
-/**
  * Sorts env_list alphabetically by key
  * using insert sort
  */
@@ -176,6 +142,7 @@ void	print_env_sorted(char **env, int env_len)
 	int		j;
 	int		len;
 
+	fprintf(stderr, "why???\n");
 	sorted_env = (char **)malloc(sizeof(char *) * (env_len + 1));
 	i = -1;
 	while (++i < env_len)
@@ -198,102 +165,9 @@ void	print_env_sorted(char **env, int env_len)
 	clean_env(sorted_env);
 }
 
-/**
- * in each command, starging from 1
- * should be only NAME=VALUE
- * name should be only letters, digits and underscores
- * value should be string, enclosed in quotation marks
- */
-int	check_validity_one(char *full_assignment)
+void	free_env(t_env *env)
 {
-	// int	i;
-
-	// i = 0;
-	// if (full_assignment[i] == '=' || ft_isdigit(full_assignment[i]))
-	// 	return (FALSE);
-	// while (full_assignment[i] != '=')
-	// {
-	// 	if (!ft_isalnum(full_assignment[i]) && full_assignment[i] != '_')
-	// 		return (FALSE);
-	// 	i++;
-	// }
-	// i++;
-	// if (full_assignment[i] != '\"')
-	// 	return (FALSE);
-	// i++;
-	// while (full_assignment[i] != '\"')
-	// {
-	// 	if (!ft_isprint(full_assignment[i]))
-	// 		return (FALSE);
-	// 	i++;
-	// }
-	return (TRUE);
-}
-
-/**
- * Checks for validity of each command
- */
-int	check_validity(char **commands)
-{
-	int	i;
-
-	i = 1;
-	while (commands[i])
-	{
-		if (!check_validity_one(commands[i]))
-			return (FALSE);
-		i++;
-	}
-	return (TRUE);
-}
-
-void	write_env_to_file(char **env, int fd)
-{
-	int	i;
-
-	i = 0;
-	while (env[i])
-	{
-		ft_putstr_fd(env[i], fd);
-		ft_putstr_fd("\n", fd);
-		i++;
-	}
-}
-
-/**
- * using read, write, open, close
- */
-char	**get_env_from_file(int fd)
-{
-	char	**env;
-	char	*line;
-	int		i;
-
-	i = 0;
-	while (get_next_line(fd))
-	{
-		i++;
-		free(line);
-	}
-	env = (char **)malloc(sizeof(char *) * (i + 1));
-	i = 0;
-	close(fd);
-	fd = open(".env", O_RDONLY);
-	while (TRUE)
-	{
-		line = get_next_line(fd);
-		if (!line)
-			break ;
-		env[i] = ft_strdup(line);
-		free(line);
-		i++;
-	}
-	return (env);
-}
-
-void free_env(t_env *env)
-{
-	t_env *tmp;
+	t_env	*tmp;
 
 	while (env)
 	{
@@ -307,39 +181,26 @@ void free_env(t_env *env)
 int	ft_export(t_minishell *minishell)
 {
 	int len = 0;
-	minishell->env;
 	char **commands = minishell->cmd_node->cmd_full;
-	
+
 	while (minishell->env[len])
 	{
-		// fprintf(stderr, C_BLUE "%s\n" C_RESET, minishell->env[len]);
+		fprintf(stderr, C_BLUE "%s\n" C_RESET, minishell->env[len]);
 		len++;
 	}
-
-	if (!commands[0])
-		// fprintf(stderr, "export: not enough arguments\n");
 	if (!commands[1])
 	{
 		print_env_sorted(minishell->env, len);
-		return 0;
+		return (0);
 	}
-	if (!check_validity(commands))
-	{
-		ft_putstr_fd("minishell: export: {", 2);
-		ft_putstr_fd(commands[1], 2);
-		ft_putstr_fd("}: not a valid identifier\n", 2);
-		return 0;
-	}
-	else
-	{
-		minishell->env_list = create_env_copy(minishell->env);
-		int i = 0;
-		while (commands[++i])
-			add_env_variable(&minishell->env_list, commands[i]);
 
-		minishell->env = t_env_to_array(minishell->env_list);
-		// print_env_in_yellow(minishell->env);
-		free_env(minishell->env_list);
-		return 0;
-	}
+	minishell->env_list = create_env_copy(minishell->env);
+	int i = 0;
+	while (commands[++i])
+		add_env_variable(&minishell->env_list, commands[i]);
+
+	minishell->env = t_env_to_array(minishell->env_list);
+	// print_env_in_yellow(minishell->env);
+	free_env(minishell->env_list);
+	return (0);
 }
