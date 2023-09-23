@@ -1,3 +1,0 @@
-minishell$ echo 'hello {$USER} from {$PWD}'
-hello {$USER} from {$PWD}
-minishell$ exit

@@ -1,3 +1,0 @@
-minishell$ echo "hello {$USER} from {$PWD}"
-hello {vlad} from {/home/vlad/42/ft_minishell/test}
-minishell$ exit

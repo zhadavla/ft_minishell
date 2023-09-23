@@ -1,0 +1,10 @@
+echo "hello"
+echo "world"
+echo "hello world"
+echo "hello'world'"
+echo "hello $USER"
+echo "hello $USER from $PWD"
+echo "hello $USER from $HOME"
+echo "hello $USER from '$HOME'"
+echo "hello '$USER from' $HOME"
+echo '"hello $USER from $HOME"'

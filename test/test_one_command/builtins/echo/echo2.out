@@ -1,3 +1,0 @@
-minishell$ echo hello 42
-hello 42
-minishell$ exit
