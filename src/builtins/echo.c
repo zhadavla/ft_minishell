@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 18:54:08 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/23 16:14:51 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/10/01 15:09:55 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ void	ft_echo(char **cmd_full)
 	{
 		printf("%s", cmd_full[i]);
 		if (cmd_full[i + 1])
+		{
+			// free(cmd_full[i + 1]);
 			printf(" ");
+		}
+		// free(cmd_full[i]);
 		i++;
 	}
 	if (i == 1 || ft_strncmp(cmd_full[1], "-n", 2))

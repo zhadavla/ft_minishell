@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/23 18:30:32 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/10/01 14:46:32 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,7 +248,7 @@ int is_redirection_out(t_token *token);
 /**************************Builtins*******************************/
 void validate_builtins(t_token **token);
 void ft_echo(char **cmd_full);
-void ft_execute_builtin(t_minishell * minishell);
+void ft_execute_builtin(t_minishell * minishell, t_cmd *node_cmd,  int is_seq);
 t_env *create_env_copy(char **env);
 void validate_absolute_path(t_token **token);
 char **t_env_to_array(t_env *env);
@@ -256,6 +256,7 @@ void add_env_variable(t_env **env_list, char *env_text);
 int ft_export(t_minishell *minishell);
 void write_env_to_file(char **env, int fd);
 char **get_env_from_file(int fd);
+t_cmd * tokenizer(t_token * head, t_minishell * minishell);
 void ft_newline(int sig);
 void	ft_exit(t_minishell *minishell);
 int ft_unset(t_minishell *minishell);

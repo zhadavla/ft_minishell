@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:16:01 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/23 19:02:49 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/10/01 14:27:49 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@ void	seq_child(t_cmd *node_cmd, t_minishell *minishell, int pipex_pipe[2],
 		exit(127);
 	signal(SIGINT, my_child);
 	setup_file_descriptors(node_cmd, &prev_read_end, pipex_pipe);
-	if (node_cmd->is_builtin)
-		ft_execute_builtin(minishell);
+	if (node_cmd->is_builtin){
+		
+		ft_execute_builtin(minishell, node_cmd, 1);
+	}
 	else
 		ft_execute(node_cmd->cmd_full, minishell->env);
 	exit(0);
