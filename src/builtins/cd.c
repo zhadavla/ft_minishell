@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 19:14:56 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/10/10 17:23:48 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/10/10 17:30:48 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,14 +80,11 @@ void add_oldpwd_pwd_to_env(t_minishell *minishell)
 		if (!ft_strncmp(env[i], "OLDPWD=", 7))
 		{
 			free(env[i]);
-			// free(tmp);
 			env[i] = tmp;
 		}
 		if (!ft_strncmp(env[i], "PWD=", 4))
 		{
-			free(env[i]);
-			// free(tmp);
-			
+			free(env[i]);		
 			env[i] = tmp2;
 		}
 	}

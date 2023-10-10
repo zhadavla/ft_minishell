@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parallel_executor.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:17:49 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/10/10 16:33:12 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/10/10 17:39:06 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,12 @@ int	is_builtin_without_output(t_cmd *node_cmd)
 int	execute_builtin_without_output(t_minishell *minishell)
 {
 	t_cmd	*cmd_node;
-
+	
+	if (minishell->is_builtin_wo_command)
+	{
+		fprintf(stderr, "??????????\n");
+		return (0);
+	}
 	cmd_node = minishell->cmd_node;
 	if (!ft_strncmp(cmd_node->cmd_full[0], "cd", 3))
 		return (ft_cd(minishell));

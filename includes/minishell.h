@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julienmoigno <julienmoigno@student.42.f    +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/10/10 10:56:55 by julienmoign      ###   ########.fr       */
+/*   Updated: 2023/10/10 17:35:08 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct minishell
 	char *oldpwd;
 	int is_first_env;
 	int exit_status;
+	int is_builtin_wo_command;
 } t_minishell;
 
 
@@ -145,7 +146,7 @@ void blue_msg(char *msg);
  * means red
  */
 void error_msg(char *msg);
-
+int			is_builtin_without_output(t_cmd *node_cmd);
 /*******************int utilits for more readable code********************/
 int is_outfile(t_token *token);
 int is_infile(t_token *token);

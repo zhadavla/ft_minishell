@@ -21,6 +21,7 @@ void	init_minishell(t_minishell **minishell, char **env)
 	(*minishell)->cmd_node = NULL;
 	(*minishell)->pipex = NULL;
 	(*minishell)->oldpwd = NULL;
+	(*minishell)->is_builtin_wo_command = 0;
 }
 
 void	free_program(t_minishell **minishell)
@@ -50,6 +51,8 @@ int	is_empty_line(char *line, t_minishell **minishell)
 	return (0);
 }
 
+void validate_builtin_without_output_command(t_minishell *minishell);
+
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell	*minishell;
@@ -64,6 +67,7 @@ int	main(int argc, char **argv, char **env)
 	while (TRUE)
 	{
 		line = readline("minishell$ ");
+		minishell->is_builtin_wo_command = 0;
 		add_history(line);
 		if (is_empty_line(line, &minishell))
 			break ;
@@ -75,6 +79,7 @@ int	main(int argc, char **argv, char **env)
 		}
 		if (!lexer_tokenizer(&minishell, line))
 			continue ;
+		validate_builtin_without_output_command(minishell);
 		is_command_in_every_pipe(&minishell->cmd_node);
 		first_last_cmd(&(minishell->cmd_node));
 		minishell->exit_status = executor(minishell);
