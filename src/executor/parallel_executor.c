@@ -6,7 +6,7 @@
 /*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:17:49 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/10/10 16:16:42 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/10/10 16:33:12 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ void	do_fork(t_minishell *minishell, t_cmd *node_cmd)
 			write(2, "dup2 error\n", 11);
 			exit(EXIT_FAILURE);
 		}
+		close_fd(pipex);
 		if (node_cmd->is_builtin)
 			ft_execute_builtin(minishell, node_cmd, 0);
 		else if (!ft_execute(node_cmd->cmd_full, env))
 			exit(42);
-		close_fd(pipex);
 	}
 	signal(SIGINT, SIG_IGN);
 }

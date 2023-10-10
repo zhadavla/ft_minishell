@@ -27,51 +27,52 @@ t_token	*lexer(char *line, t_minishell *minishell)
 	return (head);
 }
 
-void	tokenizer_breakdown(t_token *head, t_minishell *minishell, int num)
+void	tokenizer_breakdown(t_token **head, t_minishell *minishell, int num)
 {
 	if (num == 1)
 	{
-		merge_envs(&head);
-		expand_env(&head, minishell);
-		concatenate_minus(&head);
-		concate_quotes(&head);
-		merge_redirections_heredoc(&head);
-		validate_absolute_path(&head);
+		merge_envs(head);
+		expand_env(head, minishell);
+		concatenate_minus(head);
+		concate_quotes(head);
+		merge_redirections_heredoc(head);
+		validate_absolute_path(head);
 		validate_commands(minishell);
 	}
 	if (num == 2)
 	{
-		remove_quotes(&head);
-		concate_leftover_strings(&head);
-		remove_whitespaces(&head);
-		validate_filename(&head);
+		remove_quotes(head);
+		concate_leftover_strings(head);
+		remove_whitespaces(head);
+		print_tokens(*head);
+		validate_filename(head);
 	}
 	if (num == 3)
 	{
-		validate_dollarsign(&head);
-		validate_commands_two(&head);
-		validate_builtins(&head);
+		validate_dollarsign(head);
+		validate_commands_two(head);
+		validate_builtins(head);
 	}
 }
 
-int	tokenizer_one(t_token *head, t_minishell *minishell)
+int	tokenizer_one(t_token **head, t_minishell *minishell)
 {
 	tokenizer_breakdown(head, minishell, 1);
-	if (!is_quote_error(&head))
+	if (!is_quote_error(head))
 	{
 		write(2, "syntax error near unexpected token `newline'1\n", 46);
-		free_tokens(head);
+		free_tokens(*head);
 		minishell->exit_status = 2;
 		return (0);
 	}
 	tokenizer_breakdown(head, minishell, 2);
-	if (validate_heredoc(&head, minishell))
+	if (validate_heredoc(head, minishell))
 		return (0);
 	tokenizer_breakdown(head, minishell, 3);
-	if (head->type == WORD)
+	if ((*head)->type == WORD)
 	{
 		write(2, "syntax error near unexpected token `newline'2\n", 46);
-		free_tokens(head);
+		free_tokens(*head);
 		minishell->exit_status = 127;
 		return (0);
 	}
@@ -83,7 +84,7 @@ t_cmd	*tokenizer(t_token *head, t_minishell *minishell)
 	t_cmd	*cmd_node;
 	t_cmd	*tmp;
 
-	if (tokenizer_one(head, minishell) == 0)
+	if (tokenizer_one(&head, minishell) == 0)
 	{
 		return (0);
 	}
