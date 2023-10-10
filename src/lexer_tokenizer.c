@@ -27,18 +27,36 @@ t_token	*lexer(char *line, t_minishell *minishell)
 	return (head);
 }
 
-t_cmd	*tokenizer(t_token *head, t_minishell *minishell)
+void	tokenizer_breakdown(t_token *head, t_minishell *minishell, int num)
 {
-	t_cmd	*cmd_node;
-	t_cmd	*tmp;
+	if (num == 1)
+	{
+		merge_envs(&head);
+		expand_env(&head, minishell);
+		concatenate_minus(&head);
+		concate_quotes(&head);
+		merge_redirections_heredoc(&head);
+		validate_absolute_path(&head);
+		validate_commands(minishell);
+	}
+	if (num == 2)
+	{
+		remove_quotes(&head);
+		concate_leftover_strings(&head);
+		remove_whitespaces(&head);
+		validate_filename(&head);
+	}
+	if (num == 3)
+	{
+		validate_dollarsign(&head);
+		validate_commands_two(&head);
+		validate_builtins(&head);
+	}
+}
 
-	merge_envs(&head);
-	expand_env(&head, minishell);
-	concatenate_minus(&head);
-	concate_quotes(&head);
-	merge_redirections_heredoc(&head);
-	validate_absolute_path(&head);
-	validate_commands(minishell);
+int	tokenizer_one(t_token *head, t_minishell *minishell)
+{
+	tokenizer_breakdown(head, minishell, 1);
 	if (!is_quote_error(&head))
 	{
 		write(2, "syntax error near unexpected token `newline'1\n", 46);
@@ -46,20 +64,27 @@ t_cmd	*tokenizer(t_token *head, t_minishell *minishell)
 		minishell->exit_status = 2;
 		return (0);
 	}
-	remove_quotes(&head);
-	concate_leftover_strings(&head);
-	remove_whitespaces(&head);
-	validate_filename(&head);
+	tokenizer_breakdown(head, minishell, 2);
 	if (validate_heredoc(&head, minishell))
 		return (0);
-	validate_dollarsign(&head);
-	validate_commands_two(&head);
-	validate_builtins(&head);
+	tokenizer_breakdown(head, minishell, 3);
 	if (head->type == WORD)
 	{
 		write(2, "syntax error near unexpected token `newline'2\n", 46);
 		free_tokens(head);
 		minishell->exit_status = 127;
+		return (0);
+	}
+	return (1);
+}
+
+t_cmd	*tokenizer(t_token *head, t_minishell *minishell)
+{
+	t_cmd	*cmd_node;
+	t_cmd	*tmp;
+
+	if (tokenizer_one(head, minishell) == 0)
+	{
 		return (0);
 	}
 	cmd_node = split_to_pipes(&head);
