@@ -1,6 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/10 18:41:34 by vzhadan           #+#    #+#             */
+/*   Updated: 2023/10/10 18:49:28 by vzhadan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
 /*   int_file_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
@@ -14,6 +26,8 @@
 
 void	init_minishell(t_minishell **minishell, char **env)
 {
+	signal(SIGINT, ft_newline);
+	signal(SIGQUIT, SIG_IGN);
 	(*minishell) = malloc(sizeof(t_minishell));
 	(*minishell)->env = ft_dup_env(env);
 	(*minishell)->exit_status = 0;
@@ -41,6 +55,7 @@ void	free_program(t_minishell **minishell)
 
 int	is_empty_line(char *line, t_minishell **minishell)
 {
+	(*minishell)->is_builtin_wo_command = 0;
 	if (!line)
 	{
 		free_minishell(*minishell);
@@ -51,7 +66,15 @@ int	is_empty_line(char *line, t_minishell **minishell)
 	return (0);
 }
 
-void validate_builtin_without_output_command(t_minishell *minishell);
+void	foo(t_minishell *minishell, char *line)
+{
+	validate_builtin_wo_command(minishell);
+	is_command_in_every_pipe(&minishell->cmd_node);
+	first_last_cmd(&(minishell->cmd_node));
+	minishell->exit_status = executor(minishell);
+	free(line);
+	free_minishell(minishell);
+}
 
 int	main(int argc, char **argv, char **env)
 {
@@ -62,12 +85,9 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	minishell = NULL;
 	init_minishell(&minishell, env);
-	signal(SIGINT, ft_newline);
-	signal(SIGQUIT, SIG_IGN);
 	while (TRUE)
 	{
 		line = readline("minishell$ ");
-		minishell->is_builtin_wo_command = 0;
 		add_history(line);
 		if (is_empty_line(line, &minishell))
 			break ;
@@ -79,12 +99,7 @@ int	main(int argc, char **argv, char **env)
 		}
 		if (!lexer_tokenizer(&minishell, line))
 			continue ;
-		validate_builtin_without_output_command(minishell);
-		is_command_in_every_pipe(&minishell->cmd_node);
-		first_last_cmd(&(minishell->cmd_node));
-		minishell->exit_status = executor(minishell);
-		free(line);
-		free_minishell(minishell);
+		foo(minishell, line);
 	}
 	free_program(&minishell);
 	return (0);

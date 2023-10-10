@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 19:04:58 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/10/10 18:40:43 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/10/10 18:49:28 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	ft_max(int a, int b)
 	return (b);
 }
 
-void	validate_builtin_without_output_command(t_minishell *minishell)
+void	validate_builtin_wo_command(t_minishell *minishell)
 {
 	t_cmd	*cmd;
 
