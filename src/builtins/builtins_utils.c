@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 19:04:58 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/23 19:35:28 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/10/10 18:21:19 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,16 @@ int	ft_max(int a, int b)
 	if (a > b)
 		return (a);
 	return (b);
+}
+
+void	validate_builtin_without_output_command(t_minishell *minishell)
+{
+	t_cmd	*cmd;
+
+	cmd = minishell->cmd_node;
+	if (cmd && is_builtin_without_output(cmd) && cmd->next == NULL)
+		return ;
+	if (cmd && is_builtin_without_output(cmd) && cmd->next)
+		remove_node_cmd(&minishell->cmd_node, cmd);
+	minishell->is_builtin_wo_command = 1;	
 }
