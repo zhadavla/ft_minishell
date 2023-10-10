@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: julienmoigno <julienmoigno@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:43:02 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/10/01 15:13:16 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/10/10 08:57:45 by julienmoign      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,6 @@ void	expand_env(t_token **token, t_minishell *minishell)
 			if (env_value)
 			{
 				head->text = ft_strdup(env_value);
-	
-				// if (*(text_tmp + 1) == '?')
-				// {
-				// 	fprintf(stderr, "exit status = %d\n", minishell->exit_status);
-				// 	free(env_value);
-				// }
 				free(env_value);
 			}
 			else
