@@ -6,7 +6,7 @@
 /*   By: julienmoigno <julienmoigno@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/10/10 09:33:37 by julienmoign      ###   ########.fr       */
+/*   Updated: 2023/10/10 09:39:39 by julienmoign      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,8 @@ void move_to_first_place_heredoc(t_cmd **cmd_node);
 // t_token						*create_list_of_files(t_token **till_pipe);
 
 /**************************Tokenization*******************************/
+t_token	*lexer(char *line, t_minishell *minishell);
+t_cmd	*tokenizer(t_token *head, t_minishell *minishell);
 int validate_heredoc(t_token **token, t_minishell *minishell);
 void init_cmd_node(t_cmd **cmd_node);
 void free_cmd_node(t_cmd *cmd_node);
@@ -236,6 +238,7 @@ int sequential_executor(t_minishell *minishell);
 void print_env_in_yellow(char **env);
 /**************************Executor*******************************/
 
+int	executor(t_minishell *minishell);
 void free_split(char **strs);
 char *ft_join(char const *s1, char const *s2);
 void close_fd(t_pipex *pipex);
