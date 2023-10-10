@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: julienmoigno <julienmoigno@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 19:34:27 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/23 18:18:35 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/10/10 09:12:14 by julienmoign      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_putstr_fd(char *s, int fd);
 
-void	error_heredoc(t_token **head, int error_type)
+void	error_heredoc(t_token **head, int error_type, t_minishell *minishell)
 {
 	if (error_type == 1)
 	{
@@ -27,6 +27,7 @@ void	error_heredoc(t_token **head, int error_type)
 		free_tokens(*head);
 		ft_putstr_fd("Delimeter has to be specified\n", 2);
 	}
+	minishell->exit_status = 2;
 }
 
 int	validate_heredoc(t_token **token, t_minishell *minishell)
@@ -43,15 +44,13 @@ int	validate_heredoc(t_token **token, t_minishell *minishell)
 				head->next->type = DELIM_H;
 				if (!(head->next->next) || head->next->next->type != COMMAND)
 				{
-					error_heredoc(&head, 1);
-					minishell->exit_status = 2;
+					error_heredoc(&head, 1, minishell);
 					return (2);
 				}
 			}
 			else
 			{
-				error_heredoc(&head, 2);
-				minishell->exit_status = 2;
+				error_heredoc(&head, 2, minishell);
 				return (2);
 			}
 		}

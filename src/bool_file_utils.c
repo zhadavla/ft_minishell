@@ -40,8 +40,8 @@ int	is_length_match(char *env_i, char *text)
 int	is_unclosed_quotes(t_token **token)
 {
 	t_token	*head;
-	int double_flag;
-	int single_flag;
+	int		double_flag;
+	int		single_flag;
 
 	head = *token;
 	double_flag = 0;
@@ -54,8 +54,8 @@ int	is_unclosed_quotes(t_token **token)
 			single_flag += 1;
 		head = head->next;
 	}
-	if ((head->type == DOUBLE_QUOTE && double_flag % 2 == 0) || 
-	(head->type == SINGLE_QUOTE && single_flag % 2 == 0))
+	if ((head->type == DOUBLE_QUOTE && double_flag % 2 == 0)
+		|| (head->type == SINGLE_QUOTE && single_flag % 2 == 0))
 		return (1);
 	return (head->quote == IN_QUOTE1 || head->quote == IN_QUOTE2);
 }
