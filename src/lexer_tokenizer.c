@@ -44,7 +44,6 @@ void	tokenizer_breakdown(t_token **head, t_minishell *minishell, int num)
 		remove_quotes(head);
 		concate_leftover_strings(head);
 		remove_whitespaces(head);
-		print_tokens(*head);
 		validate_filename(head);
 	}
 	if (num == 3)
@@ -94,7 +93,7 @@ t_cmd	*tokenizer(t_token *head, t_minishell *minishell)
 	{
 		if (!tmp->is_heredoc && !tmp->cmd_full[0])
 		{
-			write(2, "COMMAND NOT FOUND (HD)\n", 23);
+			ft_putstr_fd("Command not found\n", 2);
 			free_cmd_nodes(&cmd_node);
 			free_tokens(head);
 			minishell->exit_status = 56;
