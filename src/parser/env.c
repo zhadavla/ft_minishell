@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:43:02 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/10/10 15:33:02 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/10/10 18:31:51 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	merge_envs(t_token **token)
 	head = *token;
 	while (head)
 	{
-		if (head->type == ENV_VARIBLE)
+		if (head->type == ENV_VARIBLE && head->next)
 		{
 			if (ft_strncmp(head->text, "~", 2) == 0)
 			{
