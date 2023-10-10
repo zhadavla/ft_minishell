@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: julienmoigno <julienmoigno@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/10/01 14:46:32 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/10/10 09:33:37 by julienmoign      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 #include<readline/history.h>
 #include <stdint.h>
 #include <sys/wait.h>
+#include <assert.h>
+#include <stdio.h>
+#include <signal.h>
 
 #define TRUE 1
 #define FALSE 0
@@ -151,6 +154,9 @@ int is_unclosed_quotes(t_token **token);
 int is_quote_error(t_token **token);
 int is_special_character(char c);
 int is_in_quotes(t_token *head);
+void	is_command_in_every_pipe(t_cmd **cmd_node);
+int	is_only_spaces(char *line);
+char	**ft_dup_env(char **env);
 /**
  * Compare length of env variable and text
  */

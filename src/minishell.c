@@ -1,6 +1,4 @@
 #include "../includes/minishell.h"
-#include <assert.h>
-#include <stdio.h>
 
 t_token	*lexer(char *line, t_minishell *minishell)
 {
@@ -94,77 +92,6 @@ int	executor(t_minishell *minishell)
 		// fprintf(stderr, C_BLUE "parallel\n" C_RESET);
 		return (parallel_executor(minishell));
 	}
-}
-
-#include "minishell.h"
-#include <signal.h>
-
-void	ft_newline(int sig)
-{
-	if (sig == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-}
-
-void	is_command_in_every_pipe(t_cmd **cmd_node)
-{
-	t_cmd	*head;
-
-	head = *cmd_node;
-	while (head)
-	{
-		if (head->cmd_full[0] == NULL)
-			head->exit_status = 127;
-		head = head->next;
-	}
-}
-
-void	print_env_sorted(char **env, int env_len);
-
-void	free_minishell(t_minishell *minishell)
-{
-	free_tokens(minishell->token);
-	free_cmd_nodes(&minishell->cmd_node);
-}
-
-int	is_only_spaces(char *line)
-{
-	int	i;
-
-	i = 0;
-	if (!*line)
-		return (1);
-	while (line[i])
-	{
-		if (line[i] != ' ' && line[i] != '\t' && line[i] != '\n'
-			&& line[i] != '\v' && line[i] != '\f' && line[i] != '\r')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-char	**ft_dup_env(char **env)
-{
-	int		i;
-	char	**new_env;
-
-	i = 0;
-	while (env[i])
-		i++;
-	new_env = malloc(sizeof(char *) * (i + 1));
-	i = 0;
-	while (env[i])
-	{
-		new_env[i] = ft_strdup(env[i]);
-		i++;
-	}
-	new_env[i] = NULL;
-	return (new_env);
 }
 
 int	main(int argc, char **argv, char **env)
