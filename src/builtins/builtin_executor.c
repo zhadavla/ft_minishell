@@ -6,7 +6,7 @@
 /*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 19:22:30 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/10/10 16:09:54 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/10/10 16:16:50 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@ void	ft_execute_builtin(t_minishell *minishell, t_cmd *node_cmd,  int is_seq)
 	if (!ft_strncmp(cmd_node->cmd_full[0], "pwd", 3))
 		ft_pwd(minishell);
 	if (!ft_strncmp(cmd_node->cmd_full[0], "echo", 4))
-	{
-		fprintf(stderr, C_RED "HELLO0\n" C_RESET);
 		ft_echo(cmd_node->cmd_full);
-	}
 	if (!ft_strncmp(cmd_node->cmd_full[0], "env", 3))
 		ft_env(minishell);
 	if (cmd_node->next && !is_seq)

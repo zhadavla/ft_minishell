@@ -18,19 +18,15 @@ int	executor(t_minishell *minishell)
 
 	if (open_files(&minishell->cmd_node))
 	{
-		fprintf(stderr, C_RED "No such file or directory" C_RESET);
+		write(2, "No such file or directory\n", 27);
 		return (1);
 	}
 	if (is_heredoc(minishell->cmd_node))
-	{
-		fprintf(stderr, C_RED "sequential\n" C_RESET);
 		return (sequential_executor(minishell));
-	}
 	else
 	{
 		pipex = update_pipe_fds(&minishell->cmd_node);
 		minishell->pipex = &pipex;
-		fprintf(stderr, C_RED "parallel\n" C_RESET);
 		return (parallel_executor(minishell));
 	}
 }
