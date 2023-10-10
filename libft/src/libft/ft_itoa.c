@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 17:34:32 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/22 22:52:30 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/10/10 18:03:26 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,11 @@ static size_t	get_num_of_digits(int n)
 	return (num);
 }
 
-
 char	*ft_itoa(int n)
 {	
 	char	*str_num;
 	size_t	num_of_digits;
 
-	if (n == -2147483648)
-		return (ft_strdup("-2147483648"));
 	num_of_digits = get_num_of_digits(n);
 	str_num = (char *)malloc((num_of_digits + 1) * sizeof(char));
 	if (!str_num)

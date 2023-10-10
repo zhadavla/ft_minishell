@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 15:07:21 by mnurlybe          #+#    #+#             */
-/*   Updated: 2023/09/17 20:04:05 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/10/10 18:03:41 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ size_t	ft_strlen(const char *s)
 		count++;
 	return (count);
 }
-
 
 char	*ft_strjoin(char *tmp, char *buf)
 {

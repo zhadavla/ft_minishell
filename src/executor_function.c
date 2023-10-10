@@ -17,10 +17,7 @@ int	executor(t_minishell *minishell)
 	t_pipex	pipex;
 
 	if (open_files(&minishell->cmd_node))
-	{
-		write(2, "No such file or directory\n", 27);
 		return (1);
-	}
 	if (is_heredoc(minishell->cmd_node))
 		return (sequential_executor(minishell));
 	else

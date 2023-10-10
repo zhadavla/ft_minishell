@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julienmoigno <julienmoigno@student.42.f    +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 18:12:01 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/10/10 08:42:42 by julienmoign      ###   ########.fr       */
+/*   Updated: 2023/10/10 19:05:05 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	ft_env(t_minishell *minishell)
 	if (!minishell->env
 		|| (minishell->cmd_node->cmd_full[1]))
 	{
-		fprintf(stderr, "smth went wrong\n");
-		exit(47);
+		ft_putstr_fd("smth went wrong\n", 2);
+		exit(2);
 	}
 	env = minishell->env;
 	len = 0;
