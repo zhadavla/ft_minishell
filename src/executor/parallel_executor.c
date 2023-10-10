@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parallel_executor.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:17:49 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/10/01 14:28:17 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/10/10 16:04:57 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,14 @@ void	do_fork(t_minishell *minishell, t_cmd *node_cmd)
 			write(2, "dup2 error\n", 11);
 			exit(EXIT_FAILURE);
 		}
-		close_fd(pipex);
 		if (node_cmd->is_builtin)
-			ft_execute_builtin(minishell, NULL, 0);
+		{
+			fprintf(stderr, C_GREEN "ft_execute_builtin\n" C_RESET);
+			ft_execute_builtin(minishell, node_cmd, 0);
+		}
 		else if (!ft_execute(node_cmd->cmd_full, env))
 			exit(42);
+		close_fd(pipex);
 	}
 	signal(SIGINT, SIG_IGN);
 }

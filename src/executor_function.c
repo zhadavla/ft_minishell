@@ -22,11 +22,15 @@ int	executor(t_minishell *minishell)
 		return (1);
 	}
 	if (is_heredoc(minishell->cmd_node))
+	{
+		fprintf(stderr, C_RED "sequential\n" C_RESET);
 		return (sequential_executor(minishell));
+	}
 	else
 	{
 		pipex = update_pipe_fds(&minishell->cmd_node);
 		minishell->pipex = &pipex;
+		fprintf(stderr, C_RED "parallel\n" C_RESET);
 		return (parallel_executor(minishell));
 	}
 }

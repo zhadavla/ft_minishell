@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_executor.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julienmoigno <julienmoigno@student.42.f    +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 19:22:30 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/10/10 08:45:01 by julienmoign      ###   ########.fr       */
+/*   Updated: 2023/10/10 16:09:54 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	ft_execute_builtin(t_minishell *minishell, t_cmd *node_cmd,  int is_seq)
 {
 	t_cmd	*cmd_node;
-	// int		i;
 	(void)node_cmd;
 	if (!node_cmd)
 		cmd_node = minishell->cmd_node;
@@ -24,22 +23,15 @@ void	ft_execute_builtin(t_minishell *minishell, t_cmd *node_cmd,  int is_seq)
 	if (!ft_strncmp(cmd_node->cmd_full[0], "pwd", 3))
 		ft_pwd(minishell);
 	if (!ft_strncmp(cmd_node->cmd_full[0], "echo", 4))
+	{
+		fprintf(stderr, C_RED "HELLO0\n" C_RESET);
 		ft_echo(cmd_node->cmd_full);
+	}
 	if (!ft_strncmp(cmd_node->cmd_full[0], "env", 3))
 		ft_env(minishell);
 	if (cmd_node->next && !is_seq)
 		free(minishell->pipex->fd_pipes);
-	// i = -1;
-	// if (minishell->env && minishell->cmd_node->cmd_full[1])
-	// // if (minishell->env)
-	// {
-	// 	while (minishell->env[++i])
-	// 		free(minishell->env[i]);
-	// 	free(minishell->env);
-	// }
 	if (minishell->oldpwd)
 		free(minishell->oldpwd);
-	// free_minishell(minishell);
-	// free(minishell);
 	exit(EXIT_SUCCESS);
 }
