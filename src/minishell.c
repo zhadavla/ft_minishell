@@ -12,68 +12,92 @@
 
 #include "../includes/minishell.h"
 
+void init_minishell(t_minishell **minishell, char **env)
+{
+	(*minishell) = malloc(sizeof(t_minishell));
+	(*minishell)->env = ft_dup_env(env);
+	(*minishell)->exit_status = 0;
+	(*minishell)->token = NULL;
+	(*minishell)->cmd_node = NULL;
+	(*minishell)->pipex = NULL;
+	(*minishell)->oldpwd = NULL;
+}
+
+void free_program(t_minishell **minishell)
+{	
+	int			i;
+
+	i = -1;
+	if ((*minishell)->env)
+	{
+		while ((*minishell)->env[++i])
+			free((*minishell)->env[i]);
+		free((*minishell)->env);
+	}
+	free((*minishell)->oldpwd);
+	free((*minishell));
+}
+
+int is_empty_line(char *line, t_minishell **minishell)
+{
+	if (!line)
+	{
+		free_minishell(*minishell);
+		free(line);
+		printf("exit\n");
+		return  (1);
+	}
+	return (0);
+}
+
+int	lexer_tokenizer(t_minishell **minishell, char *line)
+{
+	(*minishell)->token = lexer(line, *minishell);
+	if (!(*minishell)->token)
+	{
+		free(line);
+		return (0);
+	}
+	(*minishell)->cmd_node = tokenizer((*minishell)->token, *minishell);
+	if (!(*minishell)->cmd_node)
+	{
+		free(line);
+		return (0);
+	}
+	return (1);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell	*minishell;
-	int			i;
 	char		*line;
 
 	(void)argc;
 	(void)argv;
-	minishell = malloc(sizeof(t_minishell));
-	minishell->env = ft_dup_env(env);
-	minishell->exit_status = 0;
-	minishell->token = NULL;
-	minishell->cmd_node = NULL;
-	minishell->pipex = NULL;
-	minishell->oldpwd = NULL;
+	minishell = NULL;
+	init_minishell(&minishell, env);
 	signal(SIGINT, ft_newline);
 	signal(SIGQUIT, SIG_IGN);
-	i = 0;
 	while (TRUE)
 	{
 		line = readline("minishell$ ");
 		add_history(line);
-		if (!line)
-		{
-			free_minishell(minishell);
-			free(line);
-			printf("exit\n");
+		if (is_empty_line(line, &minishell))
 			break ;
-		}
 		if (is_only_spaces(line))
 		{
 			free_minishell(minishell);
 			free(line);
 			continue ;
 		}
-		minishell->token = lexer(line, minishell);
-		if (!minishell->token)
-		{
-			free(line);
-
+		if (!lexer_tokenizer(&minishell, line))
 			continue ;
-		}
-		minishell->cmd_node = tokenizer(minishell->token, minishell);
-		if (!minishell->cmd_node)
-		{
-			free(line);
-			continue ;
-		}
 		is_command_in_every_pipe(&minishell->cmd_node);
 		first_last_cmd(&(minishell->cmd_node));
 		minishell->exit_status = executor(minishell);
 		free(line);
 		free_minishell(minishell);
 	}
-	i = -1;
-	if (minishell->env)
-	{
-		while (minishell->env[++i])
-			free(minishell->env[i]);
-		free(minishell->env);
-	}
-	free(minishell->oldpwd);
-	free(minishell);
+	free_program(&minishell);
 	return (0);
 }
