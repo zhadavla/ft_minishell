@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 19:04:58 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/10/10 18:21:19 by mnurlybe         ###   ########.fr       */
+/*   Updated: 2023/10/10 18:40:43 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,5 @@ void	validate_builtin_without_output_command(t_minishell *minishell)
 		return ;
 	if (cmd && is_builtin_without_output(cmd) && cmd->next)
 		remove_node_cmd(&minishell->cmd_node, cmd);
-	minishell->is_builtin_wo_command = 1;	
+	minishell->is_builtin_wo_command = 1;
 }

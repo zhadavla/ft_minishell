@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 19:14:56 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/10/10 18:17:54 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/10/10 18:40:24 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,13 @@ int	ft_cd_two(t_minishell *minishell)
 	return (0);
 }
 
-void	add_oldpwd_pwd_to_env(t_minishell *minishell)
+int	add_oldpwd_pwd_to_env(t_minishell *minishell)
 {
-	char	*tmp;
-	char	*tmp2;	
+	char	*tmp2;
 	char	*current_wd;
 	int		i;
 	char	**env;
 
-	tmp = ft_strjoin(ft_strdup("OLDPWD="), minishell->oldpwd);
 	current_wd = getcwd(NULL, 0);
 	tmp2 = ft_strjoin(ft_strdup("PWD="), current_wd);
 	free(current_wd);
@@ -81,7 +79,7 @@ void	add_oldpwd_pwd_to_env(t_minishell *minishell)
 		if (!ft_strncmp(env[i], "OLDPWD=", 7))
 		{
 			free(env[i]);
-			env[i] = tmp;
+			env[i] = ft_strjoin(ft_strdup("OLDPWD="), minishell->oldpwd);
 		}
 		if (!ft_strncmp(env[i], "PWD=", 4))
 		{
@@ -89,6 +87,7 @@ void	add_oldpwd_pwd_to_env(t_minishell *minishell)
 			env[i] = tmp2;
 		}
 	}
+	return (4);
 }
 
 int	ft_cd(t_minishell *minishell)
@@ -100,28 +99,19 @@ int	ft_cd(t_minishell *minishell)
 		free(minishell->oldpwd);
 		minishell->oldpwd = getcwd(NULL, 0);
 		if (chdir(getenv("HOME")) == -1)
-		{
-			add_oldpwd_pwd_to_env(minishell);
-			return (4);
-		}
+			return (add_oldpwd_pwd_to_env(minishell));
 	}
 	else
 	{
 		if (!ft_strncmp(minishell->cmd_node->cmd_full[1], "-", 1))
 		{
 			if (ft_old_pwd(minishell) == 4)
-			{
-				add_oldpwd_pwd_to_env(minishell);
-				return (4);
-			}
+				return (add_oldpwd_pwd_to_env(minishell));
 		}
 		else
 		{
 			if (ft_cd_two(minishell) == 4)
-			{
-				add_oldpwd_pwd_to_env(minishell);
-				return (4);
-			}
+				return (add_oldpwd_pwd_to_env(minishell));
 		}
 	}
 	add_oldpwd_pwd_to_env(minishell);

@@ -6,19 +6,20 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 19:22:30 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/10/10 17:59:27 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/10/10 18:37:34 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_execute_builtin(t_minishell *minishell, t_cmd *node_cmd,  int is_seq)
+void	ft_execute_builtin(t_minishell *minishell, t_cmd *node_cmd, int is_seq)
 {
 	t_cmd	*cmd_node;
+
 	(void)node_cmd;
 	if (!node_cmd)
 		cmd_node = minishell->cmd_node;
-	else 
+	else
 		cmd_node = node_cmd;
 	if (!ft_strncmp(cmd_node->cmd_full[0], "pwd", 4))
 		ft_pwd(minishell);
