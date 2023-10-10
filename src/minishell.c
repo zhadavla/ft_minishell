@@ -52,7 +52,7 @@ t_cmd	*tokenizer(t_token *head, t_minishell *minishell)
 		minishell->exit_status = 127;
 		return (0);
 	}
-	print_tokens(head);
+	// print_tokens(head);
 	cmd_node = split_to_pipes(&head);
 	tmp = cmd_node;
 	while (tmp)

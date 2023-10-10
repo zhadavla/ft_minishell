@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_executor.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: julienmoigno <julienmoigno@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 19:22:30 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/10/01 14:30:47 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/10/10 08:45:01 by julienmoign      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	ft_execute_builtin(t_minishell *minishell, t_cmd *node_cmd,  int is_seq)
 	t_cmd	*cmd_node;
 	// int		i;
 	(void)node_cmd;
-	fprintf(stderr, "werehrerere\n");
 	if (!node_cmd)
 		cmd_node = minishell->cmd_node;
 	else 
