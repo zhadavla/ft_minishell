@@ -104,3 +104,20 @@ t_cmd	*tokenizer(t_token *head, t_minishell *minishell)
 	free_tokens(head);
 	return (cmd_node);
 }
+
+int	lexer_tokenizer(t_minishell **minishell, char *line)
+{
+	(*minishell)->token = lexer(line, *minishell);
+	if (!(*minishell)->token)
+	{
+		free(line);
+		return (0);
+	}
+	(*minishell)->cmd_node = tokenizer((*minishell)->token, *minishell);
+	if (!(*minishell)->cmd_node)
+	{
+		free(line);
+		return (0);
+	}
+	return (1);
+}

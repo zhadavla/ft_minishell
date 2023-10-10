@@ -6,7 +6,7 @@
 /*   By: julienmoigno <julienmoigno@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/10/10 09:39:39 by julienmoign      ###   ########.fr       */
+/*   Updated: 2023/10/10 10:56:55 by julienmoign      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,7 @@ void move_to_first_place_heredoc(t_cmd **cmd_node);
 // t_token						*create_list_of_files(t_token **till_pipe);
 
 /**************************Tokenization*******************************/
+int	lexer_tokenizer(t_minishell **minishell, char *line);
 t_token	*lexer(char *line, t_minishell *minishell);
 t_cmd	*tokenizer(t_token *head, t_minishell *minishell);
 int validate_heredoc(t_token **token, t_minishell *minishell);

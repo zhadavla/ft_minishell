@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-void init_minishell(t_minishell **minishell, char **env)
+void	init_minishell(t_minishell **minishell, char **env)
 {
 	(*minishell) = malloc(sizeof(t_minishell));
 	(*minishell)->env = ft_dup_env(env);
@@ -23,8 +23,8 @@ void init_minishell(t_minishell **minishell, char **env)
 	(*minishell)->oldpwd = NULL;
 }
 
-void free_program(t_minishell **minishell)
-{	
+void	free_program(t_minishell **minishell)
+{
 	int			i;
 
 	i = -1;
@@ -38,33 +38,16 @@ void free_program(t_minishell **minishell)
 	free((*minishell));
 }
 
-int is_empty_line(char *line, t_minishell **minishell)
+int	is_empty_line(char *line, t_minishell **minishell)
 {
 	if (!line)
 	{
 		free_minishell(*minishell);
 		free(line);
 		printf("exit\n");
-		return  (1);
+		return (1);
 	}
 	return (0);
-}
-
-int	lexer_tokenizer(t_minishell **minishell, char *line)
-{
-	(*minishell)->token = lexer(line, *minishell);
-	if (!(*minishell)->token)
-	{
-		free(line);
-		return (0);
-	}
-	(*minishell)->cmd_node = tokenizer((*minishell)->token, *minishell);
-	if (!(*minishell)->cmd_node)
-	{
-		free(line);
-		return (0);
-	}
-	return (1);
 }
 
 int	main(int argc, char **argv, char **env)
