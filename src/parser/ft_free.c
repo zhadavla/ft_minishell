@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 18:04:20 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/11 19:19:10 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/10/10 18:19:34 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	remove_node_cmd(t_cmd **cmd_node, t_cmd *node)
 			else
 				*cmd_node = head->next;
 			free_cmd_node(head);
+			free(head);
 			return ;
 		}
 		prev = head;

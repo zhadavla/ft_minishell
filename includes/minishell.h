@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mnurlybe <mnurlybe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:14:43 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/10/10 17:35:08 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/10/10 18:21:52 by mnurlybe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,8 @@ int is_special_character(char c);
 int is_in_quotes(t_token *head);
 void	is_command_in_every_pipe(t_cmd **cmd_node);
 int	is_only_spaces(char *line);
-char	**ft_dup_env(char **env);
+char	**ft_dup_env(char **env); 
+void	validate_builtin_without_output_command(t_minishell *minishell);
 /**
  * Compare length of env variable and text
  */
