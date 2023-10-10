@@ -6,7 +6,7 @@
 /*   By: vzhadan <vzhadan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 18:54:28 by vzhadan           #+#    #+#             */
-/*   Updated: 2023/09/23 19:02:56 by vzhadan          ###   ########.fr       */
+/*   Updated: 2023/10/10 18:01:28 by vzhadan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ int	here_doc(char *delimiter)
 	{
 		ft_printf("heredoc> ");
 		line = get_next_line(0);
-		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter)))
-			return (handle_delimiter(fd, line, joined_line));
 		if (!line)
 		{
 			close(fd[1]);
 			break ;
 		}
+		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter)))
+			return (handle_delimiter(fd, line, joined_line));
 		joined_line = ft_strjoin(joined_line, line);
 		free(line);
 	}
