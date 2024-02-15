@@ -13,8 +13,12 @@ MY_HEADER = ./includes/
 
 OBJ_DIR = obj
 
-all:  $(NAME)
 
+all:  libft42 $(NAME)
+
+libft42:
+	make -C libft
+	
 OBJECTS = $(addprefix $(OBJ_DIR)/,$(SOURCES:$(SRC_DIR)/%.c=%.o))
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
@@ -30,15 +34,15 @@ $(OBJ_DIR):
 
 clean:
 	@rm -rf $(OBJ_DIR)
+	@make fclean -C libft
 
 fclean: clean
 	@rm -f $(NAME)
 
 re: fclean all
 
-libft42:
-	make -C libft
 
 .PHONY: all clean fclean re
+
 
 
