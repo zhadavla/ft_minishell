@@ -76,6 +76,10 @@ void	foo(t_minishell *minishell, char *line)
 	free_minishell(minishell);
 }
 
+// ANSI color codes
+#define COLOR_GREEN "\033[0;32m"
+#define COLOR_RESET "\033[0m"
+
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell	*minishell;
@@ -87,7 +91,8 @@ int	main(int argc, char **argv, char **env)
 	init_minishell(&minishell, env);
 	while (TRUE)
 	{
-		line = readline("minishell$ ");
+		// Colorized prompt
+		line = readline(COLOR_GREEN "minishell$ " COLOR_RESET);
 		add_history(line);
 		if (is_empty_line(line, &minishell))
 			break ;
