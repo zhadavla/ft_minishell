@@ -1,156 +1,86 @@
-# ft_minishell
+# Minishell Project
 
-# Theory 
+## Overview
 
-Environment variables and shell variables are both used to store and manage information in a Unix-like operating system's command-line environment. However, they serve different purposes and have some key distinctions:
+The **Minishell** project was developed as part of an academic requirement during August-September 2023, using the **C programming language**. The primary objective of this project was to create a simplified version of the **Bash shell** in **plain C**, implementing core shell functionalities such as command parsing, tokenizing input, executing commands, managing built-ins, handling signals, and managing multiple processes.
 
-### Environment Variables:
+## Key Features and Components
 
-- Environment variables are variables that are available to all processes and applications running on the system, including those started by different users.
-- They are typically set in the system's configuration files and are accessible by any program or script.
-- Common environment variables include PATH (to specify directories to search for executable files), HOME (to indicate the user's home directory), and USER (to identify the currently logged-in user).
-- Environment variables are usually written in uppercase letters, e.g., PATH=/usr/bin:/bin.
+### 1. **Bash Shell Clone in C**
+Minishell replicates essential functionalities of the Bash shell. The project focuses on providing a shell environment capable of executing commands, managing built-in shell commands, handling pipelines, and controlling processes.
 
-### Shell Variables:
+### 2. **Command Parsing and Tokenization**
+The input commands are parsed and tokenized into executable segments, following the structure of standard command-line interfaces. This process involves breaking down the user input into commands and arguments, preparing them for execution.
 
-- Shell variables are specific to the shell session in which they are defined. They are not visible or accessible to other processes or shell sessions.
-- Users can create their own shell variables to store temporary data or customize their shell environment.
-- Common shell variables include PS1 (to set the shell prompt), PS2 (the secondary prompt), and SHELL (to specify the default shell).
-- Shell variables are typically written in uppercase letters as well, but they can be in lowercase too.
+### 3. **Execution of Programs**
+The shell includes a robust executor responsible for running both built-in commands and external programs. It searches for the appropriate executables using the `PATH` environment variable or absolute/relative paths.
 
+### 4. **Built-in Commands**
+Minishell implements a set of core shell built-ins, mimicking Bash's behavior. These built-ins include:
 
-# I hope we'll not handle that: 
-``` Bash
-$ a=5
-$ echo $a
-5
-$ bash
-$ echo $a
+- **export**: Manage environment variables.
+- **env**: Display the environment.
+- **exit**: Exit the shell.
+- **unset**: Remove environment variables.
+- **echo**: Print text to the terminal.
+- **cd**: Change the current directory.
+- **pwd**: Print the current directory.
 
-$ export A=42
-$ echo $A
-42
-$ bash 
-$ echo $A
-42
-```
-# WE DON'T HANDLE WHAT IS WRITTEN ABOVE.
-export with no params will just print env, but in sorted way. 
-### export without parameters: makes shell variables environment variables*
+The shell is designed to handle many edge-case behaviors, ensuring consistency with how Bash operates in various scenarios.
 
-# DEADLINE 24.09.2023
+### 5. **Parallel Process Execution**
+The shell supports the execution of multiple processes in parallel, allowing for efficient management of pipelines and concurrent commands. The `pipe()` system call is used to connect commands in a pipeline, directing the output of one command as the input to the next.
 
-# Part I: The Parser
+### 6. **Signal Handling**
+Minishell implements signal handling to manage critical signals such as `SIGINT`, `EOF`, `SIGQUIT`, and `SIGTSTP`. The behavior is aligned with Bash shell conventions:
 
-Goal: *Get a populated linked list with one node per cmd/pipe. Each node will contain all the necessary information to be able to execute the commands in Part II.*
+- **Ctrl+C (SIGINT)**: Interrupts the current process and displays a new prompt.
+- **Ctrl+D (EOF)**: Exits the shell.
+- **Ctrl+\\ (SIGQUIT)**: No specific behavior, ignored.
+- **Ctrl+Z (SIGTSTP)**: Stops the process (backgrounding is not required in this implementation).
 
-## Steps:
+### 7. **Input and Output Redirection**
+Minishell implements both input (`<`) and output (`>`, `>>`) redirection:
 
-- [x] 1. Read a string in a prompt using **readline**.
-- [x] 2. **Split** the string by space, single and double quotes resulting in char **.
-     
-          - [x] Tokenize every element by categories (word, double_quote, singe_quote, pipe, redirection flag, whitespace, special characters, outfile, infile, outfile_ap, command etc.)
-     - [x] Create a linked list, one node will have the content, len, token_type and q_s.
-     - [x] Delete nodes with the whitespace OUTSIDE of the quotes;
-     - [x] Concatenate by groups (commands, redirections, $VAR); 
-- [x] 3. Expand environmental variable with a dollar sigh **$VAR**.
-     - [x] concatinate $ sign with the words after till we meet whitespace (it happens after expansion);
-- [x] 4. Expand a wave sign **~** to the user's home directory.
-- [x] 5. Handle **pipes**:
-     - [x] define amount of cmds
-     - [x] remove pipe sign **|** from the string array. 
-- [x] 6. Handle **redirections**:
-     - [x] < input 
-     - [x] \> output 
-     - [x] \>> append to output
-- [x] 7. Handle **heredoc**.
-     - [x] the position of heredoc sign in the string (before, in the middle of the pipes, or in the end).
-     - [x] invalid input: when there is a cat command with existing infile and heredoc: ``` cat <<heredoc Makefile ``` - handled as invalid input; 
-- [x] 8. Tokenize commands (change WORD token type to COMMAND token type)
-     - [x] command in QUOTES will be executed as a command only if there is nothing else in the quotes; if there is something else, it will be treated as a string;
-- [x] 9. Fill in each node in ``` struct s_cmd_node ``` in the linked list.
-- [ ] 10. Finish handling error messages for invalid input.
+- **Input redirection (`<`)**: Redirects the input from a file instead of standard input.
+- **Output redirection (`>`)**: Writes the command output to a file.
+- **Append output (`>>`)**: Appends the output to a file without overwriting.
+- **Here documents (`<<`)**: Reads input until a specified delimiter is encountered.
 
-Important Add-on: ***Handle errors, memory leaks and error outputs on each step we make.***
+### 8. **Environment Variable Expansion**
+The shell supports environment variable expansion, where variables prefixed by `$` are expanded to their corresponding values. For example, `$USER` expands to the current user’s name. The shell also handles the special variable `$?`, which expands to the exit status of the most recently executed command.
 
-```C
-typedef struct s_cmd
-{
-        int     input_fd;
-        int     output_fd;
-    char    **cmd_full;
-    char    *cmd_path;
-        char     **env;
-        t_cmd     *next;
-}        t_cmd;
-```
+### 9. **Command History**
+Minishell provides a working history feature, using the `readline` library to store and access previous commands. This enhances user experience by allowing them to recall and reuse past commands easily.
 
-## Tricky parts:
+### 10. **Quote Handling**
+Minishell properly handles single (`'`) and double (`"`) quotes in the command input:
 
-- [x] **Step 3:** Single quotes do not expand environmental variables (e.g. echo '$USER' will print $USER).
-- [x] **Step 3:** Single and double quotes do not expand wave sign ~ to the user's home directory. (e.g. echo "~/src" will print ~/src).
-- [x] **Step 9:** commands can be executed in single and double quotes when first in pipe; 
-- [x] Spaces and tabs WITHOUT QUOTES will be printed as ONE space between elements.
+- **Single quotes**: Prevents the shell from interpreting any special characters inside the quoted string.
+- **Double quotes**: Prevents interpretation of special characters except for `$` (variable expansion).
 
-# Part 2: The Executer
+## External Functions and Libraries Used
 
-## Steps:
-- [x] Pipe creation (split_to_pipes).
-- [x] Creation of child processes and executing commands
-- [x] handling FDs
-- [x] Heredoc
-- [x] Multiple heredocs
-      - [x] In a situation when we have multiple heredocs, we will execute all the processes sequentially (not in parallel like in a pipex).
-- [x] Sequential executor
-- [x] Parallel executor
+Minishell utilizes several external functions and system calls, including but not limited to:
 
-# Part 3: ADD-ONs
+- **Readline library**: Provides functionality for command line history and line editing.
+- **Process management**: `fork()`, `execve()`, `wait()`, `waitpid()` for creating and managing child processes.
+- **Signal handling**: `signal()`, `sigaction()` to manage various signals.
+- **File and directory handling**: `open()`, `close()`, `read()`, `write()`, `getcwd()`, `chdir()`, `opendir()`, `readdir()`.
+- **Environment management**: `getenv()`, `setenv()`, `unsetenv()`.
+- **Redirection**: `dup()`, `dup2()`, `pipe()` to manage file descriptors and pipelines.
 
-- [ ] built ins
-     - [ ] echo
-     - [ ] cd
-     - [ ] pwd
-     - [ ] export
-     - [ ] unset
-     - [ ] env
-     - [ ] exit 
-- [ ] $?
-- [x] signals
-- [ ] history
+### Authorized Libraries
+- **Libft**: A personal library for handling common C functionalities, authorized for use in this project.
 
-# Status as of 13.09 (what is left):
+## Key Challenges
 
-- [ ] built ins
-- [ ] $?
-- [ ] error handling for invalid input;
-- [ ] error handling (also with $?);
-- [x] signals
-- [x] readline
-     - [ ] readline promt: if the line returned contains only spaces and tabs → all you need to do is to display a new prompt, if there is something in the line then you’ll add it to your history.
-- [ ] history
-- [ ] handle the paths and compiled programs as a COMMAND token, so execve can execute them.
-     - e.g. ./minishell should be executed inside ./minishell with a path: /home/user/ft_minishell/minishell
-     - or /bin/ls is also works in execve function and should be executed without errors.
-     - we need to tokenize them first as the COMMAND, and then handle a the paths to pass to execve function.
-     -  [x] /bin/ls is passed to the execve in this form: execve("/bin/ls", {"/bin/ls", NULL}, NULL);
-     - ./minishell: execve("./minishell", {"./minishell", NULL}, NULL);
-     
-## Plan for 19.09.2023:
-- [x] signals (ask Yulia)
-- [ ] $? (if time and moral strength allow)
+1. **Signal Management**: Handling signals efficiently while avoiding global variables was a major challenge. The use of a single global variable to handle signals ensures the main data structures remain unaffected by signal interruptions.
+   
+2. **Edge-Case Handling for Built-ins**: Built-in commands such as `export` and `unset` required careful handling of edge cases, especially with environment variables and their memory management.
 
-## Plan for 20.09.2023:
-- [ ] finalize builtins (divide fork and non-fork)
-      - [ ] export (non-fork)
-      - [ ] unset using file (non-fork)
-      - [ ] cd (non-fork)
-- [ ] signals (ask Yulia)
-- [ ] finalize built ins
-      - [ ] export using file
-      - [ ] unset using file
-      - [ ] cd
-- [x] signals (ask Yulia)
-- [ ] history
-- [ ] handle redirections without file (exit code)
+3. **Concurrency and Piping**: Implementing proper process synchronization when executing commands in parallel with pipes involved significant complexity. Ensuring seamless communication between processes was crucial for correct execution.
 
-# DEADLINE 24.09.2023
+## Conclusion
+
+The **Minishell** project is a fully functional, minimal shell built in plain C, capable of handling core shell functionalities similar to Bash. It was a comprehensive exercise in systems programming, focusing on process management, signal handling, file redirection, and command execution. Through this project, essential C programming skills and a deep understanding of Unix-based systems were honed, providing valuable experience in low-level systems development.
